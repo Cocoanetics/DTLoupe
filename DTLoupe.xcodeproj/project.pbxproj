@@ -1,0 +1,457 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0F01D89113B248CB00419BD7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D89013B248CB00419BD7 /* UIKit.framework */; };
+		0F01D89313B248CB00419BD7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D89213B248CB00419BD7 /* Foundation.framework */; };
+		0F01D89513B248CB00419BD7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D89413B248CB00419BD7 /* CoreGraphics.framework */; };
+		0F01D89B13B248CB00419BD7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D89913B248CB00419BD7 /* InfoPlist.strings */; };
+		0F01D89E13B248CB00419BD7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F01D89D13B248CB00419BD7 /* main.m */; };
+		0F01D8A113B248CB00419BD7 /* DTLoupeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F01D8A013B248CB00419BD7 /* DTLoupeAppDelegate.m */; };
+		0F01D8A413B248CB00419BD7 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8A213B248CB00419BD7 /* MainWindow.xib */; };
+		0F01D8A713B248CB00419BD7 /* LoupeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F01D8A613B248CB00419BD7 /* LoupeViewController.m */; };
+		0F01D8AA13B248CB00419BD7 /* AppleLoupeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F01D8A913B248CB00419BD7 /* AppleLoupeController.m */; };
+		0F01D8AD13B248CB00419BD7 /* LoupeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8AB13B248CB00419BD7 /* LoupeView.xib */; };
+		0F01D8B013B248CB00419BD7 /* AppleLoupeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8AE13B248CB00419BD7 /* AppleLoupeView.xib */; };
+		0F01D8C613B24BC300419BD7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D8C513B24BC300419BD7 /* QuartzCore.framework */; };
+		0F01D8C913B24C7000419BD7 /* DTLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F01D8C813B24C7000419BD7 /* DTLoupeView.m */; };
+		0F01D8EB13B2612400419BD7 /* kb-drag-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8DB13B2612400419BD7 /* kb-drag-dot.png */; };
+		0F01D8EC13B2612500419BD7 /* kb-drag-dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8DC13B2612400419BD7 /* kb-drag-dot@2x.png */; };
+		0F01D8ED13B2612500419BD7 /* kb-loupe-hi.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8DD13B2612400419BD7 /* kb-loupe-hi.png */; };
+		0F01D8EE13B2612500419BD7 /* kb-loupe-hi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8DE13B2612400419BD7 /* kb-loupe-hi@2x.png */; };
+		0F01D8EF13B2612500419BD7 /* kb-loupe-lo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8DF13B2612400419BD7 /* kb-loupe-lo.png */; };
+		0F01D8F013B2612500419BD7 /* kb-loupe-lo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8E013B2612400419BD7 /* kb-loupe-lo@2x.png */; };
+		0F01D8F113B2612500419BD7 /* kb-loupe-mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8E113B2612400419BD7 /* kb-loupe-mask.png */; };
+		0F01D8F213B2612500419BD7 /* kb-loupe-mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8E213B2612400419BD7 /* kb-loupe-mask@2x.png */; };
+		0F01D8F313B2612500419BD7 /* kb-magnifier-ranged-hi.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8E313B2612400419BD7 /* kb-magnifier-ranged-hi.png */; };
+		0F01D8F413B2612500419BD7 /* kb-magnifier-ranged-hi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8E413B2612400419BD7 /* kb-magnifier-ranged-hi@2x.png */; };
+		0F01D8F513B2612500419BD7 /* kb-magnifier-ranged-lo-stemless.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8E513B2612400419BD7 /* kb-magnifier-ranged-lo-stemless.png */; };
+		0F01D8F613B2612500419BD7 /* kb-magnifier-ranged-lo-stemless@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8E613B2612400419BD7 /* kb-magnifier-ranged-lo-stemless@2x.png */; };
+		0F01D8F713B2612500419BD7 /* kb-magnifier-ranged-lo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8E713B2612400419BD7 /* kb-magnifier-ranged-lo.png */; };
+		0F01D8F813B2612500419BD7 /* kb-magnifier-ranged-lo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8E813B2612400419BD7 /* kb-magnifier-ranged-lo@2x.png */; };
+		0F01D8F913B2612500419BD7 /* kb-magnifier-ranged-mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8E913B2612400419BD7 /* kb-magnifier-ranged-mask.png */; };
+		0F01D8FA13B2612500419BD7 /* kb-magnifier-ranged-mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D8EA13B2612400419BD7 /* kb-magnifier-ranged-mask@2x.png */; };
+		0F01D92113B3926900419BD7 /* Magnifier-thumb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D91D13B3926700419BD7 /* Magnifier-thumb@2x.png */; };
+		0F01D92213B3926900419BD7 /* Loupe-hi-thumb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D91E13B3926800419BD7 /* Loupe-hi-thumb@2x.png */; };
+		0F01D92313B3926900419BD7 /* Loupe-hi-thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D91F13B3926800419BD7 /* Loupe-hi-thumb.png */; };
+		0F01D92413B3926900419BD7 /* Magnifier-thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D92013B3926900419BD7 /* Magnifier-thumb.png */; };
+		0F01D92613B393F300419BD7 /* LittleB.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 0F01D92513B393F200419BD7 /* LittleB.JPG */; };
+		0F8661D513B3BB2D009FED81 /* SnappySlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8661D413B3BB2D009FED81 /* SnappySlider.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0F01D88C13B248CB00419BD7 /* DTLoupe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DTLoupe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F01D89013B248CB00419BD7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		0F01D89213B248CB00419BD7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0F01D89413B248CB00419BD7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0F01D89813B248CB00419BD7 /* DTLoupe-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DTLoupe-Info.plist"; sourceTree = "<group>"; };
+		0F01D89A13B248CB00419BD7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0F01D89C13B248CB00419BD7 /* DTLoupe-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTLoupe-Prefix.pch"; sourceTree = "<group>"; };
+		0F01D89D13B248CB00419BD7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0F01D89F13B248CB00419BD7 /* DTLoupeAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTLoupeAppDelegate.h; sourceTree = "<group>"; };
+		0F01D8A013B248CB00419BD7 /* DTLoupeAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DTLoupeAppDelegate.m; sourceTree = "<group>"; };
+		0F01D8A313B248CB00419BD7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		0F01D8A513B248CB00419BD7 /* LoupeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoupeViewController.h; sourceTree = "<group>"; };
+		0F01D8A613B248CB00419BD7 /* LoupeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoupeViewController.m; sourceTree = "<group>"; };
+		0F01D8A813B248CB00419BD7 /* AppleLoupeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppleLoupeController.h; sourceTree = "<group>"; };
+		0F01D8A913B248CB00419BD7 /* AppleLoupeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppleLoupeController.m; sourceTree = "<group>"; };
+		0F01D8AC13B248CB00419BD7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LoupeView.xib; sourceTree = "<group>"; };
+		0F01D8AF13B248CB00419BD7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AppleLoupeView.xib; sourceTree = "<group>"; };
+		0F01D8C513B24BC300419BD7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0F01D8C713B24C7000419BD7 /* DTLoupeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTLoupeView.h; sourceTree = "<group>"; };
+		0F01D8C813B24C7000419BD7 /* DTLoupeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTLoupeView.m; sourceTree = "<group>"; };
+		0F01D8DB13B2612400419BD7 /* kb-drag-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-drag-dot.png"; sourceTree = "<group>"; };
+		0F01D8DC13B2612400419BD7 /* kb-drag-dot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-drag-dot@2x.png"; sourceTree = "<group>"; };
+		0F01D8DD13B2612400419BD7 /* kb-loupe-hi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-loupe-hi.png"; sourceTree = "<group>"; };
+		0F01D8DE13B2612400419BD7 /* kb-loupe-hi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-loupe-hi@2x.png"; sourceTree = "<group>"; };
+		0F01D8DF13B2612400419BD7 /* kb-loupe-lo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-loupe-lo.png"; sourceTree = "<group>"; };
+		0F01D8E013B2612400419BD7 /* kb-loupe-lo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-loupe-lo@2x.png"; sourceTree = "<group>"; };
+		0F01D8E113B2612400419BD7 /* kb-loupe-mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-loupe-mask.png"; sourceTree = "<group>"; };
+		0F01D8E213B2612400419BD7 /* kb-loupe-mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-loupe-mask@2x.png"; sourceTree = "<group>"; };
+		0F01D8E313B2612400419BD7 /* kb-magnifier-ranged-hi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-magnifier-ranged-hi.png"; sourceTree = "<group>"; };
+		0F01D8E413B2612400419BD7 /* kb-magnifier-ranged-hi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-magnifier-ranged-hi@2x.png"; sourceTree = "<group>"; };
+		0F01D8E513B2612400419BD7 /* kb-magnifier-ranged-lo-stemless.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-magnifier-ranged-lo-stemless.png"; sourceTree = "<group>"; };
+		0F01D8E613B2612400419BD7 /* kb-magnifier-ranged-lo-stemless@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-magnifier-ranged-lo-stemless@2x.png"; sourceTree = "<group>"; };
+		0F01D8E713B2612400419BD7 /* kb-magnifier-ranged-lo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-magnifier-ranged-lo.png"; sourceTree = "<group>"; };
+		0F01D8E813B2612400419BD7 /* kb-magnifier-ranged-lo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-magnifier-ranged-lo@2x.png"; sourceTree = "<group>"; };
+		0F01D8E913B2612400419BD7 /* kb-magnifier-ranged-mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-magnifier-ranged-mask.png"; sourceTree = "<group>"; };
+		0F01D8EA13B2612400419BD7 /* kb-magnifier-ranged-mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kb-magnifier-ranged-mask@2x.png"; sourceTree = "<group>"; };
+		0F01D91D13B3926700419BD7 /* Magnifier-thumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Magnifier-thumb@2x.png"; sourceTree = "<group>"; };
+		0F01D91E13B3926800419BD7 /* Loupe-hi-thumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Loupe-hi-thumb@2x.png"; sourceTree = "<group>"; };
+		0F01D91F13B3926800419BD7 /* Loupe-hi-thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Loupe-hi-thumb.png"; sourceTree = "<group>"; };
+		0F01D92013B3926900419BD7 /* Magnifier-thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Magnifier-thumb.png"; sourceTree = "<group>"; };
+		0F01D92513B393F200419BD7 /* LittleB.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LittleB.JPG; sourceTree = "<group>"; };
+		0F8661D313B3BB2D009FED81 /* SnappySlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnappySlider.h; sourceTree = "<group>"; };
+		0F8661D413B3BB2D009FED81 /* SnappySlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnappySlider.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0F01D88913B248CB00419BD7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F01D8C613B24BC300419BD7 /* QuartzCore.framework in Frameworks */,
+				0F01D89113B248CB00419BD7 /* UIKit.framework in Frameworks */,
+				0F01D89313B248CB00419BD7 /* Foundation.framework in Frameworks */,
+				0F01D89513B248CB00419BD7 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0F01D88113B248CA00419BD7 = {
+			isa = PBXGroup;
+			children = (
+				0F01D8B613B2493200419BD7 /* DTLoupeView */,
+				0F01D89613B248CB00419BD7 /* DTLoupeExampleApp */,
+				0F01D88F13B248CB00419BD7 /* Frameworks */,
+				0F01D88D13B248CB00419BD7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0F01D88D13B248CB00419BD7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0F01D88C13B248CB00419BD7 /* DTLoupe.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0F01D88F13B248CB00419BD7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0F01D89013B248CB00419BD7 /* UIKit.framework */,
+				0F01D89213B248CB00419BD7 /* Foundation.framework */,
+				0F01D89413B248CB00419BD7 /* CoreGraphics.framework */,
+				0F01D8C513B24BC300419BD7 /* QuartzCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0F01D89613B248CB00419BD7 /* DTLoupeExampleApp */ = {
+			isa = PBXGroup;
+			children = (
+				0F01D89F13B248CB00419BD7 /* DTLoupeAppDelegate.h */,
+				0F01D8A013B248CB00419BD7 /* DTLoupeAppDelegate.m */,
+				0F3B6AF213B3AF69009A2E75 /* ViewControllers */,
+				0F3B6AF113B3AF56009A2E75 /* UI */,
+				0F01D89713B248CB00419BD7 /* Supporting Files */,
+			);
+			name = DTLoupeExampleApp;
+			path = DTLoupe;
+			sourceTree = "<group>";
+		};
+		0F01D89713B248CB00419BD7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0F8661D213B3BB1D009FED81 /* Helpers */,
+				0F3B6AB313B3AD15009A2E75 /* Images */,
+				0F01D89813B248CB00419BD7 /* DTLoupe-Info.plist */,
+				0F01D89913B248CB00419BD7 /* InfoPlist.strings */,
+				0F01D89C13B248CB00419BD7 /* DTLoupe-Prefix.pch */,
+				0F01D89D13B248CB00419BD7 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0F01D8B613B2493200419BD7 /* DTLoupeView */ = {
+			isa = PBXGroup;
+			children = (
+				0F01D8DA13B2610D00419BD7 /* Loupe Images */,
+				0F01D8C713B24C7000419BD7 /* DTLoupeView.h */,
+				0F01D8C813B24C7000419BD7 /* DTLoupeView.m */,
+			);
+			name = DTLoupeView;
+			path = DTLoupe;
+			sourceTree = "<group>";
+		};
+		0F01D8DA13B2610D00419BD7 /* Loupe Images */ = {
+			isa = PBXGroup;
+			children = (
+				0F01D8DB13B2612400419BD7 /* kb-drag-dot.png */,
+				0F01D8DC13B2612400419BD7 /* kb-drag-dot@2x.png */,
+				0F01D8DD13B2612400419BD7 /* kb-loupe-hi.png */,
+				0F01D8DE13B2612400419BD7 /* kb-loupe-hi@2x.png */,
+				0F01D8DF13B2612400419BD7 /* kb-loupe-lo.png */,
+				0F01D8E013B2612400419BD7 /* kb-loupe-lo@2x.png */,
+				0F01D8E113B2612400419BD7 /* kb-loupe-mask.png */,
+				0F01D8E213B2612400419BD7 /* kb-loupe-mask@2x.png */,
+				0F01D8E313B2612400419BD7 /* kb-magnifier-ranged-hi.png */,
+				0F01D8E413B2612400419BD7 /* kb-magnifier-ranged-hi@2x.png */,
+				0F01D8E513B2612400419BD7 /* kb-magnifier-ranged-lo-stemless.png */,
+				0F01D8E613B2612400419BD7 /* kb-magnifier-ranged-lo-stemless@2x.png */,
+				0F01D8E713B2612400419BD7 /* kb-magnifier-ranged-lo.png */,
+				0F01D8E813B2612400419BD7 /* kb-magnifier-ranged-lo@2x.png */,
+				0F01D8E913B2612400419BD7 /* kb-magnifier-ranged-mask.png */,
+				0F01D8EA13B2612400419BD7 /* kb-magnifier-ranged-mask@2x.png */,
+			);
+			name = "Loupe Images";
+			sourceTree = "<group>";
+		};
+		0F3B6AB313B3AD15009A2E75 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				0F01D92513B393F200419BD7 /* LittleB.JPG */,
+				0F01D91D13B3926700419BD7 /* Magnifier-thumb@2x.png */,
+				0F01D91E13B3926800419BD7 /* Loupe-hi-thumb@2x.png */,
+				0F01D91F13B3926800419BD7 /* Loupe-hi-thumb.png */,
+				0F01D92013B3926900419BD7 /* Magnifier-thumb.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		0F3B6AF113B3AF56009A2E75 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0F01D8A213B248CB00419BD7 /* MainWindow.xib */,
+				0F01D8AB13B248CB00419BD7 /* LoupeView.xib */,
+				0F01D8AE13B248CB00419BD7 /* AppleLoupeView.xib */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		0F3B6AF213B3AF69009A2E75 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0F01D8A513B248CB00419BD7 /* LoupeViewController.h */,
+				0F01D8A613B248CB00419BD7 /* LoupeViewController.m */,
+				0F01D8A813B248CB00419BD7 /* AppleLoupeController.h */,
+				0F01D8A913B248CB00419BD7 /* AppleLoupeController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		0F8661D213B3BB1D009FED81 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				0F8661D313B3BB2D009FED81 /* SnappySlider.h */,
+				0F8661D413B3BB2D009FED81 /* SnappySlider.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0F01D88B13B248CB00419BD7 /* DTLoupe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0F01D8B313B248CB00419BD7 /* Build configuration list for PBXNativeTarget "DTLoupe" */;
+			buildPhases = (
+				0F01D88813B248CB00419BD7 /* Sources */,
+				0F01D88913B248CB00419BD7 /* Frameworks */,
+				0F01D88A13B248CB00419BD7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DTLoupe;
+			productName = DTLoupe;
+			productReference = 0F01D88C13B248CB00419BD7 /* DTLoupe.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0F01D88313B248CA00419BD7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = sendmetospace.co.uk;
+			};
+			buildConfigurationList = 0F01D88613B248CA00419BD7 /* Build configuration list for PBXProject "DTLoupe" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0F01D88113B248CA00419BD7;
+			productRefGroup = 0F01D88D13B248CB00419BD7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0F01D88B13B248CB00419BD7 /* DTLoupe */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0F01D88A13B248CB00419BD7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F01D89B13B248CB00419BD7 /* InfoPlist.strings in Resources */,
+				0F01D8A413B248CB00419BD7 /* MainWindow.xib in Resources */,
+				0F01D8AD13B248CB00419BD7 /* LoupeView.xib in Resources */,
+				0F01D8B013B248CB00419BD7 /* AppleLoupeView.xib in Resources */,
+				0F01D8EB13B2612400419BD7 /* kb-drag-dot.png in Resources */,
+				0F01D8EC13B2612500419BD7 /* kb-drag-dot@2x.png in Resources */,
+				0F01D8ED13B2612500419BD7 /* kb-loupe-hi.png in Resources */,
+				0F01D8EE13B2612500419BD7 /* kb-loupe-hi@2x.png in Resources */,
+				0F01D8EF13B2612500419BD7 /* kb-loupe-lo.png in Resources */,
+				0F01D8F013B2612500419BD7 /* kb-loupe-lo@2x.png in Resources */,
+				0F01D8F113B2612500419BD7 /* kb-loupe-mask.png in Resources */,
+				0F01D8F213B2612500419BD7 /* kb-loupe-mask@2x.png in Resources */,
+				0F01D8F313B2612500419BD7 /* kb-magnifier-ranged-hi.png in Resources */,
+				0F01D8F413B2612500419BD7 /* kb-magnifier-ranged-hi@2x.png in Resources */,
+				0F01D8F513B2612500419BD7 /* kb-magnifier-ranged-lo-stemless.png in Resources */,
+				0F01D8F613B2612500419BD7 /* kb-magnifier-ranged-lo-stemless@2x.png in Resources */,
+				0F01D8F713B2612500419BD7 /* kb-magnifier-ranged-lo.png in Resources */,
+				0F01D8F813B2612500419BD7 /* kb-magnifier-ranged-lo@2x.png in Resources */,
+				0F01D8F913B2612500419BD7 /* kb-magnifier-ranged-mask.png in Resources */,
+				0F01D8FA13B2612500419BD7 /* kb-magnifier-ranged-mask@2x.png in Resources */,
+				0F01D92113B3926900419BD7 /* Magnifier-thumb@2x.png in Resources */,
+				0F01D92213B3926900419BD7 /* Loupe-hi-thumb@2x.png in Resources */,
+				0F01D92313B3926900419BD7 /* Loupe-hi-thumb.png in Resources */,
+				0F01D92413B3926900419BD7 /* Magnifier-thumb.png in Resources */,
+				0F01D92613B393F300419BD7 /* LittleB.JPG in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0F01D88813B248CB00419BD7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F01D89E13B248CB00419BD7 /* main.m in Sources */,
+				0F01D8A113B248CB00419BD7 /* DTLoupeAppDelegate.m in Sources */,
+				0F01D8A713B248CB00419BD7 /* LoupeViewController.m in Sources */,
+				0F01D8AA13B248CB00419BD7 /* AppleLoupeController.m in Sources */,
+				0F01D8C913B24C7000419BD7 /* DTLoupeView.m in Sources */,
+				0F8661D513B3BB2D009FED81 /* SnappySlider.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0F01D89913B248CB00419BD7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0F01D89A13B248CB00419BD7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		0F01D8A213B248CB00419BD7 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0F01D8A313B248CB00419BD7 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		0F01D8AB13B248CB00419BD7 /* LoupeView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0F01D8AC13B248CB00419BD7 /* en */,
+			);
+			name = LoupeView.xib;
+			sourceTree = "<group>";
+		};
+		0F01D8AE13B248CB00419BD7 /* AppleLoupeView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0F01D8AF13B248CB00419BD7 /* en */,
+			);
+			name = AppleLoupeView.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0F01D8B113B248CB00419BD7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		0F01D8B213B248CB00419BD7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		0F01D8B413B248CB00419BD7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DTLoupe/DTLoupe-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				INFOPLIST_FILE = "DTLoupe/DTLoupe-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		0F01D8B513B248CB00419BD7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DTLoupe/DTLoupe-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				INFOPLIST_FILE = "DTLoupe/DTLoupe-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0F01D88613B248CA00419BD7 /* Build configuration list for PBXProject "DTLoupe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0F01D8B113B248CB00419BD7 /* Debug */,
+				0F01D8B213B248CB00419BD7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0F01D8B313B248CB00419BD7 /* Build configuration list for PBXNativeTarget "DTLoupe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0F01D8B413B248CB00419BD7 /* Debug */,
+				0F01D8B513B248CB00419BD7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0F01D88313B248CA00419BD7 /* Project object */;
+}
