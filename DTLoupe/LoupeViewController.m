@@ -9,27 +9,46 @@
 #import "LoupeViewController.h"
 #import "DTLoupeView.h"
 
+#define DTDefaultLoupeMagnification    1.20f       // Match Apple's Magnification
+
 @implementation LoupeViewController
 @synthesize magnificationSlider = _magnificationSlider;
 @synthesize magnificationLabel = _magnificationLabel;
+@synthesize topThumb = _topThumb;
+@synthesize bottomThumb = _bottomThumb;
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UILongPressGestureRecognizer *longTouch = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showLoupe:)];
+
+    UILongPressGestureRecognizer *topThumblongTouch = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(exampleTopThumbPress:)];
+    [self.topThumb addGestureRecognizer:topThumblongTouch];
+    [topThumblongTouch release];
+
+    UILongPressGestureRecognizer *bottomThumblongTouch = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(exampleBottomThumbPress:)];
+    [self.bottomThumb addGestureRecognizer:bottomThumblongTouch];
+    [bottomThumblongTouch release];
+
+    UILongPressGestureRecognizer *longTouch = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     [self.view addGestureRecognizer:longTouch];
     [longTouch release];
     
-    _loopStyle = DTLoupeOverlayCircle; // Default to match Segment Controller & Apple's Default
+    // UI Defaults
     
-    _loupeMagnification = 1.25; // Default to match Slider & Apple's Default
-	NSArray *detents = [NSArray arrayWithObjects:[NSNumber numberWithInt:100], [NSNumber numberWithInt:125],
+    _loopStyle = DTLoupeOverlayCircle; // Default to match Segment Controller & Apple's Default
+    _loupeImageOffSet = -4.00f; // default for Circular Loupe
+    
+    _loupeMagnification = DTDefaultLoupeMagnification; // Default to match Slider & Apple's Default
+	NSArray *detents = [NSArray arrayWithObjects:[NSNumber numberWithInt:100], [NSNumber numberWithInt:(DTDefaultLoupeMagnification*100)],
 						[NSNumber numberWithInt:150], [NSNumber numberWithInt:200],
 						[NSNumber numberWithInt:250], nil];
 	
+    _magnificationLabel.text = [NSString stringWithFormat:@"Magnification: %.2f (Default = %.2f)", _loupeMagnification, DTDefaultLoupeMagnification];
+
 	_magnificationSlider.detents = detents;
-    _magnificationSlider.value = 125;
+    _magnificationSlider.value = DTDefaultLoupeMagnification*100;
+    
 }
 
 
@@ -53,6 +72,8 @@
 {
     [self setMagnificationSlider:nil];
     [self setMagnificationLabel:nil];
+    [self setTopThumb:nil];
+    [self setBottomThumb:nil];
     [super viewDidUnload];
 
     // Release any retained subviews of the main view.
@@ -67,6 +88,8 @@
     [self removeLoupe];
     [_magnificationSlider release];
     [_magnificationLabel release];
+    [_topThumb release];
+    [_bottomThumb release];
     [super dealloc];
 }
 
@@ -80,12 +103,15 @@
         case 0 :
         default:
             _loopStyle = DTLoupeOverlayCircle;
+            _loupeImageOffSet = -4.00f;
             break;
         case 1 :
             _loopStyle = DTLoupeOverlayRectangle;
+            _loupeImageOffSet = 6.0f; // Just an Example
             break;
         case 2 :
             _loopStyle = DTLoupeOverlayRectangleWithArrow;
+            _loupeImageOffSet = -18.00f; // Just an Example
             break;
     }
   
@@ -97,13 +123,21 @@
     // which is the default magnification
         
     _loupeMagnification = (float)[(UISlider*)sender value]/100;
-    _magnificationLabel.text = [NSString stringWithFormat:@"Magnification: %.2f (Default = 1.25)", _loupeMagnification];
+    _magnificationLabel.text = [NSString stringWithFormat:@"Magnification: %.2f (Default = %.2f)", _loupeMagnification, DTDefaultLoupeMagnification];
 
+}
+
+- (IBAction)crossHairDebug:(id)sender {
+    
+    UISwitch *crossHairSwitch = (UISwitch*)sender;
+    
+    _loupe.drawDebugCrossHairs = crossHairSwitch.on;
+    
 }
 
 #pragma mark - Loupe Methods
 
-- (void)showLoupe:(UILongPressGestureRecognizer *)gesture {
+- (void)handleLongPress:(UILongPressGestureRecognizer *)gesture {
     
     CGPoint touchPoint = [gesture locationInView:self.view];
     
@@ -117,16 +151,39 @@
         // editing is complete or maybe in dealloc
         
         if (!_loupe) {
-            _loupe = [[DTLoupeView alloc] initWithFrame:[self.view frame]];
+            _loupe = [[DTLoupeView alloc] initWithFrame:CGRectZero];
             _loupe.targetView = self.view;
+            
+            // NB We are adding to the window so the loupe doesn't get drawn
+            // within itself (mirror of a mirror effect)
+            // However there should be a better way to do this???
+            
             [self.view.window addSubview:_loupe];
         }
+        
+        // The Initial TouchPoint needs to be set before we set the style
+        _loupe.touchPoint = touchPoint;
+
+        // Normally you would set the loupe that require
+        //  i.e. _loupe.type = DTLoupeOverlayRectangle;
+        // In this project we using our UIControls Values
+        
+        // Default Magnification is 1.2
+        _loupe.magnification = _loupeMagnification;
+ 
+        // Different loupes have a different vertical offset for the magnified image (otherwise the touchpoint = equals the centre of maginified image)
+        // Circular Loupe is set -4.0f for example
+        // With Rectangular Loupe the offset depends on whether clicking the Top or Bottom Text selection Thumb!
+        _loupe.loupeImageOffset = _loupeImageOffSet;
+        
+        _loupe.style = _loopStyle;
+
     }
     
-    _loupe.touchPoint = touchPoint;
     
     if (state == UIGestureRecognizerStateChanged) {
         // Show Cursor and position between glyphs
+        _loupe.touchPoint = touchPoint;
         
     }
     
@@ -135,12 +192,76 @@
         return;
     }
     
-    // Normally you would set the loupe that require
-    //    _loupe.type = DTLoupeOverlayRectangle;
+}
+
+- (void)exampleTopThumbPress:(UILongPressGestureRecognizer *)gesture {
     
-    // In this project we are setting from our Segmented Control
-    _loupe.style = _loopStyle;
-    _loupe.magnification = _loupeMagnification;
+    CGPoint touchPoint = [gesture locationInView:self.view];
+    
+    UIGestureRecognizerState state = gesture.state;
+    
+    if (state == UIGestureRecognizerStateBegan) {
+        if (!_loupe) {
+            _loupe = [[DTLoupeView alloc] initWithFrame:CGRectZero];
+            _loupe.targetView = self.view;
+            [self.view.window addSubview:_loupe];
+        }
+        
+        // The Initial TouchPoint needs to be set before we set the style
+        _loupe.touchPoint = touchPoint;
+        
+        _loupe.magnification = _loupeMagnification;
+        
+        _loupe.loupeImageOffset = -28.00f; // Approx offset
+        
+        _loupe.style = DTLoupeOverlayRectangleWithArrow;
+        
+    }
+    
+    if (state == UIGestureRecognizerStateChanged) {
+        // Not for this example        
+    }
+    
+    if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
+        _loupe.style = DTLoupeOverlayNone; // Hide our Loupe
+        return;
+    }
+    
+}
+
+- (void)exampleBottomThumbPress:(UILongPressGestureRecognizer *)gesture {
+    
+    CGPoint touchPoint = [gesture locationInView:self.view];
+    
+    UIGestureRecognizerState state = gesture.state;
+    
+    if (state == UIGestureRecognizerStateBegan) {
+        if (!_loupe) {
+            _loupe = [[DTLoupeView alloc] initWithFrame:CGRectZero];
+            _loupe.targetView = self.view;
+            [self.view.window addSubview:_loupe];
+        }
+        
+        // The Initial TouchPoint needs to be set before we set the style
+        _loupe.touchPoint = touchPoint;
+        
+        _loupe.magnification = _loupeMagnification;
+        
+        _loupe.loupeImageOffset = 12.00f; // Approx offset
+        
+        _loupe.style = DTLoupeOverlayRectangleWithArrow;
+        
+    }
+    
+    if (state == UIGestureRecognizerStateChanged) {
+        // Not for this example        
+    }
+    
+    if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
+        _loupe.style = DTLoupeOverlayNone; // Hide our Loupe
+        return;
+    }
+    
 }
 
 - (void)removeLoupe {

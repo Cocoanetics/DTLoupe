@@ -18,16 +18,24 @@
     
     DTLoupeStyle    _loopStyle;
     float           _loupeMagnification;
+    float           _loupeImageOffSet;
     
-    SnappySlider *_magnificationSlider;
-    UILabel *_magnificationLabel;
+    SnappySlider    *_magnificationSlider;
+    UILabel         *_magnificationLabel;
+    
+    UIButton        *_topThumb;
+    UIButton        *_bottomThumb;
+    
 }
 
 - (IBAction)changeLoupeStyle:(id)sender;
 - (IBAction)changeMagnification:(id)sender;
+- (IBAction)crossHairDebug:(id)sender;
 
 @property (nonatomic, retain) IBOutlet SnappySlider *magnificationSlider;
 @property (nonatomic, retain) IBOutlet UILabel *magnificationLabel;
+@property (nonatomic, retain) IBOutlet UIButton *topThumb;
+@property (nonatomic, retain) IBOutlet UIButton *bottomThumb;
 
 - (void)removeLoupe;
 

@@ -18,8 +18,10 @@ typedef enum {
 @interface DTLoupeView : UIView {
     
     DTLoupeStyle    _style;                     // Type of Loupe; None, Circle, Rectangle, Rectangle With Arrow
+
     CGPoint         _touchPoint;                // The point at which to display (in our target view's bounds coordinates)
     CGFloat         _magnification;             // How much to magnify the view
+    CGFloat         _loupeImageOffset;          // Offset of vertical position of magnified image from centre of Loupe NB Touchpoint is normally centered in Loupe
 
     UIView          *_targetView;               // View to Magnify
     
@@ -28,12 +30,18 @@ typedef enum {
     UIImage         *loupeFrameMaskImage;
     
     CGRect          loupeFramePosition;         // The frame of the Loupe Image, expressed with (0,0) at the (unmagnified) touch point
-    CGPoint         loupeTouchPoint;            // The point in our bounds coordinate system at which (magnified) _touchPoint should be made to draw
+
+    BOOL            _drawDebugCrossHairs;       // Draws cross hairs for debugging
 }
 
 @property(readwrite,nonatomic,assign) CGPoint touchPoint;
+
 @property(readwrite,nonatomic,assign) DTLoupeStyle style;
 @property(readwrite,nonatomic,assign) CGFloat magnification;
+@property(readwrite,nonatomic,assign) CGFloat loupeImageOffset;
+
 @property(readwrite,nonatomic,assign) UIView *targetView;
+
+@property(readwrite,nonatomic,assign) BOOL drawDebugCrossHairs;
 
 @end
