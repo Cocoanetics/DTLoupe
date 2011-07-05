@@ -32,6 +32,9 @@
 
 @synthesize drawDebugCrossHairs = _drawDebugCrossHairs;
 
+
+- (id)initWithStyle:(DTLoupeStyle)style;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -200,11 +203,22 @@
     }
     
     // Adjust location for new size, touch point, whatever might have changed
-    [self setTouchPoint:_touchPoint];
+    //[self setTouchPoint:_touchPoint];
     
     [UIView commitAnimations];
     [UIView setAnimationsEnabled:wereAnimationsEnabled];
     
+}
+
+- (void)presentLoupeFromLocation:(CGPoint)location
+{
+	
+	
+}
+
+- (void)dismissLoupeTowardsLocation:(CGPoint)location
+{
+	
 }
 
 // Draw our Loupe

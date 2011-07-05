@@ -188,7 +188,8 @@
     }
     
     if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
-        _loupe.style = DTLoupeOverlayNone; // Hide our Loupe
+		[loupe 
+        //_loupe.style = DTLoupeOverlayNone; // Hide our Loupe
         return;
     }
     
