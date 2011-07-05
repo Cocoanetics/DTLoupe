@@ -20,6 +20,7 @@
 
 @end
 
+CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat tx, CGFloat ty);
 
 @implementation DTLoupeView
 
@@ -239,7 +240,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 {
     CGContextRef ctx = UIGraphicsGetCurrentContext(); 
 	
-    
     // **** Draw our Loupe's Background Image ****
     [_loupeFrameBackgroundImage drawInRect:rect];
 	
@@ -249,18 +249,15 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	if (_seeThroughMode)
 	{
 		CGContextClearRect(ctx, rect);
+		CGContextSetGrayFillColor(ctx, 1.0, 0.5);
+		CGContextFillRect(ctx, rect);
 	}
 	else
 	{
 		// **** Draw our Target View Magnified and correctly positioned ****
 		CGContextSaveGState(ctx);    
-		
-		_touchPoint = self.center;
-		_magnification = 1;
-		
+				
 		CGPoint convertedLocation = self.center; // [_targetView convertPoint:_touchPoint toView:_targetView.window];
-		
-		
 		
 		// Translate Right & Down, Scale and then shift back to touchPoint
 		CGContextTranslateCTM(ctx, self.frame.size.width * 0.5 + _magnifiedImageOffset.x,(self.frame.size.height * 0.5) + _magnifiedImageOffset.y);
