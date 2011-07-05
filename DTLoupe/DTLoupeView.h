@@ -32,6 +32,8 @@ typedef enum {
     
     CGRect          loupeFramePosition;         // The frame of the Loupe Image, expressed with (0,0) at the (unmagnified) touch point
 
+	BOOL _seeThroughMode;
+	
     BOOL            _drawDebugCrossHairs;       // Draws cross hairs for debugging
 }
 
@@ -44,6 +46,8 @@ typedef enum {
 @property(nonatomic,assign) UIView *targetView;
 
 @property(nonatomic,assign) BOOL drawDebugCrossHairs;
+@property(nonatomic,assign) BOOL seeThroughMode;
+
 
 
 - (id)initWithStyle:(DTLoupeStyle)style targetView:(UIView *)targetView;

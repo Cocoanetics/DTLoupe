@@ -151,12 +151,6 @@
 			else
 			{
 				_loupe = [[DTLoupeView alloc] initWithStyle:_loopStyle targetView:self.view];
-				
-				// NB We are adding to the window so the loupe doesn't get drawn
-				// within itself (mirror of a mirror effect)
-				// However there should be a better way to do this???
-				
-				[self.view.window addSubview:_loupe];
 			}
 			
 			// The Initial TouchPoint needs to be set before we set the style
@@ -206,7 +200,6 @@
 		else
 		{
             _loupe = [[DTLoupeView alloc] initWithStyle:DTLoupeStyleRectangleWithArrow targetView:self.view];
-            [self.view.window addSubview:_loupe];
         }
         
         // The Initial TouchPoint needs to be set before we set the style

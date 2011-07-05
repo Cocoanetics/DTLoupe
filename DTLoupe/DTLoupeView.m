@@ -40,6 +40,9 @@
 		
 		self.style = style;
 		self.targetView = targetView;
+		
+		// because target view might be smaller than screen and clipping
+		[_targetView.window addSubview:self];
 	}
 	
 	return self;
@@ -206,6 +209,8 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 {
 	// hide it completely
 	self.alpha = 0;
+	
+	// keep it in view hierarchy
 }
 
 - (void)dismissLoupeTowardsLocation:(CGPoint)location
@@ -232,24 +237,43 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 // Draw our Loupe
 - (void)drawRect:(CGRect)rect;
 {
-    CGContextRef ctx = UIGraphicsGetCurrentContext();    
+    CGContextRef ctx = UIGraphicsGetCurrentContext(); 
+	
     
     // **** Draw our Loupe's Background Image ****
     [_loupeFrameBackgroundImage drawInRect:rect];
 	
+	// clip to inner area of loupe
     CGContextClipToMask(ctx, rect, _loupeFrameMaskImage.CGImage);
 	
-    // **** Draw our Target View Magnified and correctly positioned ****
-    CGContextSaveGState(ctx);    
-    
-    // Translate Left & Right, Scale and then shift back to touchPoint
-	CGContextTranslateCTM(ctx, self.frame.size.width * 0.5 + _magnifiedImageOffset.x,(self.frame.size.height * 0.5) + _magnifiedImageOffset.y);
-	CGContextScaleCTM(ctx, _magnification, _magnification);
-	CGContextTranslateCTM(ctx,-_touchPoint.x, -_touchPoint.y);
-    
-    [_targetView.layer renderInContext:ctx];
-    
-    CGContextRestoreGState(ctx);
+	if (_seeThroughMode)
+	{
+		CGContextClearRect(ctx, rect);
+	}
+	else
+	{
+		// **** Draw our Target View Magnified and correctly positioned ****
+		CGContextSaveGState(ctx);    
+		
+		_touchPoint = self.center;
+		_magnification = 1;
+		
+		CGPoint convertedLocation = self.center; // [_targetView convertPoint:_touchPoint toView:_targetView.window];
+		
+		
+		
+		// Translate Right & Down, Scale and then shift back to touchPoint
+		CGContextTranslateCTM(ctx, self.frame.size.width * 0.5 + _magnifiedImageOffset.x,(self.frame.size.height * 0.5) + _magnifiedImageOffset.y);
+		CGContextScaleCTM(ctx, _magnification, _magnification);
+		CGContextTranslateCTM(ctx,-convertedLocation.x, -convertedLocation.y);
+		
+		// briefly hide self so that contents does not show up in screenshot
+		self.hidden = YES;
+		[_targetView.window.layer renderInContext:ctx];
+		self.hidden = NO;
+		
+		CGContextRestoreGState(ctx);
+	}
 	
     // **** Draw our Loupe's Main Image ****
     [_loupeFrameImage drawInRect:rect];
@@ -290,6 +314,15 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	[self setNeedsDisplay];
 }
 
+- (void)setSeeThroughMode:(BOOL)seeThroughMode
+{
+	if (_seeThroughMode != seeThroughMode)
+	{
+		_seeThroughMode = seeThroughMode;
+		[self setNeedsDisplay];
+	}
+}
+
 @synthesize loupeFrameImage = _loupeFrameImage;
 @synthesize loupeFrameBackgroundImage = _loupeFrameBackgroundImage;
 @synthesize loupeFrameMaskImage = _loupeFrameMaskImage;
@@ -300,6 +333,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 @synthesize targetView = _targetView;
 @synthesize magnifiedImageOffset = _magnifiedImageOffset;
 
+@synthesize seeThroughMode = _seeThroughMode;
 @synthesize drawDebugCrossHairs = _drawDebugCrossHairs;
 
 @end
