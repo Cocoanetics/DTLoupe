@@ -23,23 +23,10 @@
 
 @implementation DTLoupeView
 
-// When a Circular Loupe appears, it is already drawn a visible size & then scales and moves to final size & position
-// This creates the effect that it draws from below the tounchpoint
-#define DTLoupeCircularStartTransform (CGAffineTransform){ 0.225, 0, 0, 0.225, 0, 20.0 }; // Scale to 0.225 & Translate x down 20
+#define DTLoupeDefaultMagnification         1.20     // Match Apple's Magnification
+#define DTLoupeAnimationDuration			0.15     // Match Apple's Duration
 
-// With a Rectangular Loupe, it actually grows from a point above the touchpoint (centerpoint of cursor)
-#define DTLoupeRectangularStartTransform (CGAffineTransform){ 0.225, 0, 0, 0.225, 0, 5.0 }; // Scale to 0.225 & Translate x down 5
-
-// When a Loupe is dismissed, it scales down to nothing and disapears to the touchpoint (in general)
-#define DTLoupeDismissedTransform (CGAffineTransform){ 0.01, 0, 0, 0.01, 0, 0.0 }; // Scale to 0.1
-
-#define DTDefaultLoupeMagnification         1.20     // Match Apple's Magnification
-#define DTDefaultLoupeAnimationDuration     0.15     // Match Apple's Duration
-
-
-
-
-- (id)initWithStyle:(DTLoupeStyle)style
+- (id)initWithStyle:(DTLoupeStyle)style targetView:(UIView *)targetView
 {
 	CGSize size = [DTLoupeView sizeForLoupeStyle:style];
 	CGRect frame = CGRectMake(0, 0, size.width, size.height);
@@ -52,6 +39,7 @@
 		self.opaque = NO;
 		
 		self.style = style;
+		self.targetView = targetView;
 	}
 	
 	return self;
@@ -68,18 +56,26 @@
 
 #pragma mark Utilities
 
+// there is a difference between concatenating and scaling an existing transform
+CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat tx, CGFloat ty)
+{
+	CGAffineTransform transform = CGAffineTransformMakeTranslation(tx, ty); 
+	return CGAffineTransformScale(transform, sx, sy);	
+}
+
+// round up image sizes so that setting center does not cause non-integer origin of view
 + (CGSize)sizeForLoupeStyle:(DTLoupeStyle)style;
 {
 	switch (style) 
 	{
 		case DTLoupeStyleCircle:
-			return CGSizeMake(127.0, 127.0);
+			return CGSizeMake(128.0, 128.0);
 			
 		case DTLoupeStyleRectangle:
-			return CGSizeMake(141.0, 55.0);
+			return CGSizeMake(142.0, 56.0);
 			
 		case DTLoupeStyleRectangleWithArrow:
-			return CGSizeMake(145.0, 59.0);
+			return CGSizeMake(146.0, 60.0);
 			
 		default:
 			return CGSizeZero;
@@ -169,7 +165,9 @@
 {
 	_touchPoint = touchPoint;
 	
-	CGPoint newCenter = touchPoint;
+	CGPoint convertedLocation = [_targetView convertPoint:_touchPoint toView:self.superview];
+
+	CGPoint newCenter = convertedLocation;
 	CGPoint offsetFromTouchPoint = [DTLoupeView offsetFromCenterForLoupeStyle:_style];
 	
 	newCenter.x += offsetFromTouchPoint.x;
@@ -186,171 +184,54 @@
 
 - (void)presentLoupeFromLocation:(CGPoint)location
 {
+	// circular loupe does not fade
+	self.alpha = (_style == DTLoupeStyleCircle)?1.0:0.0;
+	
 	// calculate transform
-	self.alpha = 0;
-
-	CGAffineTransform movedTransform = CGAffineTransformMakeTranslation(location.x - self.center.x, location.y - self.center.y); 
-	self.transform = CGAffineTransformScale(movedTransform, 0.25, 0.25);
+	CGPoint convertedLocation = [_targetView convertPoint:location toView:self.superview];
+	CGPoint offset = CGPointMake(convertedLocation.x - self.center.x, convertedLocation.y - self.center.y);
+	self.transform = CGAffineTransformAndScaleMake(0.25, 0.25, offset.x, offset.y);
 	
 	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:DTDefaultLoupeAnimationDuration];
+	[UIView setAnimationDuration:DTLoupeAnimationDuration];
+	[UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
 	
-	self.alpha = 1;
+	self.alpha = 1.0;
 	self.transform = CGAffineTransformIdentity;
 
 	[UIView commitAnimations];
+}
+
+- (void)dismissAnimationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
+{
+	// hide it completely
+	self.alpha = 0;
 }
 
 - (void)dismissLoupeTowardsLocation:(CGPoint)location
 {
 	// calculate transform
 	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:DTDefaultLoupeAnimationDuration];
+	[UIView setAnimationDuration:DTLoupeAnimationDuration];
 	[UIView setAnimationBeginsFromCurrentState:YES];
+	[UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+	[UIView setAnimationDelegate:self];
+	[UIView setAnimationDidStopSelector:@selector(dismissAnimationDidStop:finished:context:)];
 	
-	self.alpha = 0;
+	// circular loupe does not fade
+	self.alpha = (_style == DTLoupeStyleCircle)?1.0:0.0;
 
-	CGAffineTransform movedTransform = CGAffineTransformMakeTranslation(location.x - self.center.x, location.y - self.center.y); 
-	self.transform = CGAffineTransformScale(movedTransform, 0.25, 0.25);
+	// calculate transform
+	CGPoint convertedLocation = [_targetView convertPoint:location toView:self.superview];
+	CGPoint offset = CGPointMake(convertedLocation.x - self.center.x, convertedLocation.y - self.center.y);
+	self.transform = CGAffineTransformAndScaleMake(0.25, 0.25, offset.x, offset.y);
 	
 	[UIView commitAnimations];
 }
 
-// Set Type of Loupe to display. We have a type none as the loupe remains initied and can
-// just be redisplayed
-
-
-//- (void)setStyle:(DTLoupeStyle)newType {
-//	
-//    if (newType == _style)
-//        return;
-//    
-//    BOOL wereAnimationsEnabled = [UIView areAnimationsEnabled];
-//    
-//    DTLoupeStyle previousType = _style;
-//    
-//    if (previousType == DTLoupeStyleNone) {
-//        // Make sure our Loupe in front most
-//        [_targetView bringSubviewToFront:self];
-//        
-//        // Apply our Start Tranform (scale & position)   
-//        [UIView beginAnimations:@"DTLoupeStyle" context:NULL];
-//        [UIView setAnimationDuration:0.0]; // We don't want this to take any time
-//        [UIView setAnimationsEnabled:NO];
-//        CGPoint centerPoint = _touchPoint;
-//        self.center = centerPoint;
-//		
-//        switch (newType) {
-//            case DTLoupeStyleNone:
-//            default:
-//            {
-//                self.transform = CGAffineTransformIdentity;
-//                break;
-//            }
-//            case DTLoupeStyleCircle:
-//            {
-//                self.transform = DTLoupeCircularStartTransform;
-//                break;
-//            }
-//            case DTLoupeStyleRectangle:
-//            case DTLoupeStyleRectangleWithArrow:
-//            {
-//                self.transform = DTLoupeRectangularStartTransform;
-//                break;
-//            }
-//        }
-//		
-//        self.alpha = 1;
-//        [UIView commitAnimations];
-//    }
-//    
-//    // Now animate to the final position & Scale
-//    [UIView beginAnimations:@"DTLoupeStyle" context:NULL];
-//    [UIView setAnimationBeginsFromCurrentState: (_style == DTLoupeStyleNone)? NO : YES];
-//    [UIView setAnimationDuration:DTDefaultLoupeAnimationDuration];
-//    [UIView setAnimationsEnabled:YES];
-//    
-//    _style = newType;
-//    
-//    if (newType == DTLoupeStyleNone) {
-//        /* Shrink and fade the loupe so it's basically invisible */
-//        self.transform = DTLoupeDismissedTransform;
-//        self.alpha = 0;
-//		
-//    } else {
-//        
-//        switch (newType) {
-//            case DTLoupeStyleNone:
-//            default:
-//            {    // Hide our Loupe
-//                self.alpha = 0;
-//                break;
-//            }
-//            case DTLoupeStyleCircle:
-//            {
-//                self.loupeFrameBackgroundImage = [UIImage imageNamed:@"kb-loupe-lo.png"];
-//                self.loupeFrameMaskImage = [UIImage imageNamed:@"kb-loupe-mask.png"];
-//                self.loupeFrameImage = [UIImage imageNamed:@"kb-loupe-hi.png"];
-//				
-//                // Size and position
-//                CGSize loupeImageSize = [_loupeFrameImage size];
-//                loupeFramePosition.size = loupeImageSize;
-//				
-//                // The difference between the touchpoint and the centre of our circular loupe is
-//                // -60, so apply a transform accordingly
-//                
-//                CGAffineTransform transformZoomed = CGAffineTransformMakeTranslation(0, -60);
-//                self.transform = transformZoomed;
-//				
-//                break;
-//            }
-//            case DTLoupeStyleRectangle:
-//            case DTLoupeStyleRectangleWithArrow:
-//            {
-//				
-//                if(newType == DTLoupeStyleRectangleWithArrow) {
-//                    self.loupeFrameBackgroundImage = [UIImage imageNamed:@"kb-magnifier-ranged-lo.png"];
-//                } else {
-//                    self.loupeFrameBackgroundImage = [UIImage imageNamed:@"kb-magnifier-ranged-lo-stemless.png"];
-//                }
-//                
-//                self.loupeFrameMaskImage = [UIImage imageNamed:@"kb-magnifier-ranged-mask"];
-//                self.loupeFrameImage = [UIImage imageNamed:@"kb-magnifier-ranged-hi.png"];
-//				
-//                // Size and position
-//                CGSize loupeImageSize = [_loupeFrameImage size];
-//                loupeFramePosition.size = loupeImageSize;
-//				
-//                CGAffineTransform transformZoomed = CGAffineTransformMakeTranslation(0, -38);
-//                self.transform = transformZoomed;
-//				
-//                break;
-//            }
-//        }
-//		
-//        if (previousType == DTLoupeStyleNone)
-//            [UIView setAnimationsEnabled:NO];
-//        
-//        // Position Our Loupe
-//        self.bounds = (CGRect){ .origin = { 0,0 }, .size = loupeFramePosition.size };
-//        
-//        [UIView setAnimationsEnabled:YES];
-//    }
-//    
-//    // Adjust location for new size, touch point, whatever might have changed
-//    //[self setTouchPoint:_touchPoint];
-//    
-//    [UIView commitAnimations];
-//    [UIView setAnimationsEnabled:wereAnimationsEnabled];
-//    
-//}
-
-
-
 // Draw our Loupe
 - (void)drawRect:(CGRect)rect;
 {
-    
     CGContextRef ctx = UIGraphicsGetCurrentContext();    
     
     // **** Draw our Loupe's Background Image ****
@@ -374,7 +255,8 @@
     [_loupeFrameImage drawInRect:rect];
 	
     // Draw Cross Hairs
-    if (_drawDebugCrossHairs) {
+    if (_drawDebugCrossHairs) 
+	{
 		[[UIColor redColor] setStroke];
         CGContextStrokeRect(ctx, rect);
         CGContextMoveToPoint(ctx, 0, rect.size.height/2.0f);
@@ -384,7 +266,6 @@
         CGContextAddLineToPoint(ctx, rect.size.width/2.0f, rect.size.height);
         CGContextStrokePath(ctx);
     }
-	
 }
 
 
@@ -393,6 +274,8 @@
 
 - (void)setStyle:(DTLoupeStyle)style
 {
+	_style = style;
+	
 	[self setImagesForStyle:style];
 	
 	CGSize size = [DTLoupeView sizeForLoupeStyle:style];

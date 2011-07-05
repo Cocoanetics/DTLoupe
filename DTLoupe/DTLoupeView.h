@@ -46,8 +46,7 @@ typedef enum {
 @property(nonatomic,assign) BOOL drawDebugCrossHairs;
 
 
-- (id)initWithStyle:(DTLoupeStyle)style;
-//
+- (id)initWithStyle:(DTLoupeStyle)style targetView:(UIView *)targetView;
 - (void)presentLoupeFromLocation:(CGPoint)location;
 - (void)dismissLoupeTowardsLocation:(CGPoint)location;
 

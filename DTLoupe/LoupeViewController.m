@@ -154,8 +154,7 @@
 		}
 		else
 		{
-            _loupe = [[DTLoupeView alloc] initWithStyle:_loopStyle];
-            _loupe.targetView = self.view;
+            _loupe = [[DTLoupeView alloc] initWithStyle:_loopStyle targetView:self.view];
             
             // NB We are adding to the window so the loupe doesn't get drawn
             // within itself (mirror of a mirror effect)
@@ -174,7 +173,7 @@
         // Default Magnification is 1.2
         _loupe.magnification = _loupeMagnification;
 		
-		[_loupe presentLoupeFromLocation:CGPointZero];
+		[_loupe presentLoupeFromLocation:touchPoint];
     }
     
     
@@ -207,8 +206,7 @@
 		}
 		else
 		{
-            _loupe = [[DTLoupeView alloc] initWithStyle:DTLoupeStyleRectangleWithArrow];
-            _loupe.targetView = self.view;
+            _loupe = [[DTLoupeView alloc] initWithStyle:DTLoupeStyleRectangleWithArrow targetView:self.view];
             [self.view.window addSubview:_loupe];
         }
         
@@ -247,8 +245,7 @@
 		}
 		else
 		{
-            _loupe = [[DTLoupeView alloc] initWithStyle:DTLoupeStyleRectangleWithArrow];
-            _loupe.targetView = self.view;
+            _loupe = [[DTLoupeView alloc] initWithStyle:DTLoupeStyleRectangleWithArrow targetView:self.view];
             [self.view.window addSubview:_loupe];
         }
         
@@ -265,7 +262,6 @@
     }
     
     if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
-//        _loupe.style = DTLoupeStyleNone; // Hide our Loupe
 		[_loupe dismissLoupeTowardsLocation:CGPointZero];
         return;
     }
