@@ -48,7 +48,6 @@
 
 	_magnificationSlider.detents = detents;
     _magnificationSlider.value = DTDefaultLoupeMagnification*100;
-    
 }
 
 
@@ -114,83 +113,83 @@
   
 }
 
-- (IBAction)changeMagnification:(id)sender {
+- (IBAction)changeMagnification:(id)sender 
+{
     // We will allow magnification from 1 (Actual Size) to 3 x
     // This means that the centre of the slider represents 1.25
     // which is the default magnification
         
     _loupeMagnification = (float)[(UISlider*)sender value]/100;
     _magnificationLabel.text = [NSString stringWithFormat:@"Magnification: %.2f (Default = %.2f)", _loupeMagnification, DTDefaultLoupeMagnification];
-
 }
 
-- (IBAction)crossHairDebug:(id)sender {
-    
+- (IBAction)crossHairDebug:(id)sender 
+{
     UISwitch *crossHairSwitch = (UISwitch*)sender;
     
     _loupe.drawDebugCrossHairs = crossHairSwitch.on;
-    
 }
 
 #pragma mark - Loupe Methods
 
-- (void)handleLongPress:(UILongPressGestureRecognizer *)gesture {
-    
+- (void)handleLongPress:(UILongPressGestureRecognizer *)gesture 
+{
     CGPoint touchPoint = [gesture locationInView:self.view];
-    
-    //    NSLog(@"inspect with state %d at %@ with required taps %d, number of touches %d", gesture.state, pp, [gesture numberOfTapsRequired], [gesture numberOfTouches]);
-    
-    UIGestureRecognizerState state = gesture.state;
-    
-    if (state == UIGestureRecognizerStateBegan) 
+	
+	switch (gesture.state) 
 	{
-        // Init loupe just once for performance
-        // It should be removed/release etc somewhere else when 
-        // editing is complete or maybe in dealloc
-        
-        if (_loupe) 
+		case UIGestureRecognizerStateBegan:
 		{
-			_loupe.style = _loopStyle;
+			// Init loupe just once for performance
+			// It should be removed/release etc somewhere else when 
+			// editing is complete or maybe in dealloc
+			
+			if (_loupe) 
+			{
+				_loupe.style = _loopStyle;
+			}
+			else
+			{
+				_loupe = [[DTLoupeView alloc] initWithStyle:_loopStyle targetView:self.view];
+				
+				// NB We are adding to the window so the loupe doesn't get drawn
+				// within itself (mirror of a mirror effect)
+				// However there should be a better way to do this???
+				
+				[self.view.window addSubview:_loupe];
+			}
+			
+			// The Initial TouchPoint needs to be set before we set the style
+			_loupe.touchPoint = touchPoint;
+			
+			// Normally you would set the loupe that require
+			//  i.e. _loupe.type = DTLoupeStyleRectangle;
+			// In this project we using our UIControls Values
+			
+			// Default Magnification is 1.2
+			_loupe.magnification = _loupeMagnification;
+			
+			[_loupe presentLoupeFromLocation:touchPoint];
+			
+			
+			break;
 		}
-		else
+			
+		case UIGestureRecognizerStateChanged:
 		{
-            _loupe = [[DTLoupeView alloc] initWithStyle:_loopStyle targetView:self.view];
-            
-            // NB We are adding to the window so the loupe doesn't get drawn
-            // within itself (mirror of a mirror effect)
-            // However there should be a better way to do this???
-            
-            [self.view.window addSubview:_loupe];
-        }
-        
-        // The Initial TouchPoint needs to be set before we set the style
-        _loupe.touchPoint = touchPoint;
-
-        // Normally you would set the loupe that require
-        //  i.e. _loupe.type = DTLoupeStyleRectangle;
-        // In this project we using our UIControls Values
-        
-        // Default Magnification is 1.2
-        _loupe.magnification = _loupeMagnification;
-		
-		[_loupe presentLoupeFromLocation:touchPoint];
-    }
-    
-    
-    if (state == UIGestureRecognizerStateChanged) 
-	{
-        // Show Cursor and position between glyphs
-        _loupe.touchPoint = touchPoint;
-    }
-    
-    if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
-		
-		[_loupe dismissLoupeTowardsLocation:CGPointZero];
-		//[loupe 
-        //_loupe.style = DTLoupeStyleNone; // Hide our Loupe
-        return;
-    }
-    
+			// Show Cursor and position between glyphs
+			_loupe.touchPoint = touchPoint;
+			
+			break;
+		}
+			
+		default:
+		{
+			[_loupe dismissLoupeTowardsLocation:touchPoint];
+			
+			break;
+		}
+	}
 }
 
 - (void)exampleTopThumbPress:(UILongPressGestureRecognizer *)gesture {
