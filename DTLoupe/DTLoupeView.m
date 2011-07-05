@@ -227,7 +227,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	// calculate transform
 	CGPoint convertedLocation = [_targetView convertPoint:location toView:self.superview];
 	CGPoint offset = CGPointMake(convertedLocation.x - self.center.x, convertedLocation.y - self.center.y);
-	self.transform = CGAffineTransformAndScaleMake(0.25, 0.25, offset.x, offset.y);
+	self.transform = CGAffineTransformAndScaleMake(0.05, 0.05, offset.x, offset.y);
 	
 	[UIView commitAnimations];
 }
