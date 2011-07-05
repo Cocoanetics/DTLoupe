@@ -11,10 +11,9 @@
 /* trying out git svn */
 
 typedef enum {
-    DTLoupeOverlayNone,
-    DTLoupeOverlayCircle,
-    DTLoupeOverlayRectangle,
-    DTLoupeOverlayRectangleWithArrow,
+    DTLoupeStyleCircle = 0,
+    DTLoupeStyleRectangle,
+    DTLoupeStyleRectangleWithArrow,
 } DTLoupeStyle;
 
 @interface DTLoupeView : UIView {
@@ -23,32 +22,32 @@ typedef enum {
 
     CGPoint         _touchPoint;                // The point at which to display (in our target view's bounds coordinates)
     CGFloat         _magnification;             // How much to magnify the view
-    CGFloat         _loupeImageOffset;          // Offset of vertical position of magnified image from centre of Loupe NB Touchpoint is normally centered in Loupe
+    CGPoint         _magnifiedImageOffset;          // Offset of vertical position of magnified image from centre of Loupe NB Touchpoint is normally centered in Loupe
 
     UIView          *_targetView;               // View to Magnify
     
-    UIImage         *loupeFrameImage;           // A Loupe/Magnifier is based on 3 images. Background, Mask & Main
-    UIImage         *loupeFrameBackgroundImage;
-    UIImage         *loupeFrameMaskImage;
+    UIImage         *_loupeFrameImage;           // A Loupe/Magnifier is based on 3 images. Background, Mask & Main
+    UIImage         *_loupeFrameBackgroundImage;
+    UIImage         *_loupeFrameMaskImage;
     
     CGRect          loupeFramePosition;         // The frame of the Loupe Image, expressed with (0,0) at the (unmagnified) touch point
 
     BOOL            _drawDebugCrossHairs;       // Draws cross hairs for debugging
 }
 
-@property(readwrite,nonatomic,assign) CGPoint touchPoint;
+@property(nonatomic,assign) CGPoint touchPoint;
 
-@property(readwrite,nonatomic,assign) DTLoupeStyle style;
-@property(readwrite,nonatomic,assign) CGFloat magnification;
-@property(readwrite,nonatomic,assign) CGFloat loupeImageOffset;
+@property(nonatomic,assign) DTLoupeStyle style;
+@property(nonatomic,assign) CGFloat magnification;
+@property(nonatomic,assign) CGPoint magnifiedImageOffset;
 
-@property(readwrite,nonatomic,assign) UIView *targetView;
+@property(nonatomic,assign) UIView *targetView;
 
-@property(readwrite,nonatomic,assign) BOOL drawDebugCrossHairs;
+@property(nonatomic,assign) BOOL drawDebugCrossHairs;
 
 
 - (id)initWithStyle:(DTLoupeStyle)style;
-
+//
 - (void)presentLoupeFromLocation:(CGPoint)location;
 - (void)dismissLoupeTowardsLocation:(CGPoint)location;
 

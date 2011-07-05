@@ -36,7 +36,7 @@
     
     // UI Defaults
     
-    _loopStyle = DTLoupeOverlayCircle; // Default to match Segment Controller & Apple's Default
+    _loopStyle = DTLoupeStyleCircle; // Default to match Segment Controller & Apple's Default
     _loupeImageOffSet = -4.00f; // default for Circular Loupe
     
     _loupeMagnification = DTDefaultLoupeMagnification; // Default to match Slider & Apple's Default
@@ -102,16 +102,13 @@
     switch (segmentIndex) {
         case 0 :
         default:
-            _loopStyle = DTLoupeOverlayCircle;
-            _loupeImageOffSet = -4.00f;
+            _loopStyle = DTLoupeStyleCircle;
             break;
         case 1 :
-            _loopStyle = DTLoupeOverlayRectangle;
-            _loupeImageOffSet = 6.0f; // Just an Example
+            _loopStyle = DTLoupeStyleRectangle;
             break;
         case 2 :
-            _loopStyle = DTLoupeOverlayRectangleWithArrow;
-            _loupeImageOffSet = -18.00f; // Just an Example
+            _loopStyle = DTLoupeStyleRectangleWithArrow;
             break;
     }
   
@@ -145,13 +142,19 @@
     
     UIGestureRecognizerState state = gesture.state;
     
-    if (state == UIGestureRecognizerStateBegan) {
+    if (state == UIGestureRecognizerStateBegan) 
+	{
         // Init loupe just once for performance
         // It should be removed/release etc somewhere else when 
         // editing is complete or maybe in dealloc
         
-        if (!_loupe) {
-            _loupe = [[DTLoupeView alloc] initWithFrame:CGRectZero];
+        if (_loupe) 
+		{
+			_loupe.style = _loopStyle;
+		}
+		else
+		{
+            _loupe = [[DTLoupeView alloc] initWithStyle:_loopStyle];
             _loupe.targetView = self.view;
             
             // NB We are adding to the window so the loupe doesn't get drawn
@@ -165,31 +168,27 @@
         _loupe.touchPoint = touchPoint;
 
         // Normally you would set the loupe that require
-        //  i.e. _loupe.type = DTLoupeOverlayRectangle;
+        //  i.e. _loupe.type = DTLoupeStyleRectangle;
         // In this project we using our UIControls Values
         
         // Default Magnification is 1.2
         _loupe.magnification = _loupeMagnification;
- 
-        // Different loupes have a different vertical offset for the magnified image (otherwise the touchpoint = equals the centre of maginified image)
-        // Circular Loupe is set -4.0f for example
-        // With Rectangular Loupe the offset depends on whether clicking the Top or Bottom Text selection Thumb!
-        _loupe.loupeImageOffset = _loupeImageOffSet;
-        
-        _loupe.style = _loopStyle;
-
+		
+		[_loupe presentLoupeFromLocation:CGPointZero];
     }
     
     
-    if (state == UIGestureRecognizerStateChanged) {
+    if (state == UIGestureRecognizerStateChanged) 
+	{
         // Show Cursor and position between glyphs
         _loupe.touchPoint = touchPoint;
-        
     }
     
     if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
-		[loupe 
-        //_loupe.style = DTLoupeOverlayNone; // Hide our Loupe
+		
+		[_loupe dismissLoupeTowardsLocation:CGPointZero];
+		//[loupe 
+        //_loupe.style = DTLoupeStyleNone; // Hide our Loupe
         return;
     }
     
@@ -202,8 +201,13 @@
     UIGestureRecognizerState state = gesture.state;
     
     if (state == UIGestureRecognizerStateBegan) {
-        if (!_loupe) {
-            _loupe = [[DTLoupeView alloc] initWithFrame:CGRectZero];
+        if (_loupe)
+		{
+			_loupe.style = DTLoupeStyleRectangleWithArrow;
+		}
+		else
+		{
+            _loupe = [[DTLoupeView alloc] initWithStyle:DTLoupeStyleRectangleWithArrow];
             _loupe.targetView = self.view;
             [self.view.window addSubview:_loupe];
         }
@@ -213,10 +217,9 @@
         
         _loupe.magnification = _loupeMagnification;
         
-        _loupe.loupeImageOffset = -28.00f; // Approx offset
-        
-        _loupe.style = DTLoupeOverlayRectangleWithArrow;
-        
+        _loupe.magnifiedImageOffset = CGPointMake(0, -28.00f); // Approx offset
+		
+		[_loupe presentLoupeFromLocation:touchPoint];
     }
     
     if (state == UIGestureRecognizerStateChanged) {
@@ -224,7 +227,8 @@
     }
     
     if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
-        _loupe.style = DTLoupeOverlayNone; // Hide our Loupe
+       // _loupe.style = DTLoupeStyleNone; // Hide our Loupe
+		[_loupe dismissLoupeTowardsLocation:CGPointZero];
         return;
     }
     
@@ -237,8 +241,13 @@
     UIGestureRecognizerState state = gesture.state;
     
     if (state == UIGestureRecognizerStateBegan) {
-        if (!_loupe) {
-            _loupe = [[DTLoupeView alloc] initWithFrame:CGRectZero];
+		if (_loupe)
+		{
+			_loupe.style = DTLoupeStyleRectangleWithArrow;
+		}
+		else
+		{
+            _loupe = [[DTLoupeView alloc] initWithStyle:DTLoupeStyleRectangleWithArrow];
             _loupe.targetView = self.view;
             [self.view.window addSubview:_loupe];
         }
@@ -248,10 +257,7 @@
         
         _loupe.magnification = _loupeMagnification;
         
-        _loupe.loupeImageOffset = 12.00f; // Approx offset
-        
-        _loupe.style = DTLoupeOverlayRectangleWithArrow;
-        
+		_loupe.magnifiedImageOffset = CGPointMake(0, 12.00f); // Approx offset
     }
     
     if (state == UIGestureRecognizerStateChanged) {
@@ -259,7 +265,8 @@
     }
     
     if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
-        _loupe.style = DTLoupeOverlayNone; // Hide our Loupe
+//        _loupe.style = DTLoupeStyleNone; // Hide our Loupe
+		[_loupe dismissLoupeTowardsLocation:CGPointZero];
         return;
     }
     
