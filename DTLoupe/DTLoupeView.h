@@ -8,16 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-/* trying out git svn */
-
-typedef enum {
+typedef enum 
+{
     DTLoupeStyleCircle = 0,
     DTLoupeStyleRectangle,
     DTLoupeStyleRectangleWithArrow,
 } DTLoupeStyle;
 
-@interface DTLoupeView : UIView {
-    
+@interface DTLoupeView : UIView 
+{
     DTLoupeStyle    _style;                     // Type of Loupe; None, Circle, Rectangle, Rectangle With Arrow
 
     CGPoint         _touchPoint;                // The point at which to display (in our target view's bounds coordinates)
@@ -26,15 +25,14 @@ typedef enum {
 
     UIView          *_targetView;               // View to Magnify
     
-    UIImage         *_loupeFrameImage;           // A Loupe/Magnifier is based on 3 images. Background, Mask & Main
+	// A Loupe/Magnifier is based on 3 images. Background, Mask & Main
+    UIImage         *_loupeFrameImage;           
     UIImage         *_loupeFrameBackgroundImage;
     UIImage         *_loupeFrameMaskImage;
     
-    CGRect          loupeFramePosition;         // The frame of the Loupe Image, expressed with (0,0) at the (unmagnified) touch point
-
-	BOOL _seeThroughMode;
+	BOOL _seeThroughMode; // look-through-mode, used while scrolling
 	
-    BOOL            _drawDebugCrossHairs;       // Draws cross hairs for debugging
+    BOOL _drawDebugCrossHairs;       // Draws cross hairs for debugging
 }
 
 @property(nonatomic,assign) CGPoint touchPoint;
@@ -47,8 +45,6 @@ typedef enum {
 
 @property(nonatomic,assign) BOOL drawDebugCrossHairs;
 @property(nonatomic,assign) BOOL seeThroughMode;
-
-
 
 - (id)initWithStyle:(DTLoupeStyle)style targetView:(UIView *)targetView;
 - (void)presentLoupeFromLocation:(CGPoint)location;

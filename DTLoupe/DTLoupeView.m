@@ -9,6 +9,12 @@
 #import "DTLoupeView.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define DTLoupeDefaultMagnification         1.20     // Match Apple's Magnification
+#define DTLoupeAnimationDuration			0.15     // Match Apple's Duration
+
+CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat tx, CGFloat ty);
+
+
 @interface DTLoupeView ()
 
 + (CGSize)sizeForLoupeStyle:(DTLoupeStyle)style;
@@ -20,12 +26,7 @@
 
 @end
 
-CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat tx, CGFloat ty);
-
 @implementation DTLoupeView
-
-#define DTLoupeDefaultMagnification         1.20     // Match Apple's Magnification
-#define DTLoupeAnimationDuration			0.15     // Match Apple's Duration
 
 - (id)initWithStyle:(DTLoupeStyle)style targetView:(UIView *)targetView
 {
@@ -114,7 +115,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		}	
 		case DTLoupeStyleRectangle:
 		{
-			return CGPointMake(0, 6.0);
+			return CGPointMake(0, -18.0);
 		}
 			
 		case DTLoupeStyleRectangleWithArrow:
@@ -159,14 +160,10 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	}	
 }
 
-
-
-
 #pragma mark Interactivity
-
-// Set TouchPoint as user moves around screen
 - (void)setTouchPoint:(CGPoint)touchPoint
 {
+	// Set touchPoint as user moves around screen
 	_touchPoint = touchPoint;
 	
 	CGPoint convertedLocation = [_targetView convertPoint:_touchPoint toView:self.superview];
@@ -289,10 +286,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     }
 }
 
-
-
 #pragma mark Properties
-
 - (void)setStyle:(DTLoupeStyle)style
 {
 	_style = style;
@@ -316,6 +310,15 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	if (_seeThroughMode != seeThroughMode)
 	{
 		_seeThroughMode = seeThroughMode;
+		[self setNeedsDisplay];
+	}
+}
+
+- (void)setMagnification:(CGFloat)magnification
+{
+	if (_magnification != magnification)
+	{
+		_magnification = magnification;
 		[self setNeedsDisplay];
 	}
 }
