@@ -43,6 +43,8 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		self.style = style;
 		self.targetView = targetView;
 		
+		_magnification = DTLoupeDefaultMagnification;
+		
 		// because target view might be smaller than screen and clipping
 		[_targetView.window addSubview:self];
 	}
@@ -232,6 +234,11 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	[UIView commitAnimations];
 }
 
+- (BOOL)isShowing
+{
+	return (self.superview != nil && self.alpha>0);
+}
+
 // Draw our Loupe
 - (void)drawRect:(CGRect)rect;
 {
@@ -254,7 +261,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		// **** Draw our Target View Magnified and correctly positioned ****
 		CGContextSaveGState(ctx);    
 				
-		CGPoint convertedLocation = self.center; // [_targetView convertPoint:_touchPoint toView:_targetView.window];
+		CGPoint convertedLocation = [_targetView convertPoint:_touchPoint toView:_targetView.window];
 		
 		// Translate Right & Down, Scale and then shift back to touchPoint
 		CGContextTranslateCTM(ctx, self.frame.size.width * 0.5 + _magnifiedImageOffset.x,(self.frame.size.height * 0.5) + _magnifiedImageOffset.y);

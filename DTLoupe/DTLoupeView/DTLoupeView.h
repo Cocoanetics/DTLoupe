@@ -50,4 +50,6 @@ typedef enum
 - (void)presentLoupeFromLocation:(CGPoint)location;
 - (void)dismissLoupeTowardsLocation:(CGPoint)location;
 
+- (BOOL)isShowing;
+
 @end
