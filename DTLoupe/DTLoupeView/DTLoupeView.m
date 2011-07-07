@@ -14,6 +14,7 @@
 
 CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat tx, CGFloat ty);
 
+NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 
 @interface DTLoupeView ()
 
@@ -97,10 +98,10 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 			return CGPointMake(0, -60.0);
 			
 		case DTLoupeStyleRectangle:
-			return CGPointMake(0, -38.0);
+			return CGPointMake(0, -30.0);
 			
 		case DTLoupeStyleRectangleWithArrow:
-			return CGPointMake(0, -38.0);
+			return CGPointMake(0, -30.0);
 			
 		default:
 			return CGPointZero;
@@ -211,6 +212,8 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	self.alpha = 0;
 	
 	// keep it in view hierarchy
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:DTLoupeDidHide object:self];
 }
 
 - (void)dismissLoupeTowardsLocation:(CGPoint)location

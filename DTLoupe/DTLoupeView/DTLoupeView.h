@@ -15,6 +15,8 @@ typedef enum
     DTLoupeStyleRectangleWithArrow,
 } DTLoupeStyle;
 
+extern NSString * const DTLoupeDidHide;
+
 @interface DTLoupeView : UIView 
 {
     DTLoupeStyle    _style;                     // Type of Loupe; None, Circle, Rectangle, Rectangle With Arrow
