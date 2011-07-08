@@ -7,6 +7,7 @@
 //
 
 #import "DTLoupeView.h"
+#import "UIView+DT.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define DTLoupeDefaultMagnification         1.20     // Match Apple's Magnification
@@ -47,7 +48,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		_magnification = DTLoupeDefaultMagnification;
 		
 		// because target view might be smaller than screen and clipping
-		[_targetView.window addSubview:self];
+		[[_targetView rootView] addSubview:self];
 	}
 	
 	return self;
@@ -262,18 +263,21 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	else
 	{
 		// **** Draw our Target View Magnified and correctly positioned ****
-		CGContextSaveGState(ctx);    
-				
-		CGPoint convertedLocation = [_targetView convertPoint:_touchPoint toView:_targetView.window];
+		CGContextSaveGState(ctx);   
+		
+		CGPoint convertedLocation = [_targetView convertPoint:_touchPoint toView:_rootView];
+		
 		
 		// Translate Right & Down, Scale and then shift back to touchPoint
 		CGContextTranslateCTM(ctx, self.frame.size.width * 0.5 + _magnifiedImageOffset.x,(self.frame.size.height * 0.5) + _magnifiedImageOffset.y);
 		CGContextScaleCTM(ctx, _magnification, _magnification);
+		
+		//CGContextConcatCTM(ctx, CGAffineTransformInvert(_rotationTransform));
 		CGContextTranslateCTM(ctx,-convertedLocation.x, -convertedLocation.y);
 		
 		// briefly hide self so that contents does not show up in screenshot
 		self.hidden = YES;
-		[_targetView.window.layer renderInContext:ctx];
+		[_rootView.layer renderInContext:ctx];
 		self.hidden = NO;
 		
 		CGContextRestoreGState(ctx);
@@ -297,6 +301,15 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 }
 
 #pragma mark Properties
+- (void)setTargetView:(UIView *)targetView
+{
+	if (targetView != _targetView)
+	{
+		_targetView = targetView;
+		_rootView = [_targetView rootView];
+	}
+}
+
 - (void)setStyle:(DTLoupeStyle)style
 {
 	_style = style;
