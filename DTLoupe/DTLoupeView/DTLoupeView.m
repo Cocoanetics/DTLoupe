@@ -265,7 +265,12 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		// **** Draw our Target View Magnified and correctly positioned ****
 		CGContextSaveGState(ctx);   
 		
-		CGPoint convertedLocation = [_targetView convertPoint:_touchPoint toView:_rootView];
+		// move touchpoint by offset
+		CGPoint offsetTouchPoint = _touchPoint;
+		offsetTouchPoint.x += _touchPointOffset.x;
+		offsetTouchPoint.y += _touchPointOffset.y;
+		
+		CGPoint convertedLocation = [_targetView convertPoint:offsetTouchPoint toView:_rootView];
 		
 		
 		// Translate Right & Down, Scale and then shift back to touchPoint
@@ -325,6 +330,8 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	// With Rectangular Loupe the offset depends on whether clicking the Top or Bottom Text selection Thumb!
 	_magnifiedImageOffset = [DTLoupeView magnifiedImageOffsetForStyle:style];
 	
+	_touchPointOffset = CGPointZero;
+	
 	[self setNeedsDisplay];
 }
 
@@ -351,6 +358,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 @synthesize loupeFrameMaskImage = _loupeFrameMaskImage;
 
 @synthesize touchPoint = _touchPoint;
+@synthesize touchPointOffset = _touchPointOffset;
 @synthesize style = _style;
 @synthesize magnification = _magnification;
 @synthesize targetView = _targetView;

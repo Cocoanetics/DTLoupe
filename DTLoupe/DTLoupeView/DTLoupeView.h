@@ -22,6 +22,7 @@ extern NSString * const DTLoupeDidHide;
     DTLoupeStyle    _style;                     // Type of Loupe; None, Circle, Rectangle, Rectangle With Arrow
 
     CGPoint         _touchPoint;                // The point at which to display (in our target view's bounds coordinates)
+	CGPoint _touchPointOffset;
     CGFloat         _magnification;             // How much to magnify the view
     CGPoint         _magnifiedImageOffset;          // Offset of vertical position of magnified image from centre of Loupe NB Touchpoint is normally centered in Loupe
 
@@ -39,6 +40,7 @@ extern NSString * const DTLoupeDidHide;
 }
 
 @property(nonatomic,assign) CGPoint touchPoint;
+@property(nonatomic, assign) CGPoint touchPointOffset;
 
 @property(nonatomic,assign) DTLoupeStyle style;
 @property(nonatomic,assign) CGFloat magnification;
