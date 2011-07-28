@@ -84,7 +84,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 			return CGSizeMake(142.0, 56.0);
 			
 		case DTLoupeStyleRectangleWithArrow:
-			return CGSizeMake(146.0, 60.0);
+			return CGSizeMake(145.0, 59.0);
 			
 		default:
 			return CGSizeZero;
@@ -147,7 +147,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		case DTLoupeStyleRectangle:
 		{
 			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"kb-magnifier-ranged-lo-stemless.png"];
-			self.loupeFrameMaskImage = [UIImage imageNamed:@"kb-magnifier-ranged-mask"];
+			self.loupeFrameMaskImage = [UIImage imageNamed:@"kb-magnifier-ranged-mask.png"];
 			self.loupeFrameImage = [UIImage imageNamed:@"kb-magnifier-ranged-hi.png"];
 			
 			break;
@@ -156,7 +156,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		case DTLoupeStyleRectangleWithArrow:
 		{
 			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"kb-magnifier-ranged-lo.png"];
-			self.loupeFrameMaskImage = [UIImage imageNamed:@"kb-magnifier-ranged-mask"];
+			self.loupeFrameMaskImage = [UIImage imageNamed:@"kb-magnifier-ranged-mask.png"];
 			self.loupeFrameImage = [UIImage imageNamed:@"kb-magnifier-ranged-hi.png"];
 			
 			break;
@@ -248,8 +248,12 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 {
     CGContextRef ctx = UIGraphicsGetCurrentContext(); 
 	
+	//CGContextSetInterpolationQuality(ctx, kCGInterpolationHigh);
+	
     // **** Draw our Loupe's Background Image ****
-    [_loupeFrameBackgroundImage drawInRect:rect];
+    [_loupeFrameBackgroundImage drawAtPoint:CGPointZero];
+
+	CGContextSaveGState(ctx);   
 	
 	// clip to inner area of loupe
     CGContextClipToMask(ctx, rect, _loupeFrameMaskImage.CGImage);
@@ -263,8 +267,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	else
 	{
 		// **** Draw our Target View Magnified and correctly positioned ****
-		CGContextSaveGState(ctx);   
-		
 		// move touchpoint by offset
 		CGPoint offsetTouchPoint = _touchPoint;
 		offsetTouchPoint.x += _touchPointOffset.x;
@@ -279,17 +281,17 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		
 		//CGContextConcatCTM(ctx, CGAffineTransformInvert(_rotationTransform));
 		CGContextTranslateCTM(ctx,-convertedLocation.x, -convertedLocation.y);
-		
+
 		// briefly hide self so that contents does not show up in screenshot
 		self.hidden = YES;
 		[_rootView.layer renderInContext:ctx];
 		self.hidden = NO;
-		
-		CGContextRestoreGState(ctx);
 	}
-	
+
+	CGContextRestoreGState(ctx);
+
     // **** Draw our Loupe's Main Image ****
-    [_loupeFrameImage drawInRect:rect];
+    [_loupeFrameImage drawAtPoint:CGPointZero blendMode:kCGBlendModeNormal alpha:1.0];
 	
     // Draw Cross Hairs
     if (_drawDebugCrossHairs) 
