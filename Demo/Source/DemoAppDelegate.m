@@ -6,9 +6,9 @@
 //  Copyright 2011 sendmetospace.co.uk. All rights reserved.
 //
 
-#import "DTLoupeAppDelegate.h"
+#import "DemoAppDelegate.h"
 
-@implementation DTLoupeAppDelegate
+@implementation DemoAppDelegate
 
 
 @synthesize window=_window;

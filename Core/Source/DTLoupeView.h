@@ -26,7 +26,7 @@ extern NSString * const DTLoupeDidHide;
     CGFloat         _magnification;             // How much to magnify the view
     CGPoint         _magnifiedImageOffset;          // Offset of vertical position of magnified image from centre of Loupe NB Touchpoint is normally centered in Loupe
 
-    UIView          *_targetView;               // View to Magnify
+    __unsafe_unretained UIView *_targetView;               // View to Magnify
 	UIView			*_rootView;					// the actually used view, because this has orientation changes applied
     
 	// A Loupe/Magnifier is based on 3 images. Background, Mask & Main

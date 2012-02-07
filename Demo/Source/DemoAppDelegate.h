@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DTLoupeAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
+@interface DemoAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 
 }
 

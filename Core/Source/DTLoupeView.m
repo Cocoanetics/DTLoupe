@@ -7,8 +7,6 @@
 //
 
 #import "DTLoupeView.h"
-#import "UIView+DT.h"
-#import <QuartzCore/QuartzCore.h>
 
 #define DTLoupeDefaultMagnification         1.20     // Match Apple's Magnification
 #define DTLoupeAnimationDuration			0.15     // Match Apple's Duration
@@ -21,6 +19,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 
 + (CGSize)sizeForLoupeStyle:(DTLoupeStyle)style;
 + (CGPoint)offsetFromCenterForLoupeStyle:(DTLoupeStyle)style;
+- (UIView *)rootViewForView:(UIView *)view;
 
 @property (nonatomic, retain) UIImage * loupeFrameImage; 
 @property (nonatomic, retain) UIImage * loupeFrameBackgroundImage;
@@ -48,19 +47,11 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		_magnification = DTLoupeDefaultMagnification;
 		
 		// because target view might be smaller than screen and clipping
-		[[_targetView rootView] addSubview:self];
+		UIView *targetViewRoot = [self rootViewForView:_targetView];
+		[targetViewRoot addSubview:self];
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[_loupeFrameImage release];
-	[_loupeFrameBackgroundImage release];
-	[_loupeFrameMaskImage release];
-	
-    [super dealloc];
 }
 
 #pragma mark Utilities
@@ -132,32 +123,42 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	}
 }
 
+- (UIView *)rootViewForView:(UIView *)view
+{
+	while (view.superview != view.window)
+	{
+		view = view.superview;
+	}
+	
+	return view;
+}
+
 - (void)setImagesForStyle:(DTLoupeStyle)style
 {
 	switch (style) 
 	{
 		case DTLoupeStyleCircle:
 		{
-			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"kb-loupe-lo.png"];
-			self.loupeFrameMaskImage = [UIImage imageNamed:@"kb-loupe-mask.png"];
-			self.loupeFrameImage = [UIImage imageNamed:@"kb-loupe-hi.png"];
+			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-loupe-lo.png"];
+			self.loupeFrameMaskImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-loupe-mask.png"];
+			self.loupeFrameImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-loupe-hi.png"];
 			
 			break;
 		}	
 		case DTLoupeStyleRectangle:
 		{
-			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"kb-magnifier-ranged-lo-stemless.png"];
-			self.loupeFrameMaskImage = [UIImage imageNamed:@"kb-magnifier-ranged-mask.png"];
-			self.loupeFrameImage = [UIImage imageNamed:@"kb-magnifier-ranged-hi.png"];
+			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-lo-stemless.png"];
+			self.loupeFrameMaskImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-mask.png"];
+			self.loupeFrameImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-hi.png"];
 			
 			break;
 		}
 			
 		case DTLoupeStyleRectangleWithArrow:
 		{
-			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"kb-magnifier-ranged-lo.png"];
-			self.loupeFrameMaskImage = [UIImage imageNamed:@"kb-magnifier-ranged-mask.png"];
-			self.loupeFrameImage = [UIImage imageNamed:@"kb-magnifier-ranged-hi.png"];
+			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-lo.png"];
+			self.loupeFrameMaskImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-mask.png"];
+			self.loupeFrameImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-hi.png"];
 			
 			break;
 		}
@@ -313,7 +314,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	if (targetView != _targetView)
 	{
 		_targetView = targetView;
-		_rootView = [_targetView rootView];
+		_rootView = [self rootViewForView:_targetView];
 	}
 }
 
