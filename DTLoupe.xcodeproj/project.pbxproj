@@ -12,7 +12,7 @@
 		0F01D89513B248CB00419BD7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D89413B248CB00419BD7 /* CoreGraphics.framework */; };
 		0F01D8C613B24BC300419BD7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D8C513B24BC300419BD7 /* QuartzCore.framework */; };
 		A7D8FEDE14E1690600BF8CCD /* AppleLoupeController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8FEDB14E1690600BF8CCD /* AppleLoupeController.m */; };
-		A7D8FEDF14E1690600BF8CCD /* DemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8FEDD14E1690600BF8CCD /* DemoAppDelegate.m */; };
+		A7D8FEDF14E1690600BF8CCD /* LoupeDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8FEDD14E1690600BF8CCD /* LoupeDemoAppDelegate.m */; };
 		A7D8FEE514E1693300BF8CCD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D89213B248CB00419BD7 /* Foundation.framework */; };
 		A7D8FEF114E1696600BF8CCD /* libDTLoupe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7D8FEE414E1693300BF8CCD /* libDTLoupe.a */; };
 		A7D8FEFB14E1699F00BF8CCD /* AppleLoupeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FEF814E1699F00BF8CCD /* AppleLoupeView.xib */; };
@@ -73,8 +73,8 @@
 		0F01D8C513B24BC300419BD7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A7D8FEDA14E1690600BF8CCD /* AppleLoupeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleLoupeController.h; sourceTree = "<group>"; };
 		A7D8FEDB14E1690600BF8CCD /* AppleLoupeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleLoupeController.m; sourceTree = "<group>"; };
-		A7D8FEDC14E1690600BF8CCD /* DemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoAppDelegate.h; sourceTree = "<group>"; };
-		A7D8FEDD14E1690600BF8CCD /* DemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoAppDelegate.m; sourceTree = "<group>"; };
+		A7D8FEDC14E1690600BF8CCD /* LoupeDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoupeDemoAppDelegate.h; sourceTree = "<group>"; };
+		A7D8FEDD14E1690600BF8CCD /* LoupeDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; path = LoupeDemoAppDelegate.m; sourceTree = "<group>"; };
 		A7D8FEE414E1693300BF8CCD /* libDTLoupe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDTLoupe.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7D8FEF814E1699F00BF8CCD /* AppleLoupeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppleLoupeView.xib; sourceTree = "<group>"; };
 		A7D8FEF914E1699F00BF8CCD /* LoupeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoupeView.xib; sourceTree = "<group>"; };
@@ -257,8 +257,8 @@
 				A7D8FF1714E16A2400BF8CCD /* LoupeViewController.m */,
 				A7D8FEDA14E1690600BF8CCD /* AppleLoupeController.h */,
 				A7D8FEDB14E1690600BF8CCD /* AppleLoupeController.m */,
-				A7D8FEDC14E1690600BF8CCD /* DemoAppDelegate.h */,
-				A7D8FEDD14E1690600BF8CCD /* DemoAppDelegate.m */,
+				A7D8FEDC14E1690600BF8CCD /* LoupeDemoAppDelegate.h */,
+				A7D8FEDD14E1690600BF8CCD /* LoupeDemoAppDelegate.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -415,7 +415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7D8FEDE14E1690600BF8CCD /* AppleLoupeController.m in Sources */,
-				A7D8FEDF14E1690600BF8CCD /* DemoAppDelegate.m in Sources */,
+				A7D8FEDF14E1690600BF8CCD /* LoupeDemoAppDelegate.m in Sources */,
 				A7D8FF1814E16A2400BF8CCD /* LoupeViewController.m in Sources */,
 				A7D8FF1B14E16A6000BF8CCD /* SnappySlider.m in Sources */,
 				A7D8FF2814E16AB600BF8CCD /* main.m in Sources */,
@@ -636,6 +636,7 @@
 				A7D8FEEE14E1693300BF8CCD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A7D8FF6414E17A6600BF8CCD /* Build configuration list for PBXNativeTarget "Resource Bundle" */ = {
 			isa = XCConfigurationList;
@@ -644,6 +645,7 @@
 				A7D8FF6614E17A6600BF8CCD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
