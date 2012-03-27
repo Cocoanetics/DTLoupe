@@ -182,7 +182,11 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	// We do it here so that the centre of displayed "magnified image" 
     // captured in drawRect doesn't need to be adjusted
 	
-    self.center = newCenter;
+	CGRect frame = self.frame;
+	frame.origin.x = roundf(newCenter.x - frame.size.width/2.0f);
+	frame.origin.y = roundf(newCenter.y - frame.size.height/2.0f);
+	
+    self.frame = frame;
 	
 	// Update our magnified image to reflect the new touchpoint
 	[self setNeedsDisplay];
