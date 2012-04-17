@@ -49,13 +49,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A7D8FEEF14E1696000BF8CCD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0F01D88313B248CA00419BD7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A7D8FEE314E1693300BF8CCD;
-			remoteInfo = "Static Library";
-		};
 		A7D8FF7814E17B1000BF8CCD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0F01D88313B248CA00419BD7 /* Project object */;
@@ -74,7 +67,7 @@
 		A7D8FEDA14E1690600BF8CCD /* AppleLoupeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleLoupeController.h; sourceTree = "<group>"; };
 		A7D8FEDB14E1690600BF8CCD /* AppleLoupeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleLoupeController.m; sourceTree = "<group>"; };
 		A7D8FEDC14E1690600BF8CCD /* LoupeDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoupeDemoAppDelegate.h; sourceTree = "<group>"; };
-		A7D8FEDD14E1690600BF8CCD /* LoupeDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; path = LoupeDemoAppDelegate.m; sourceTree = "<group>"; };
+		A7D8FEDD14E1690600BF8CCD /* LoupeDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoupeDemoAppDelegate.m; sourceTree = "<group>"; };
 		A7D8FEE414E1693300BF8CCD /* libDTLoupe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDTLoupe.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7D8FEF814E1699F00BF8CCD /* AppleLoupeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppleLoupeView.xib; sourceTree = "<group>"; };
 		A7D8FEF914E1699F00BF8CCD /* LoupeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoupeView.xib; sourceTree = "<group>"; };
@@ -298,7 +291,6 @@
 			);
 			dependencies = (
 				A7D8FF7914E17B1000BF8CCD /* PBXTargetDependency */,
-				A7D8FEF014E1696000BF8CCD /* PBXTargetDependency */,
 			);
 			name = "Demo App";
 			productName = DTLoupe;
@@ -440,11 +432,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A7D8FEF014E1696000BF8CCD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A7D8FEE314E1693300BF8CCD /* Static Library */;
-			targetProxy = A7D8FEEF14E1696000BF8CCD /* PBXContainerItemProxy */;
-		};
 		A7D8FF7914E17B1000BF8CCD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A7D8FF5A14E17A6600BF8CCD /* Resource Bundle */;
