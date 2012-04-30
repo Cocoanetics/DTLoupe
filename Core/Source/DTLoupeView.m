@@ -28,6 +28,12 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 @end
 
 @implementation DTLoupeView
+{
+	CALayer *_loupeFrameBackgroundImageLayer;
+	CALayer *_loupeContentsLayer;
+	CALayer *_loupeContentsMaskLayer;
+	CALayer *_loupeFrameImageLayer;
+}
 
 - (id)initWithStyle:(DTLoupeStyle)style targetView:(UIView *)targetView
 {
@@ -49,9 +55,41 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		// because target view might be smaller than screen and clipping
 		UIView *targetViewRoot = [self rootViewForView:_targetView];
 		[targetViewRoot addSubview:self];
+		
+		// --- setup up layers ---
+		
+		// layer with lo image of loupe
+		_loupeFrameBackgroundImageLayer = [CALayer layer];
+		[self.layer addSublayer:_loupeFrameBackgroundImageLayer];
+
+		// maks for the loupe contents layer
+		_loupeContentsMaskLayer = [CALayer layer];
+		_loupeContentsMaskLayer.transform = CATransform3DMakeScale(1.0f, -1.0f, 1.0f);
+		
+		// layer with contents of the loupe
+		_loupeContentsLayer = [CALayer layer];
+		_loupeContentsLayer.delegate = self;
+		_loupeContentsLayer.mask = _loupeContentsMaskLayer;
+		[self.layer addSublayer:_loupeContentsLayer];
+
+		// layer with hi image of loupe
+		_loupeFrameImageLayer = [CALayer layer];
+		[self.layer addSublayer:_loupeFrameImageLayer];
 	}
 	
 	return self;
+}
+
+- (void)layoutSubviews
+{
+	[super layoutSubviews];
+	
+	CGRect bounds = self.bounds;
+	
+	_loupeFrameBackgroundImageLayer.frame = bounds;
+	_loupeContentsMaskLayer.frame = bounds;
+	_loupeContentsLayer.frame = bounds;
+	_loupeFrameImageLayer.frame = bounds;
 }
 
 #pragma mark Utilities
@@ -162,7 +200,11 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 			
 			break;
 		}
-	}	
+	}
+	
+	_loupeFrameBackgroundImageLayer.contents = (__bridge id)self.loupeFrameBackgroundImage.CGImage;
+	_loupeContentsMaskLayer.contents = (__bridge id)self.loupeFrameMaskImage.CGImage; 
+	_loupeFrameImageLayer.contents = (__bridge id)self.loupeFrameImage.CGImage;
 }
 
 #pragma mark Interactivity
@@ -189,7 +231,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     self.frame = frame;
 	
 	// Update our magnified image to reflect the new touchpoint
-	[self setNeedsDisplay];
+	[_loupeContentsLayer setNeedsDisplay];
 }
 
 - (void)presentLoupeFromLocation:(CGPoint)location
@@ -217,6 +259,15 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	// hide it completely
 	self.alpha = 0;
 	
+	// reset transform to get correct offset on next present
+	self.transform = CGAffineTransformIdentity;
+	
+	// reset images so that we don't get old contents flashing in next present.
+	_loupeFrameBackgroundImageLayer.contents = nil;
+	_loupeContentsMaskLayer.contents = nil;
+	_loupeContentsLayer.contents = nil;
+	_loupeFrameImageLayer.contents = nil;
+	
 	// keep it in view hierarchy
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:DTLoupeDidHide object:self];
@@ -224,7 +275,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 
 - (void)dismissLoupeTowardsLocation:(CGPoint)location
 {
-	// calculate transform
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:DTLoupeAnimationDuration];
 	[UIView setAnimationBeginsFromCurrentState:YES];
@@ -249,19 +299,11 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 }
 
 // Draw our Loupe
-- (void)drawRect:(CGRect)rect;
+- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
-    CGContextRef ctx = UIGraphicsGetCurrentContext(); 
+	NSAssert(layer == _loupeContentsLayer, @"Illegal layer!");
 	
-	//CGContextSetInterpolationQuality(ctx, kCGInterpolationHigh);
-	
-    // **** Draw our Loupe's Background Image ****
-    [_loupeFrameBackgroundImage drawAtPoint:CGPointZero];
-
-	CGContextSaveGState(ctx);   
-	
-	// clip to inner area of loupe
-    CGContextClipToMask(ctx, rect, _loupeFrameMaskImage.CGImage);
+	CGRect rect = self.bounds;
 	
 	if (_seeThroughMode)
 	{
@@ -279,7 +321,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		
 		CGPoint convertedLocation = [_targetView convertPoint:offsetTouchPoint toView:_rootView];
 		
-		
 		// Translate Right & Down, Scale and then shift back to touchPoint
 		CGContextTranslateCTM(ctx, self.frame.size.width * 0.5 + _magnifiedImageOffset.x,(self.frame.size.height * 0.5) + _magnifiedImageOffset.y);
 		CGContextScaleCTM(ctx, _magnification, _magnification);
@@ -293,11 +334,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		self.hidden = NO;
 	}
 
-	CGContextRestoreGState(ctx);
-
-    // **** Draw our Loupe's Main Image ****
-    [_loupeFrameImage drawAtPoint:CGPointZero blendMode:kCGBlendModeNormal alpha:1.0];
-	
     // Draw Cross Hairs
     if (_drawDebugCrossHairs) 
 	{
@@ -326,11 +362,22 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 {
 	_style = style;
 	
-	[self setImagesForStyle:style];
+	// avoid frame animation on style change
+	[CATransaction begin];
+	[CATransaction setDisableActions:YES];
 	
 	CGSize size = [DTLoupeView sizeForLoupeStyle:style];
 	CGRect bounds = CGRectMake(0, 0, size.width, size.height);
 	self.bounds = bounds;
+	
+	_loupeFrameBackgroundImageLayer.frame = bounds;
+	_loupeContentsMaskLayer.frame = bounds;
+	_loupeContentsLayer.frame = bounds;
+	_loupeFrameImageLayer.frame = bounds;
+
+	[self setImagesForStyle:_style];
+
+	[CATransaction commit];
 	
 	// Different loupes have a different vertical offset for the magnified image (otherwise the touchpoint = equals the centre of maginified image)
 	// Circular Loupe is set -4.0f for example
@@ -338,8 +385,8 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	_magnifiedImageOffset = [DTLoupeView magnifiedImageOffsetForStyle:style];
 	
 	_touchPointOffset = CGPointZero;
-	
-	[self setNeedsDisplay];
+
+	[_loupeContentsLayer setNeedsDisplay];
 }
 
 - (void)setSeeThroughMode:(BOOL)seeThroughMode
@@ -347,7 +394,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	if (_seeThroughMode != seeThroughMode)
 	{
 		_seeThroughMode = seeThroughMode;
-		[self setNeedsDisplay];
+		[_loupeContentsLayer setNeedsDisplay];
 	}
 }
 
@@ -356,7 +403,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	if (_magnification != magnification)
 	{
 		_magnification = magnification;
-		[self setNeedsDisplay];
+		[_loupeContentsLayer setNeedsDisplay];
 	}
 }
 
