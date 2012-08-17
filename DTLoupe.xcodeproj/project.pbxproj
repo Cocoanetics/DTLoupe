@@ -337,7 +337,7 @@
 		0F01D88313B248CA00419BD7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = sendmetospace.co.uk;
 			};
 			buildConfigurationList = 0F01D88613B248CA00419BD7 /* Build configuration list for PBXProject "DTLoupe" */;
@@ -522,6 +522,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
@@ -543,6 +544,7 @@
 				DSTROOT = /tmp/Static_Library.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Core/DTLoupe-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
