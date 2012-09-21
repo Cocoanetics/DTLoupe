@@ -4,7 +4,7 @@
 
 #import <Availability.h>
 
-#ifndef __IPHONE_3_0
+#ifndef __IPHONE_4_0
 #warning "This project uses features only available in iPhone SDK 3.0 and later."
 #endif
 
@@ -12,4 +12,15 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 	#import <QuartzCore/QuartzCore.h>
+#endif
+
+// add the safety of weak if available
+
+// if deployment target >= iOS 5 we can use weak
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
+#define __WEAK __weak
+#define WEAK weak
+#else
+#define __WEAK __unsafe_unretained
+#define WEAK assign
 #endif
