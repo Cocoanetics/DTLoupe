@@ -75,16 +75,11 @@
     [self setBottomThumb:nil];
     [super viewDidUnload];
 
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-    
-    [self removeLoupe];
 }
 
 
 - (void)dealloc
 {
-    [self removeLoupe];
     [_magnificationSlider release];
     [_magnificationLabel release];
     [_topThumb release];
@@ -127,13 +122,14 @@
 {
     UISwitch *crossHairSwitch = (UISwitch*)sender;
     
-    _loupe.drawDebugCrossHairs = crossHairSwitch.on;
+    [DTLoupeView sharedLoupe].drawDebugCrossHairs = crossHairSwitch.on;
 }
 
 #pragma mark - Loupe Methods
 
 - (void)handleLongPress:(UILongPressGestureRecognizer *)gesture 
 {
+	DTLoupeView *loupe = [DTLoupeView sharedLoupe];
     CGPoint touchPoint = [gesture locationInView:self.view];
 	
 	switch (gesture.state) 
@@ -143,27 +139,21 @@
 			// Init loupe just once for performance
 			// It should be removed/release etc somewhere else when 
 			// editing is complete or maybe in dealloc
-			
-			if (_loupe) 
-			{
-				_loupe.style = _loopStyle;
-			}
-			else
-			{
-				_loupe = [[DTLoupeView alloc] initWithStyle:_loopStyle targetView:self.view];
-			}
+
+			loupe.style = _loopStyle;
+			loupe.targetView = self.view;
 			
 			// The Initial TouchPoint needs to be set before we set the style
-			_loupe.touchPoint = touchPoint;
+			loupe.touchPoint = touchPoint;
 			
 			// Normally you would set the loupe that require
 			//  i.e. _loupe.type = DTLoupeStyleRectangle;
 			// In this project we using our UIControls Values
 			
 			// Default Magnification is 1.2
-			_loupe.magnification = _loupeMagnification;
+			loupe.magnification = _loupeMagnification;
 			
-			[_loupe presentLoupeFromLocation:touchPoint];
+			[loupe presentLoupeFromLocation:touchPoint];
 			
 			
 			break;
@@ -172,81 +162,72 @@
 		case UIGestureRecognizerStateChanged:
 		{
 			// Show Cursor and position between glyphs
-			_loupe.touchPoint = touchPoint;
+			loupe.touchPoint = touchPoint;
 			
 			break;
 		}
 			
 		default:
 		{
-			[_loupe dismissLoupeTowardsLocation:touchPoint];
+			[loupe dismissLoupeTowardsLocation:touchPoint];
 			
 			break;
 		}
 	}
 }
 
-- (void)exampleTopThumbPress:(UILongPressGestureRecognizer *)gesture {
-    
+- (void)exampleTopThumbPress:(UILongPressGestureRecognizer *)gesture
+{
+	DTLoupeView *loupe = [DTLoupeView sharedLoupe];
     CGPoint touchPoint = [gesture locationInView:self.view];
     
     UIGestureRecognizerState state = gesture.state;
     
-    if (state == UIGestureRecognizerStateBegan) {
-        if (_loupe)
-		{
-			_loupe.style = DTLoupeStyleRectangleWithArrow;
-		}
-		else
-		{
-            _loupe = [[DTLoupeView alloc] initWithStyle:DTLoupeStyleRectangleWithArrow targetView:self.view];
-        }
+    if (state == UIGestureRecognizerStateBegan)
+	{
+		loupe.style = DTLoupeStyleRectangleWithArrow;
+		loupe.targetView = self.view;
         
         // The Initial TouchPoint needs to be set before we set the style
-        _loupe.touchPoint = touchPoint;
+        loupe.touchPoint = touchPoint;
         
-        _loupe.magnification = _loupeMagnification;
+        loupe.magnification = _loupeMagnification;
         
-        _loupe.magnifiedImageOffset = CGPointMake(0, -28.00f); // Approx offset
+        loupe.magnifiedImageOffset = CGPointMake(0, -28.00f); // Approx offset
 		
-		[_loupe presentLoupeFromLocation:touchPoint];
+		[loupe presentLoupeFromLocation:touchPoint];
     }
     
     if (state == UIGestureRecognizerStateChanged) {
         // Not for this example        
     }
     
-    if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
-       // _loupe.style = DTLoupeStyleNone; // Hide our Loupe
-		[_loupe dismissLoupeTowardsLocation:CGPointZero];
+    if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled)
+	{
+ 		[loupe dismissLoupeTowardsLocation:CGPointZero];
         return;
     }
     
 }
 
-- (void)exampleBottomThumbPress:(UILongPressGestureRecognizer *)gesture {
-    
-    CGPoint touchPoint = [gesture locationInView:self.view];
+- (void)exampleBottomThumbPress:(UILongPressGestureRecognizer *)gesture
+{
+ 	DTLoupeView *loupe = [DTLoupeView sharedLoupe];
+	CGPoint touchPoint = [gesture locationInView:self.view];
     
     UIGestureRecognizerState state = gesture.state;
     
-    if (state == UIGestureRecognizerStateBegan) {
-		if (_loupe)
-		{
-			_loupe.style = DTLoupeStyleRectangleWithArrow;
-		}
-		else
-		{
-            _loupe = [[DTLoupeView alloc] initWithStyle:DTLoupeStyleRectangleWithArrow targetView:self.view];
-            [self.view.window addSubview:_loupe];
-        }
+    if (state == UIGestureRecognizerStateBegan)
+	{
+		loupe.style = DTLoupeStyleRectangleWithArrow;
+		loupe.targetView = self.view;
         
         // The Initial TouchPoint needs to be set before we set the style
-        _loupe.touchPoint = touchPoint;
+        loupe.touchPoint = touchPoint;
         
-        _loupe.magnification = _loupeMagnification;
+        loupe.magnification = _loupeMagnification;
         
-		_loupe.magnifiedImageOffset = CGPointMake(0, 12.00f); // Approx offset
+		loupe.magnifiedImageOffset = CGPointMake(0, 12.00f); // Approx offset
     }
     
     if (state == UIGestureRecognizerStateChanged) {
@@ -254,19 +235,8 @@
     }
     
     if (state == UIGestureRecognizerStateEnded || state == UIGestureRecognizerStateCancelled) {
-		[_loupe dismissLoupeTowardsLocation:CGPointZero];
+		[loupe dismissLoupeTowardsLocation:CGPointZero];
         return;
-    }
-    
-}
-
-- (void)removeLoupe {
-    
-    if (_loupe) {
-        [_loupe removeFromSuperview];
-        [_loupe setTargetView:nil];
-        [_loupe release];
-        _loupe = nil;
     }
     
 }

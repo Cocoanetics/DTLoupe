@@ -14,8 +14,6 @@
 
 @interface LoupeViewController : UIViewController {
 
-    DTLoupeView     *_loupe;
-    
     DTLoupeStyle    _loopStyle;
     float           _loupeMagnification;
     float           _loupeImageOffSet;
@@ -36,7 +34,5 @@
 @property (nonatomic, retain) IBOutlet UILabel *magnificationLabel;
 @property (nonatomic, retain) IBOutlet UIButton *topThumb;
 @property (nonatomic, retain) IBOutlet UIButton *bottomThumb;
-
-- (void)removeLoupe;
 
 @end
