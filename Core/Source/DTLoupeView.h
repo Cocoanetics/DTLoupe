@@ -13,12 +13,11 @@ typedef enum
     DTLoupeStyleRectangleWithArrow,
 } DTLoupeStyle;
 
+extern NSString * const DTLoupeDidHide;
 
 // add the safety of weak if available
-#ifdef __WEAK
-#undef __WEAK
-#endif
 
+// if deployment target >= iOS 5 we can use weak
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
 #define __WEAK __weak
 #define WEAK weak
@@ -26,9 +25,6 @@ typedef enum
 #define __WEAK __unsafe_unretained
 #define WEAK assign
 #endif
-
-
-extern NSString * const DTLoupeDidHide;
 
 @interface DTLoupeView : UIView
 
