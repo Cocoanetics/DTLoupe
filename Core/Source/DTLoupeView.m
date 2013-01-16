@@ -103,6 +103,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		self.opaque = NO;
 		
 		_magnification = DTLoupeDefaultMagnification;
+        self.alpha = 0;
 		
 		// this loupe view has its own window
 		[[DTLoupeView loupeWindow] addSubview:self];
@@ -230,6 +231,8 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 // keep rotation and transform of base view in sync with target root view
 - (void)adjustBaseViewIfNecessary
 {
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
 	UIWindow *loupeWindow = [DTLoupeView loupeWindow];
 	
 	NSAssert(self.superview, @"Sombody removed DTLoupeView from superview!!");
@@ -243,6 +246,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		loupeWindow.transform = _targetRootView.transform;
 		loupeWindow.frame = _targetRootView.frame;
 	}
+    [CATransaction commit];
 }
 
 - (void)setImagesForStyle:(DTLoupeStyle)style
@@ -306,7 +310,12 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	frame.origin.x = roundf(newCenter.x - frame.size.width/2.0f);
 	frame.origin.y = roundf(newCenter.y - frame.size.height/2.0f);
 	
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+
     self.frame = frame;
+    
+    [CATransaction commit];
 	
 	// Update our magnified image to reflect the new touchpoint
 	[_loupeContentsLayer setNeedsDisplay];
