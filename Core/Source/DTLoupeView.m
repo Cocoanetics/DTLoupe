@@ -103,7 +103,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		self.opaque = NO;
 		
 		_magnification = DTLoupeDefaultMagnification;
-        self.alpha = 0;
+		self.alpha = 0;
 		
 		// this loupe view has its own window
 		[[DTLoupeView loupeWindow] addSubview:self];
@@ -231,8 +231,8 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 // keep rotation and transform of base view in sync with target root view
 - (void)adjustBaseViewIfNecessary
 {
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
+	[CATransaction begin];
+	[CATransaction setDisableActions:YES];
 	UIWindow *loupeWindow = [DTLoupeView loupeWindow];
 	
 	NSAssert(self.superview, @"Sombody removed DTLoupeView from superview!!");
@@ -246,7 +246,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		loupeWindow.transform = _targetRootView.transform;
 		loupeWindow.frame = _targetRootView.frame;
 	}
-    [CATransaction commit];
+	[CATransaction commit];
 }
 
 - (void)setImagesForStyle:(DTLoupeStyle)style
@@ -289,7 +289,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 - (void)setTouchPoint:(CGPoint)touchPoint
 {
 	NSAssert(_targetView, @"Cannot set loupe touchPoint without targetView set");
-
+	
 	[self adjustBaseViewIfNecessary];
 	
 	// Set touchPoint as user moves around screen
@@ -304,27 +304,30 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	newCenter.y += offsetFromTouchPoint.y;
 	
 	// We do it here so that the centre of displayed "magnified image"
-    // captured in drawRect doesn't need to be adjusted
+	// captured in drawRect doesn't need to be adjusted
 	
 	CGRect frame = self.frame;
 	frame.origin.x = roundf(newCenter.x - frame.size.width/2.0f);
 	frame.origin.y = roundf(newCenter.y - frame.size.height/2.0f);
 	
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-
-    self.frame = frame;
-    
-    [CATransaction commit];
-	
-	// Update our magnified image to reflect the new touchpoint
-	[_loupeContentsLayer setNeedsDisplay];
+	if (!CGRectEqualToRect(self.frame, frame))
+	{
+		[CATransaction begin];
+		[CATransaction setDisableActions:YES];
+		
+		self.frame = frame;
+		
+		// Update our magnified image to reflect the new touchpoint
+		[_loupeContentsLayer setNeedsDisplay];
+		
+		[CATransaction commit];
+	}
 }
 
 - (void)presentLoupeFromLocation:(CGPoint)location
 {
 	NSAssert(_targetView, @"Cannot present loupe without targetView set");
-
+	
 	[self adjustBaseViewIfNecessary];
 	
 	// circular loupe does not fade
@@ -336,46 +339,46 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	self.transform = CGAffineTransformAndScaleMake(0.25, 0.25, offset.x, offset.y);
 	
 	[UIView animateWithDuration:DTLoupeAnimationDuration
-						  delay:0
-						options:UIViewAnimationCurveEaseOut
-					 animations:^{
-						 self.alpha = 1.0;
-						 self.transform = CGAffineTransformIdentity;					 }
-					 completion:^(BOOL finished) {
-					 }];
+								 delay:0
+							  options:UIViewAnimationCurveEaseOut
+						  animations:^{
+							  self.alpha = 1.0;
+							  self.transform = CGAffineTransformIdentity;					 }
+						  completion:^(BOOL finished) {
+						  }];
 }
 
 - (void)dismissLoupeTowardsLocation:(CGPoint)location
 {
 	[UIView animateWithDuration:DTLoupeAnimationDuration
-						  delay:0
-						options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationCurveEaseOut
-					 animations:^{
-						 // circular loupe does not fade
-						 self.alpha = (_style == DTLoupeStyleCircle)?1.0:0.0;
-						 
-						 // calculate transform
-						 CGPoint convertedLocation = [_targetView convertPoint:location toView:self.superview];
-						 CGPoint offset = CGPointMake(convertedLocation.x - self.center.x, convertedLocation.y - self.center.y);
-						 self.transform = CGAffineTransformAndScaleMake(0.05, 0.05, offset.x, offset.y);
-					 }
-					 completion:^(BOOL finished) {
-						 // hide it completely
-						 self.alpha = 0;
-						 
-						 // reset transform to get correct offset on next present
-						 self.transform = CGAffineTransformIdentity;
-						 
-						 // reset images so that we don't get old contents flashing in next present.
-						 _loupeFrameBackgroundImageLayer.contents = nil;
-						 _loupeContentsMaskLayer.contents = nil;
-						 _loupeContentsLayer.contents = nil;
-						 _loupeFrameImageLayer.contents = nil;
-						 
-						 // keep it in view hierarchy
-						 
-						 [[NSNotificationCenter defaultCenter] postNotificationName:DTLoupeDidHide object:self];
-					 }];
+								 delay:0
+							  options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationCurveEaseOut
+						  animations:^{
+							  // circular loupe does not fade
+							  self.alpha = (_style == DTLoupeStyleCircle)?1.0:0.0;
+							  
+							  // calculate transform
+							  CGPoint convertedLocation = [_targetView convertPoint:location toView:self.superview];
+							  CGPoint offset = CGPointMake(convertedLocation.x - self.center.x, convertedLocation.y - self.center.y);
+							  self.transform = CGAffineTransformAndScaleMake(0.05, 0.05, offset.x, offset.y);
+						  }
+						  completion:^(BOOL finished) {
+							  // hide it completely
+							  self.alpha = 0;
+							  
+							  // reset transform to get correct offset on next present
+							  self.transform = CGAffineTransformIdentity;
+							  
+							  // reset images so that we don't get old contents flashing in next present.
+							  _loupeFrameBackgroundImageLayer.contents = nil;
+							  _loupeContentsMaskLayer.contents = nil;
+							  _loupeContentsLayer.contents = nil;
+							  _loupeFrameImageLayer.contents = nil;
+							  
+							  // keep it in view hierarchy
+							  
+							  [[NSNotificationCenter defaultCenter] postNotificationName:DTLoupeDidHide object:self];
+						  }];
 }
 
 - (BOOL)isShowing
@@ -416,18 +419,18 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		[_targetRootView.layer renderInContext:ctx];
 	}
 	
-    // Draw Cross Hairs
-    if (_drawDebugCrossHairs)
+	// Draw Cross Hairs
+	if (_drawDebugCrossHairs)
 	{
 		[[UIColor redColor] setStroke];
-        CGContextStrokeRect(ctx, rect);
-        CGContextMoveToPoint(ctx, 0, rect.size.height/2.0f);
-        CGContextAddLineToPoint(ctx, rect.size.width, rect.size.height/2.0f);
-        CGContextStrokePath(ctx);
-        CGContextMoveToPoint(ctx, rect.size.width/2.0f, 0);
-        CGContextAddLineToPoint(ctx, rect.size.width/2.0f, rect.size.height);
-        CGContextStrokePath(ctx);
-    }
+		CGContextStrokeRect(ctx, rect);
+		CGContextMoveToPoint(ctx, 0, rect.size.height/2.0f);
+		CGContextAddLineToPoint(ctx, rect.size.width, rect.size.height/2.0f);
+		CGContextStrokePath(ctx);
+		CGContextMoveToPoint(ctx, rect.size.width/2.0f, 0);
+		CGContextAddLineToPoint(ctx, rect.size.width/2.0f, rect.size.height);
+		CGContextStrokePath(ctx);
+	}
 }
 
 #pragma mark Properties
