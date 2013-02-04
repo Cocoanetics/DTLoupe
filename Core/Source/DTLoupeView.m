@@ -479,6 +479,17 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	if (_seeThroughMode != seeThroughMode)
 	{
 		_seeThroughMode = seeThroughMode;
+		
+		if (_seeThroughMode)
+		{
+			_loupeFrameBackgroundImageLayer.opacity = 0.7;
+			_loupeContentsLayer.hidden = YES;
+		}
+		else
+		{
+			_loupeFrameBackgroundImageLayer.opacity = 1.0;
+			_loupeContentsLayer.hidden = NO;
+		}
 		[_loupeContentsLayer setNeedsDisplay];
 	}
 }
