@@ -390,34 +390,37 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
 	NSAssert(layer == _loupeContentsLayer, @"Illegal layer!");
+    
+    if (_seeThroughMode)
+    {
+        return;
+    }
 	
+    // only get the loupe contents if touch point is inside the target view
+    // this is an attempt to work around a rare CoreGraphics crash
+    if (!CGRectContainsPoint(_targetView.bounds, _touchPoint))
+    {
+        return;
+    }
+    
 	CGRect rect = self.bounds;
 	
-	if (_seeThroughMode)
-	{
-		CGContextClearRect(ctx, rect);
-		CGContextSetGrayFillColor(ctx, 1.0, 0.5);
-		CGContextFillRect(ctx, rect);
-	}
-	else
-	{
-		// **** Draw our Target View Magnified and correctly positioned ****
-		// move touchpoint by offset
-		CGPoint offsetTouchPoint = _touchPoint;
-		offsetTouchPoint.x += _touchPointOffset.x;
-		offsetTouchPoint.y += _touchPointOffset.y;
-		
-		CGPoint convertedLocation = [_targetView convertPoint:offsetTouchPoint toView:_targetRootView];
-		
-		// Translate Right & Down, Scale and then shift back to touchPoint
-		CGContextTranslateCTM(ctx, self.frame.size.width * 0.5 + _magnifiedImageOffset.x,(self.frame.size.height * 0.5) + _magnifiedImageOffset.y);
-		CGContextScaleCTM(ctx, _magnification, _magnification);
-		
-		CGContextTranslateCTM(ctx,-convertedLocation.x, -convertedLocation.y);
-		
-		// the loupe is not part of the rendered tree, so we don't need to hide it
-		[_targetRootView.layer renderInContext:ctx];
-	}
+    // **** Draw our Target View Magnified and correctly positioned ****
+    // move touchpoint by offset
+    CGPoint offsetTouchPoint = _touchPoint;
+    offsetTouchPoint.x += _touchPointOffset.x;
+    offsetTouchPoint.y += _touchPointOffset.y;
+    
+    CGPoint convertedLocation = [_targetView convertPoint:offsetTouchPoint toView:_targetRootView];
+    
+    // Translate Right & Down, Scale and then shift back to touchPoint
+    CGContextTranslateCTM(ctx, self.frame.size.width * 0.5 + _magnifiedImageOffset.x,(self.frame.size.height * 0.5) + _magnifiedImageOffset.y);
+    CGContextScaleCTM(ctx, _magnification, _magnification);
+    
+    CGContextTranslateCTM(ctx,-convertedLocation.x, -convertedLocation.y);
+    
+    // the loupe is not part of the rendered tree, so we don't need to hide it
+    [_targetRootView.layer renderInContext:ctx];
 	
 	// Draw Cross Hairs
 	if (_drawDebugCrossHairs)
