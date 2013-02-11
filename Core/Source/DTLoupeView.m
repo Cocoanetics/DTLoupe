@@ -110,22 +110,29 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		
 		// --- setup up layers ---
 		
+        CGFloat scale = [UIScreen mainScreen].scale;
+        
 		// layer with lo image of loupe
 		_loupeFrameBackgroundImageLayer = [CALayer layer];
+        _loupeFrameBackgroundImageLayer.contentsScale = scale;
 		[self.layer addSublayer:_loupeFrameBackgroundImageLayer];
 		
 		// maks for the loupe contents layer
 		_loupeContentsMaskLayer = [CALayer layer];
 		_loupeContentsMaskLayer.transform = CATransform3DMakeScale(1.0f, -1.0f, 1.0f);
+        _loupeContentsMaskLayer.contentsScale = scale;
+
 		
 		// layer with contents of the loupe
 		_loupeContentsLayer = [CALayer layer];
 		_loupeContentsLayer.delegate = self;
 		_loupeContentsLayer.mask = _loupeContentsMaskLayer;
+        _loupeContentsLayer.contentsScale = scale * 2.0f; // more scale
 		[self.layer addSublayer:_loupeContentsLayer];
 		
 		// layer with hi image of loupe
 		_loupeFrameImageLayer = [CALayer layer];
+        _loupeFrameImageLayer.contentsScale = scale;
 		[self.layer addSublayer:_loupeFrameImageLayer];
 	}
 	
@@ -396,12 +403,8 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
         return;
     }
 	
-    // only get the loupe contents if touch point is inside the target view
-    // this is an attempt to work around a rare CoreGraphics crash
-    if (!CGRectContainsPoint(_targetView.bounds, _touchPoint))
-    {
-        return;
-    }
+    CGContextRetain(ctx);
+    CGContextSaveGState(ctx);
     
 	CGRect rect = self.bounds;
 	
@@ -434,6 +437,9 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 		CGContextAddLineToPoint(ctx, rect.size.width/2.0f, rect.size.height);
 		CGContextStrokePath(ctx);
 	}
+    
+    CGContextRestoreGState(ctx);
+    CGContextRelease(ctx);
 }
 
 #pragma mark Properties
