@@ -127,7 +127,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		_loupeContentsLayer = [CALayer layer];
 		_loupeContentsLayer.delegate = self;
 		_loupeContentsLayer.mask = _loupeContentsMaskLayer;
-        _loupeContentsLayer.contentsScale = scale * 2.0f; // more scale
+        _loupeContentsLayer.contentsScale = scale;
 		[self.layer addSublayer:_loupeContentsLayer];
 		
 		// layer with hi image of loupe
