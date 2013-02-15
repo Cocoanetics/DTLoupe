@@ -242,8 +242,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 // keep rotation and transform of base view in sync with target root view
 - (void)adjustBaseViewIfNecessary
 {
-	[CATransaction begin];
-	[CATransaction setDisableActions:YES];
 	UIWindow *loupeWindow = [DTLoupeView loupeWindow];
 	
 	NSAssert(self.superview, @"Sombody removed DTLoupeView from superview!!");
@@ -253,11 +251,13 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	
 	if (!(sameFrame && sameTransform))
 	{
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
 		// looks like the device was rotated
 		loupeWindow.transform = _targetRootView.transform;
 		loupeWindow.frame = _targetRootView.frame;
+        [CATransaction commit];
 	}
-	[CATransaction commit];
 }
 
 - (void)setImagesForStyle:(DTLoupeStyle)style
@@ -411,6 +411,9 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     CGContextSaveGState(ctx);
     
 	CGRect rect = self.bounds;
+    
+    //clip off outside, just to be sure
+    CGContextClipToRect(ctx, rect);
 	
     // **** Draw our Target View Magnified and correctly positioned ****
     // move touchpoint by offset
