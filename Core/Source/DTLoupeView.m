@@ -96,7 +96,11 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 	{
 		// make sure that resource bundle is present
 		NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"DTLoupe" ofType:@"bundle"];
-		NSAssert(resourceBundlePath, @"DTLoupe.bundle is missing from app bundle");
+		
+		if (!resourceBundlePath)
+		{
+			NSLog(@"DTLoupe.bundle is missing from app bundle. Please make sure that you include it in your app's resources");
+		};
 		
 		self.contentMode = UIViewContentModeCenter;
 		self.backgroundColor = [UIColor clearColor];
