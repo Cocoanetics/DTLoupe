@@ -26,25 +26,103 @@ extern NSString * const DTLoupeDidHide;
 #define WEAK assign
 #endif
 
+/**
+ DTLoupeView represents the "magnifying glass" shown when positioning a caret or ranged selection. It has three different styles: the regular round loupe, a ranged selection loupe with an arrow at the bottom and a rectangual loupe without arrow.
+ 
+ You should not create instances of DTLoupeView, but retrieve a reference to the shared loupe instance via sharedLoupe.
+ */
 @interface DTLoupeView : UIView
 
-@property(nonatomic,assign) CGPoint touchPoint;
-@property(nonatomic, assign) CGPoint touchPointOffset;
+/**
+ @name Getting the Shared Loupe
+ */
 
-@property(nonatomic,assign) DTLoupeStyle style;
-@property(nonatomic,assign) CGFloat magnification;
-@property(nonatomic,assign) CGPoint magnifiedImageOffset;
-
-@property(nonatomic,WEAK) UIView *targetView;
-
-@property(nonatomic,assign) BOOL drawDebugCrossHairs;
-@property(nonatomic,assign) BOOL seeThroughMode;
-
+/**
+ Get the shared instance of the loupe
+ @returns A reference to the loupe
+ */
 + (DTLoupeView *)sharedLoupe;
 
+/**
+ @name Presenting the Loupe
+ */
+
+/**
+ Presents the loupe with an animation beginning from the given location
+ @param location The point to begin the presenting aninimation from
+ */
 - (void)presentLoupeFromLocation:(CGPoint)location;
+
+/**
+ Dismisses the loupe with an animation towards a location
+ @param location The point to animate the dismissal towards
+ */
 - (void)dismissLoupeTowardsLocation:(CGPoint)location;
 
+/**
+ Moves the loupe to be showing the location at the current touch point
+ */
+@property(nonatomic, assign) CGPoint touchPoint;
+
+
+/**
+ @name Changing the Loupe Style
+ */
+
+/**
+ See-Through Mode is used by Apple if the touch point leaves the visible area of editing views. This makes the loupe slightly translucent and does not display a magnified image.
+ */
+@property(nonatomic,assign) BOOL seeThroughMode;
+
+/**
+ The loupe style. 
+ 
+ Available loupe styles are:
+ 
+ - DTLoupeStyleCircle
+ - DTLoupeStyleRectangle
+ - DTLoupeStyleRectangleWithArrow
+ */
+@property(nonatomic,assign) DTLoupeStyle style;
+
+/**
+ The magnification factor of the loupe, defaults to 1.2
+ */
+@property(nonatomic,assign) CGFloat magnification;
+
+/**
+ For debugging the loupe can draw crosshairs
+ */
+@property(nonatomic, assign) BOOL drawDebugCrossHairs;
+
+
+/**
+ A static offset to apply to the touch point. Setting the loupe style resets this to default CGSizeZero.
+ */
+@property(nonatomic, assign) CGSize touchPointOffset;
+
+
+/**
+ Different loupes have a different vertical offset for the magnified image (otherwise the touchpoint = equals the centre of maginified image). Setting the loupe style also sets the appropriate offset. This property can be used to customize the offset
+ */
+@property(nonatomic, assign) CGPoint magnifiedImageOffset;
+
+
+
+
+/**
+ @name Getting Information
+ */
+
+/**
+ The target view. This determines the coordinate system in which touchPoint is referring to.
+ */
+@property(nonatomic, WEAK) UIView *targetView;
+
+/**
+ Determine if the the loupe is currently showing
+ @returns `YES` if the receiver is visible
+ */
 - (BOOL)isShowing;
 
 @end

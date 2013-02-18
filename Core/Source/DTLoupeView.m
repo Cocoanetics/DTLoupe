@@ -36,10 +36,10 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 	CALayer *_loupeContentsMaskLayer;
 	CALayer *_loupeFrameImageLayer;
 	
-	DTLoupeStyle    _style;                     // Type of Loupe; None, Circle, Rectangle, Rectangle With Arrow
+	DTLoupeStyle _style;                     // Type of Loupe; None, Circle, Rectangle, Rectangle With Arrow
 	
-	CGPoint         _touchPoint;                // The point at which to display (in our target view's bounds coordinates)
-	CGPoint _touchPointOffset;
+	CGPoint _touchPoint;                // The point at which to display (in our target view's bounds coordinates)
+	CGSize _touchPointOffset;
 	CGFloat         _magnification;             // How much to magnify the view
 	CGPoint         _magnifiedImageOffset;          // Offset of vertical position of magnified image from centre of Loupe NB Touchpoint is normally centered in Loupe
 	
@@ -418,8 +418,8 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     // **** Draw our Target View Magnified and correctly positioned ****
     // move touchpoint by offset
     CGPoint offsetTouchPoint = _touchPoint;
-    offsetTouchPoint.x += _touchPointOffset.x;
-    offsetTouchPoint.y += _touchPointOffset.y;
+    offsetTouchPoint.x += _touchPointOffset.width;
+    offsetTouchPoint.y += _touchPointOffset.height;
     
     CGPoint convertedLocation = [_targetView convertPoint:offsetTouchPoint toView:_targetRootView];
     
@@ -485,7 +485,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	// With Rectangular Loupe the offset depends on whether clicking the Top or Bottom Text selection Thumb!
 	_magnifiedImageOffset = [DTLoupeView magnifiedImageOffsetForStyle:style];
 	
-	_touchPointOffset = CGPointZero;
+	_touchPointOffset = CGSizeZero;
 	
 	[_loupeContentsLayer setNeedsDisplay];
 }
