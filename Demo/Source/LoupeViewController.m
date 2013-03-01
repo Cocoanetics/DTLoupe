@@ -118,13 +118,6 @@
     _magnificationLabel.text = [NSString stringWithFormat:@"Magnification: %.2f (Default = %.2f)", _loupeMagnification, DTDefaultLoupeMagnification];
 }
 
-- (IBAction)crossHairDebug:(id)sender 
-{
-    UISwitch *crossHairSwitch = (UISwitch*)sender;
-    
-    [DTLoupeView sharedLoupe].drawDebugCrossHairs = crossHairSwitch.on;
-}
-
 #pragma mark - Loupe Methods
 
 - (void)handleLongPress:(UILongPressGestureRecognizer *)gesture 

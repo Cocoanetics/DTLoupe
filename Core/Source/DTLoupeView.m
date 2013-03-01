@@ -432,19 +432,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     // the loupe is not part of the rendered tree, so we don't need to hide it
     [_targetRootView.layer renderInContext:ctx];
 	
-	// Draw Cross Hairs
-	if (_drawDebugCrossHairs)
-	{
-		[[UIColor redColor] setStroke];
-		CGContextStrokeRect(ctx, rect);
-		CGContextMoveToPoint(ctx, 0, rect.size.height/2.0f);
-		CGContextAddLineToPoint(ctx, rect.size.width, rect.size.height/2.0f);
-		CGContextStrokePath(ctx);
-		CGContextMoveToPoint(ctx, rect.size.width/2.0f, 0);
-		CGContextAddLineToPoint(ctx, rect.size.width/2.0f, rect.size.height);
-		CGContextStrokePath(ctx);
-	}
-    
     CGContextRestoreGState(ctx);
     CGContextRelease(ctx);
 }
@@ -531,6 +518,5 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 @synthesize magnifiedImageOffset = _magnifiedImageOffset;
 
 @synthesize seeThroughMode = _seeThroughMode;
-@synthesize drawDebugCrossHairs = _drawDebugCrossHairs;
 
 @end

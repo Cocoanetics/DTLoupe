@@ -91,23 +91,14 @@ extern NSString * const DTLoupeDidHide;
 @property(nonatomic,assign) CGFloat magnification;
 
 /**
- For debugging the loupe can draw crosshairs
- */
-@property(nonatomic, assign) BOOL drawDebugCrossHairs;
-
-
-/**
  A static offset to apply to the touch point. Setting the loupe style resets this to default CGSizeZero.
  */
 @property(nonatomic, assign) CGSize touchPointOffset;
-
 
 /**
  Different loupes have a different vertical offset for the magnified image (otherwise the touchpoint = equals the centre of maginified image). Setting the loupe style also sets the appropriate offset. This property can be used to customize the offset
  */
 @property(nonatomic, assign) CGPoint magnifiedImageOffset;
-
-
 
 
 /**
