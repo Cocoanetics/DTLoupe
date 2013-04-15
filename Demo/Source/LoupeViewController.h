@@ -28,7 +28,6 @@
 
 - (IBAction)changeLoupeStyle:(id)sender;
 - (IBAction)changeMagnification:(id)sender;
-- (IBAction)crossHairDebug:(id)sender;
 
 @property (nonatomic, retain) IBOutlet SnappySlider *magnificationSlider;
 @property (nonatomic, retain) IBOutlet UILabel *magnificationLabel;
