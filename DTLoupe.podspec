@@ -5,7 +5,7 @@ Pod::Spec.new do |spec|
   spec.license      = 'COMMERCIAL'
   spec.source       = { :git => 'git@git.cocoanetics.com:parts/dtloupe.git', :tag => spec.version.to_s }
   spec.source_files = 'Core/Source/*.{h,m}'
-  spec.frameworks   = 'QuartzCore', 'CoreGraphics', 'Foundation', 'UIKit'
+  spec.frameworks   = 'QuartzCore'
   spec.requires_arc = true
   spec.homepage     = 'http://www.cocoanetics.com/parts/dtloupeview/'
   spec.summary      = 'A Loupe as used for text selection.'
