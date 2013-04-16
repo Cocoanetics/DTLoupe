@@ -7,6 +7,7 @@
 //
 
 #import "DTLoupeView.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define DTLoupeDefaultMagnification         1.20     // Match Apple's Magnification
 #define DTLoupeAnimationDuration			0.15     // Match Apple's Duration
