@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
 def spec.post_install(target_installer)
     puts "\nGenerating DTLoupe resources bundle\n".yellow if config.verbose?
     Dir.chdir File.join(config.project_pods_root, 'DTLoupe') do
-      command = "xcodebuild -project DTLoupe.xcodeproj -target 'Resource Bundle' CONFIGURATION_BUILD_DIR=../../Resources"
+      command = "xcodebuild -project DTLoupe.xcodeproj -target 'Resource Bundle' CONFIGURATION_BUILD_DIR=../Resources"
       command << " 2>&1 > /dev/null" unless config.verbose?
       unless system(command)
         raise ::Pod::Informative, "Failed to generate DTLoupe resources bundle"
