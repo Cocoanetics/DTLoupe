@@ -307,8 +307,15 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	// Set touchPoint as user moves around screen
 	_touchPoint = touchPoint;
 	
-	CGPoint convertedLocation = [_targetView convertPoint:_touchPoint toView:[DTLoupeView loupeWindow]];
+    CGPoint pointInWindow = [_targetView.window convertPoint:_touchPoint fromView:_targetView];
+	CGPoint convertedLocation = [[DTLoupeView loupeWindow] convertPoint:pointInWindow fromWindow:_targetView.window];
 	
+    // additional NAN check for safety
+    if (isnan(convertedLocation.x) || (isnan(convertedLocation.y)))
+    {
+        return;
+    }
+    
 	CGPoint newCenter = convertedLocation;
 	CGPoint offsetFromTouchPoint = [DTLoupeView offsetFromCenterForLoupeStyle:_style];
 	
