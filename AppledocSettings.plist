@@ -33,6 +33,7 @@
 	<key>--ignore</key>
 	<array>
 		<string>*.m</string>
+		<string>Demo</string>
 	</array>
 	<key>--index-desc</key>
 	<string>Readme.markdown</string>
