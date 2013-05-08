@@ -35,7 +35,7 @@
 		<string>*.m</string>
 	</array>
 	<key>--index-desc</key>
-	<string>Documentation/Readme.markdown</string>
+	<string>Readme.markdown</string>
 	<key>--warn-invalid-crossref</key>
 	<false/>
 </dict>
