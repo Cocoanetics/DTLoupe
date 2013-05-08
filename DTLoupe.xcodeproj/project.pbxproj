@@ -60,6 +60,7 @@
 		A7D8FF7514E17A8600BF8CCD /* kb-magnifier-ranged-mask.png in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FF0C14E169C100BF8CCD /* kb-magnifier-ranged-mask.png */; };
 		A7D8FF7614E17A8600BF8CCD /* kb-magnifier-ranged-mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FF0D14E169C100BF8CCD /* kb-magnifier-ranged-mask@2x.png */; };
 		A7D8FF7A14E17B2100BF8CCD /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FF5B14E17A6600BF8CCD /* DTLoupe.bundle */; };
+		A7DF6EF9173A9808004F623B /* Readme.markdown in Resources */ = {isa = PBXBuildFile; fileRef = A7DF6EF8173A9808004F623B /* Readme.markdown */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,8 +121,8 @@
 		A7D8FF3214E16DD100BF8CCD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		A7D8FF5B14E17A6600BF8CCD /* DTLoupe.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTLoupe.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7D8FF7714E17AA000BF8CCD /* ResourceBundle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ResourceBundle-Info.plist"; sourceTree = "<group>"; };
-		A7DF6EF5173A96E5004F623B /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
 		A7DF6EF6173A96EC004F623B /* AppledocSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppledocSettings.plist; sourceTree = "<group>"; };
+		A7DF6EF8173A9808004F623B /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,8 +160,7 @@
 		0F01D88113B248CA00419BD7 = {
 			isa = PBXGroup;
 			children = (
-				A7DF6EF6173A96EC004F623B /* AppledocSettings.plist */,
-				A7DF6EF4173A96E5004F623B /* Documentation */,
+				A7DF6EF7173A97F1004F623B /* Documentation */,
 				A7D8FED414E1690600BF8CCD /* Core */,
 				A7D8FED714E1690600BF8CCD /* Demo */,
 				0F01D88F13B248CB00419BD7 /* Frameworks */,
@@ -283,12 +283,13 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
-		A7DF6EF4173A96E5004F623B /* Documentation */ = {
+		A7DF6EF7173A97F1004F623B /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
-				A7DF6EF5173A96E5004F623B /* Readme.markdown */,
+				A7DF6EF8173A9808004F623B /* Readme.markdown */,
+				A7DF6EF6173A96EC004F623B /* AppledocSettings.plist */,
 			);
-			path = Documentation;
+			name = Documentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -400,6 +401,7 @@
 				A7D8FF2414E16A9000BF8CCD /* Loupe-hi-thumb@2x.png in Resources */,
 				A7D8FF2514E16A9000BF8CCD /* Magnifier-thumb.png in Resources */,
 				A7D8FF2614E16A9000BF8CCD /* Magnifier-thumb@2x.png in Resources */,
+				A7DF6EF9173A9808004F623B /* Readme.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
