@@ -12,7 +12,7 @@ Pod::Spec.new do |spec|
   spec.author       = { 'Oliver Drobnik' => 'oliver@cocoanetics.com' }
   spec.preserve_paths = 'DTLoupe.xcodeproj', 'Core/Resources'
  
-  spec.post_install do |library_representation|
+  spec.pre_install do |pod_representation, library_representation|
     Dir.chdir File.join(library_representation.sandbox_dir, 'DTLoupe') do
       command = "xcodebuild -project DTLoupe.xcodeproj -target 'Resource Bundle' CONFIGURATION_BUILD_DIR=../Resources"
       command << " 2>&1 > /dev/null"
