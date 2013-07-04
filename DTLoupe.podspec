@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = 'DTLoupe'
-  spec.version      = '1.5.0'
+  spec.version      = '1.5.1'
   spec.platform     = :ios, '4.3'
   spec.license      = 'COMMERCIAL'
   spec.source       = { :git => 'git@git.cocoanetics.com:parts/dtloupe.git', :tag => spec.version.to_s }
@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
 
   # Pre Install: generate the 'DTLoupe.bundle' resource bundle
   spec.pre_install do |pod_representation, library_representation|
-    Dir.chdir File.join(library_representation.sandbox_dir, 'DTLoupe') do
+    Dir.chdir(pod_representation.root) do
       command = "xcodebuild -project DTLoupe.xcodeproj -target 'Resource Bundle' CONFIGURATION_BUILD_DIR=Core/Resources"
       command << " 2>&1 > /dev/null"
       unless system(command)
