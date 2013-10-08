@@ -451,6 +451,9 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	{
 		_targetView = targetView;
 		_targetRootView = [self rootViewForView:_targetView];
+		
+		// keep the main rootViewController responsible for the status bar content mode
+		[DTLoupeView loupeWindow].rootViewController = _targetRootView.window.rootViewController;
 	}
 }
 
