@@ -6,12 +6,26 @@
 //  Copyright 2011 sendmetospace.co.uk. All rights reserved.
 //
 
-typedef enum
+/**
+ The style the a loupe can show
+ */
+typedef NS_ENUM(NSUInteger, DTLoupeStyle)
 {
+	/**
+	 Loupe is a circle
+	 */
     DTLoupeStyleCircle = 0,
+	
+	/**
+	 Loupe is a ranged rectangle without arrow
+	 */
     DTLoupeStyleRectangle,
+	
+	/**
+	 Loupe is a ranged rectangle with arrow
+	 */
     DTLoupeStyleRectangleWithArrow,
-} DTLoupeStyle;
+};
 
 extern NSString * const DTLoupeDidHide;
 

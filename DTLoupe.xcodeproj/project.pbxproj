@@ -60,7 +60,6 @@
 		A7D8FF7514E17A8600BF8CCD /* kb-magnifier-ranged-mask.png in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FF0C14E169C100BF8CCD /* kb-magnifier-ranged-mask.png */; };
 		A7D8FF7614E17A8600BF8CCD /* kb-magnifier-ranged-mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FF0D14E169C100BF8CCD /* kb-magnifier-ranged-mask@2x.png */; };
 		A7D8FF7A14E17B2100BF8CCD /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FF5B14E17A6600BF8CCD /* DTLoupe.bundle */; };
-		A7DF6EF9173A9808004F623B /* Readme.markdown in Resources */ = {isa = PBXBuildFile; fileRef = A7DF6EF8173A9808004F623B /* Readme.markdown */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +78,10 @@
 		0F01D89213B248CB00419BD7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0F01D89413B248CB00419BD7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		0F01D8C513B24BC300419BD7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A70752471803F8E30045F3F1 /* Change Log-template.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Change Log-template.markdown"; sourceTree = "<group>"; };
+		A70752481803FAD60045F3F1 /* AppledocSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppledocSettings.plist; sourceTree = SOURCE_ROOT; };
+		A70752491803FAD60045F3F1 /* DTLoupe.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DTLoupe.podspec; sourceTree = SOURCE_ROOT; };
+		A707524A1803FAD60045F3F1 /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = SOURCE_ROOT; };
 		A7D8FEDA14E1690600BF8CCD /* AppleLoupeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleLoupeController.h; sourceTree = "<group>"; };
 		A7D8FEDB14E1690600BF8CCD /* AppleLoupeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleLoupeController.m; sourceTree = "<group>"; };
 		A7D8FEDC14E1690600BF8CCD /* LoupeDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoupeDemoAppDelegate.h; sourceTree = "<group>"; };
@@ -121,8 +124,6 @@
 		A7D8FF3214E16DD100BF8CCD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		A7D8FF5B14E17A6600BF8CCD /* DTLoupe.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTLoupe.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7D8FF7714E17AA000BF8CCD /* ResourceBundle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ResourceBundle-Info.plist"; sourceTree = "<group>"; };
-		A7DF6EF6173A96EC004F623B /* AppledocSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppledocSettings.plist; sourceTree = "<group>"; };
-		A7DF6EF8173A9808004F623B /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,10 +287,12 @@
 		A7DF6EF7173A97F1004F623B /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
-				A7DF6EF8173A9808004F623B /* Readme.markdown */,
-				A7DF6EF6173A96EC004F623B /* AppledocSettings.plist */,
+				A70752481803FAD60045F3F1 /* AppledocSettings.plist */,
+				A70752491803FAD60045F3F1 /* DTLoupe.podspec */,
+				A707524A1803FAD60045F3F1 /* Readme.markdown */,
+				A70752471803F8E30045F3F1 /* Change Log-template.markdown */,
 			);
-			name = Documentation;
+			path = Documentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -364,7 +367,7 @@
 		0F01D88313B248CA00419BD7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = sendmetospace.co.uk;
 			};
 			buildConfigurationList = 0F01D88613B248CA00419BD7 /* Build configuration list for PBXProject "DTLoupe" */;
@@ -401,7 +404,6 @@
 				A7D8FF2414E16A9000BF8CCD /* Loupe-hi-thumb@2x.png in Resources */,
 				A7D8FF2514E16A9000BF8CCD /* Magnifier-thumb.png in Resources */,
 				A7D8FF2614E16A9000BF8CCD /* Magnifier-thumb@2x.png in Resources */,
-				A7DF6EF9173A9808004F623B /* Readme.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,17 +491,16 @@
 		0F01D8B113B248CB00419BD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -507,10 +508,8 @@
 		0F01D8B213B248CB00419BD7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -598,7 +597,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -626,7 +624,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
