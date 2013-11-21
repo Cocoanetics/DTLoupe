@@ -130,7 +130,6 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		_loupeContentsMaskLayer.transform = CATransform3DMakeScale(1.0f, -1.0f, 1.0f);
         _loupeContentsMaskLayer.contentsScale = scale;
 
-		
 		// layer with contents of the loupe
 		_loupeContentsLayer = [CALayer layer];
 		_loupeContentsLayer.delegate = self;
@@ -145,18 +144,6 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 	}
 	
 	return self;
-}
-
-- (void)layoutSubviews
-{
-	[super layoutSubviews];
-	
-	CGRect bounds = self.bounds;
-	
-	_loupeFrameBackgroundImageLayer.frame = bounds;
-	_loupeContentsMaskLayer.frame = bounds;
-	_loupeContentsLayer.frame = bounds;
-	_loupeFrameImageLayer.frame = bounds;
 }
 
 - (void)removeFromSuperview
@@ -413,7 +400,9 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	return (self.superview != nil && self.alpha>0);
 }
 
-// Draw our Loupe
+#pragma mark - CALayerDelegate
+
+// only used for the content layer, draws the view hierarchy of the target root view
 - (void)displayLayer:(CALayer *)layer
 {
     if (_seeThroughMode || layer != _loupeContentsLayer)
@@ -421,13 +410,15 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
         return;
     }
 	
-    CGContextRetain(ctx);
-    CGContextSaveGState(ctx);
-    
-	CGRect rect = self.bounds;
-    
-    //clip off outside, just to be sure
-    CGContextClipToRect(ctx, rect);
+	CGSize size = layer.bounds.size;
+	size.width *= layer.contentsScale;
+	size.height *= layer.contentsScale;
+	
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	CGContextRef ctx = CGBitmapContextCreate(NULL, size.width, size.height, 8, 0, colorSpace, kCGImageAlphaNoneSkipLast);
+	
+	CGAffineTransform transform = CGAffineTransformMake(layer.contentsScale, 0, 0, -layer.contentsScale, 0, layer.bounds.size.height * layer.contentsScale);
+	CGContextConcatCTM(ctx, transform);
 	
     // **** Draw our Target View Magnified and correctly positioned ****
     // move touchpoint by offset
@@ -446,11 +437,29 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     // the loupe is not part of the rendered tree, so we don't need to hide it
     [_targetRootView.layer renderInContext:ctx];
 	
-    CGContextRestoreGState(ctx);
-    CGContextRelease(ctx);
+	CGImageRef image = CGBitmapContextCreateImage(ctx);
+	layer.contents = CFBridgingRelease(image);
+	
+	CGColorSpaceRelease(colorSpace);
+	CGContextRelease(ctx);
 }
 
-#pragma mark Properties
+- (void)layoutSublayersOfLayer:(CALayer *)layer
+{
+	if (layer!=self.layer)
+	{
+		return;
+	}
+	
+	CGRect bounds = self.bounds;
+	
+	_loupeFrameBackgroundImageLayer.frame = bounds;
+	_loupeContentsMaskLayer.frame = bounds;
+	_loupeContentsLayer.frame = bounds;
+	_loupeFrameImageLayer.frame = bounds;
+}
+
+#pragma mark - Properties
 - (void)setTargetView:(UIView *)targetView
 {
 	if (targetView != _targetView)
@@ -507,6 +516,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 			_loupeFrameBackgroundImageLayer.opacity = 1.0;
 			_loupeContentsLayer.hidden = NO;
 		}
+		
 		[_loupeContentsLayer setNeedsDisplay];
 	}
 }
