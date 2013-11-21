@@ -85,6 +85,9 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		_loupeWindow.hidden = NO;
 		_loupeWindow.userInteractionEnabled = NO;
 		
+		
+		// keep the main rootViewController responsible for the status bar content mode
+		_loupeWindow.rootViewController = mainWindow.rootViewController;
 	});
 	
 	return _loupeWindow;
@@ -158,7 +161,12 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 
 - (void)removeFromSuperview
 {
-	NSLog(@"Warning: don't call removeFromSuperview on DTLoupeView!");
+	NSLog(@"Warning: %s should never be called", __PRETTY_FUNCTION__);
+}
+
+- (void)addSubview:(UIView *)view
+{
+	NSLog(@"Warning: %s should never be called", __PRETTY_FUNCTION__);
 }
 
 #pragma mark Utilities
@@ -406,11 +414,9 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 }
 
 // Draw our Loupe
-- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
+- (void)displayLayer:(CALayer *)layer
 {
-	NSAssert(layer == _loupeContentsLayer, @"Illegal layer!");
-    
-    if (_seeThroughMode)
+    if (_seeThroughMode || layer != _loupeContentsLayer)
     {
         return;
     }
@@ -451,9 +457,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	{
 		_targetView = targetView;
 		_targetRootView = [self rootViewForView:_targetView];
-		
-		// keep the main rootViewController responsible for the status bar content mode
-		[DTLoupeView loupeWindow].rootViewController = _targetRootView.window.rootViewController;
 	}
 }
 
