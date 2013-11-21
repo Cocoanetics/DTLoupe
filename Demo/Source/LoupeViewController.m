@@ -91,7 +91,7 @@
 
 - (IBAction)changeLoupeStyle:(id)sender {
     
-    int segmentIndex = [sender selectedSegmentIndex];
+    NSInteger segmentIndex = [sender selectedSegmentIndex];
     
     switch (segmentIndex) {
         case 0 :
