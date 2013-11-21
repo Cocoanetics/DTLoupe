@@ -8,6 +8,7 @@
 
 #import "DTLoupeView.h"
 #import <QuartzCore/QuartzCore.h>
+#include <tgmath.h>
 
 #define DTLoupeDefaultMagnification         1.20     // Match Apple's Magnification
 #define DTLoupeAnimationDuration			0.15     // Match Apple's Duration
@@ -327,8 +328,8 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	
 	// make the frame align with pixels
 	CGFloat scale = [UIScreen mainScreen].scale;
-	frame.origin.x = roundf(frame.origin.x * scale)/scale;
-	frame.origin.y = roundf(frame.origin.y * scale)/scale;
+	frame.origin.x = round(frame.origin.x * scale)/scale;
+	frame.origin.y = round(frame.origin.y * scale)/scale;
 	
 	if (!CGRectEqualToRect(self.frame, frame))
 	{
