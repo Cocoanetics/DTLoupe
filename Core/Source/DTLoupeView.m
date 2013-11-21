@@ -8,6 +8,7 @@
 
 #import "DTLoupeView.h"
 #import <QuartzCore/QuartzCore.h>
+#include <tgmath.h>
 
 #define DTLoupeDefaultMagnification         1.20     // Match Apple's Magnification
 #define DTLoupeAnimationDuration			0.15     // Match Apple's Duration
@@ -37,24 +38,35 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 	CALayer *_loupeContentsMaskLayer;
 	CALayer *_loupeFrameImageLayer;
 	
-	DTLoupeStyle _style;                     // Type of Loupe; None, Circle, Rectangle, Rectangle With Arrow
+	// Type of Loupe; None, Circle, Rectangle, Rectangle With Arrow
+	DTLoupeStyle _style;
 	
-	CGPoint _touchPoint;                // The point at which to display (in our target view's bounds coordinates)
+	// The point at which to display (in our target view's bounds coordinates)
+	CGPoint _touchPoint;
 	CGSize _touchPointOffset;
-	CGFloat         _magnification;             // How much to magnify the view
-	CGPoint         _magnifiedImageOffset;          // Offset of vertical position of magnified image from centre of Loupe NB Touchpoint is normally centered in Loupe
 	
-	__WEAK UIView *_targetView;               // View to Magnify
-	__WEAK UIView  *_targetRootView;					// the actually used view, because this has orientation changes applied
+	// How much to magnify the view
+	CGFloat _magnification;
+	
+	// Offset of vertical position of magnified image from centre of Loupe NB Touchpoint is normally centered in Loupe
+	CGPoint _magnifiedImageOffset;
+	
+	// View to Magnify
+	__WEAK UIView *_targetView;
+	
+	// the actually used view, because this has orientation changes applied
+	__WEAK UIView  *_targetRootView;
 	
 	// A Loupe/Magnifier is based on 3 images. Background, Mask & Main
-	UIImage         *_loupeFrameImage;
-	UIImage         *_loupeFrameBackgroundImage;
-	UIImage         *_loupeFrameMaskImage;
+	UIImage *_loupeFrameImage;
+	UIImage *_loupeFrameBackgroundImage;
+	UIImage *_loupeFrameMaskImage;
 	
-	BOOL _seeThroughMode; // look-through-mode, used while scrolling
+	 // look-through-mode, used while scrolling
+	BOOL _seeThroughMode;
 	
-	BOOL _drawDebugCrossHairs;       // Draws cross hairs for debugging
+	// Draws cross hairs for debugging
+	BOOL _drawDebugCrossHairs;
 }
 
 
@@ -75,6 +87,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 	static UIWindow *_loupeWindow = nil;
 	
 	dispatch_once(&onceToken, ^{
+		
 		// find application main Window and attach it there
 		UIWindow *mainWindow = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
 		[mainWindow addSubview:_loupeWindow];
@@ -85,6 +98,9 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		_loupeWindow.hidden = NO;
 		_loupeWindow.userInteractionEnabled = NO;
 		
+		
+		// keep the main rootViewController responsible for the status bar content mode
+		_loupeWindow.rootViewController = mainWindow.rootViewController;
 	});
 	
 	return _loupeWindow;
@@ -93,6 +109,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 - (id)init
 {
 	self = [super initWithFrame:CGRectZero];
+	
 	if (self)
 	{
 		// make sure that resource bundle is present
@@ -126,7 +143,6 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		_loupeContentsMaskLayer = [CALayer layer];
 		_loupeContentsMaskLayer.transform = CATransform3DMakeScale(1.0f, -1.0f, 1.0f);
         _loupeContentsMaskLayer.contentsScale = scale;
-
 		
 		// layer with contents of the loupe
 		_loupeContentsLayer = [CALayer layer];
@@ -144,21 +160,14 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 	return self;
 }
 
-- (void)layoutSubviews
-{
-	[super layoutSubviews];
-	
-	CGRect bounds = self.bounds;
-	
-	_loupeFrameBackgroundImageLayer.frame = bounds;
-	_loupeContentsMaskLayer.frame = bounds;
-	_loupeContentsLayer.frame = bounds;
-	_loupeFrameImageLayer.frame = bounds;
-}
-
 - (void)removeFromSuperview
 {
-	NSLog(@"Warning: don't call removeFromSuperview on DTLoupeView!");
+	NSLog(@"Warning: %s should never be called", __PRETTY_FUNCTION__);
+}
+
+- (void)addSubview:(UIView *)view
+{
+	NSLog(@"Warning: %s should never be called", __PRETTY_FUNCTION__);
 }
 
 #pragma mark Utilities
@@ -326,8 +335,13 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	// captured in drawRect doesn't need to be adjusted
 	
 	CGRect frame = self.frame;
-	frame.origin.x = roundf(newCenter.x - frame.size.width/2.0f);
-	frame.origin.y = roundf(newCenter.y - frame.size.height/2.0f);
+	frame.origin.x = (newCenter.x - frame.size.width/2.0f);
+	frame.origin.y = (newCenter.y - frame.size.height/2.0f);
+	
+	// make the frame align with pixels
+	CGFloat scale = [UIScreen mainScreen].scale;
+	frame.origin.x = round(frame.origin.x * scale)/scale;
+	frame.origin.y = round(frame.origin.y * scale)/scale;
 	
 	if (!CGRectEqualToRect(self.frame, frame))
 	{
@@ -358,46 +372,46 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	self.transform = CGAffineTransformAndScaleMake(0.25, 0.25, offset.x, offset.y);
 	
 	[UIView animateWithDuration:DTLoupeAnimationDuration
-								 delay:0
-							  options:UIViewAnimationCurveEaseOut
-						  animations:^{
-							  self.alpha = 1.0;
-							  self.transform = CGAffineTransformIdentity;					 }
-						  completion:^(BOOL finished) {
-						  }];
+						  delay:0
+						options:UIViewAnimationCurveEaseOut
+					 animations:^{
+						 self.alpha = 1.0;
+						 self.transform = CGAffineTransformIdentity;					 }
+					 completion:^(BOOL finished) {
+					 }];
 }
 
 - (void)dismissLoupeTowardsLocation:(CGPoint)location
 {
 	[UIView animateWithDuration:DTLoupeAnimationDuration
-								 delay:0
-							  options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationCurveEaseOut
-						  animations:^{
-							  // circular loupe does not fade
-							  self.alpha = (_style == DTLoupeStyleCircle)?1.0:0.0;
-							  
-							  // calculate transform
-							  CGPoint convertedLocation = [_targetView convertPoint:location toView:self.superview];
-							  CGPoint offset = CGPointMake(convertedLocation.x - self.center.x, convertedLocation.y - self.center.y);
-							  self.transform = CGAffineTransformAndScaleMake(0.05, 0.05, offset.x, offset.y);
-						  }
-						  completion:^(BOOL finished) {
-							  // hide it completely
-							  self.alpha = 0;
-							  
-							  // reset transform to get correct offset on next present
-							  self.transform = CGAffineTransformIdentity;
-							  
-							  // reset images so that we don't get old contents flashing in next present.
-							  _loupeFrameBackgroundImageLayer.contents = nil;
-							  _loupeContentsMaskLayer.contents = nil;
-							  _loupeContentsLayer.contents = nil;
-							  _loupeFrameImageLayer.contents = nil;
-							  
-							  // keep it in view hierarchy
-							  
-							  [[NSNotificationCenter defaultCenter] postNotificationName:DTLoupeDidHide object:self];
-						  }];
+						  delay:0
+						options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationCurveEaseOut
+					 animations:^{
+						 // circular loupe does not fade
+						 self.alpha = (_style == DTLoupeStyleCircle)?1.0:0.0;
+						 
+						 // calculate transform
+						 CGPoint convertedLocation = [_targetView convertPoint:location toView:self.superview];
+						 CGPoint offset = CGPointMake(convertedLocation.x - self.center.x, convertedLocation.y - self.center.y);
+						 self.transform = CGAffineTransformAndScaleMake(0.05, 0.05, offset.x, offset.y);
+					 }
+					 completion:^(BOOL finished) {
+						 // hide it completely
+						 self.alpha = 0;
+						 
+						 // reset transform to get correct offset on next present
+						 self.transform = CGAffineTransformIdentity;
+						 
+						 // reset images so that we don't get old contents flashing in next present.
+						 _loupeFrameBackgroundImageLayer.contents = nil;
+						 _loupeContentsMaskLayer.contents = nil;
+						 _loupeContentsLayer.contents = nil;
+						 _loupeFrameImageLayer.contents = nil;
+						 
+						 // keep it in view hierarchy
+						 
+						 [[NSNotificationCenter defaultCenter] postNotificationName:DTLoupeDidHide object:self];
+					 }];
 }
 
 - (BOOL)isShowing
@@ -405,25 +419,21 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	return (self.superview != nil && self.alpha>0);
 }
 
-// Draw our Loupe
-- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
+#pragma mark - CALayerDelegate
+
+// only used for the content layer, draws the view hierarchy of the target root view
+- (void)displayLayer:(CALayer *)layer
 {
-	NSAssert(layer == _loupeContentsLayer, @"Illegal layer!");
-    
-    if (_seeThroughMode)
+    if (_seeThroughMode || layer != _loupeContentsLayer)
     {
         return;
     }
 	
-    CGContextRetain(ctx);
-    CGContextSaveGState(ctx);
-    
-	CGRect rect = self.bounds;
-    
-    //clip off outside, just to be sure
-    CGContextClipToRect(ctx, rect);
+	UIGraphicsBeginImageContextWithOptions(layer.bounds.size, YES, 0);
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	
     // **** Draw our Target View Magnified and correctly positioned ****
+	
     // move touchpoint by offset
     CGPoint offsetTouchPoint = _touchPoint;
     offsetTouchPoint.x += _touchPointOffset.width;
@@ -440,20 +450,34 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     // the loupe is not part of the rendered tree, so we don't need to hide it
     [_targetRootView.layer renderInContext:ctx];
 	
-    CGContextRestoreGState(ctx);
-    CGContextRelease(ctx);
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	layer.contents = (__bridge id)(image.CGImage);
+	
+	UIGraphicsEndImageContext();
 }
 
-#pragma mark Properties
+- (void)layoutSublayersOfLayer:(CALayer *)layer
+{
+	if (layer!=self.layer)
+	{
+		return;
+	}
+	
+	CGRect bounds = self.bounds;
+	
+	_loupeFrameBackgroundImageLayer.frame = bounds;
+	_loupeContentsMaskLayer.frame = bounds;
+	_loupeContentsLayer.frame = bounds;
+	_loupeFrameImageLayer.frame = bounds;
+}
+
+#pragma mark - Properties
 - (void)setTargetView:(UIView *)targetView
 {
 	if (targetView != _targetView)
 	{
 		_targetView = targetView;
 		_targetRootView = [self rootViewForView:_targetView];
-		
-		// keep the main rootViewController responsible for the status bar content mode
-		[DTLoupeView loupeWindow].rootViewController = _targetRootView.window.rootViewController;
 	}
 }
 
@@ -504,6 +528,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 			_loupeFrameBackgroundImageLayer.opacity = 1.0;
 			_loupeContentsLayer.hidden = NO;
 		}
+		
 		[_loupeContentsLayer setNeedsDisplay];
 	}
 }
@@ -520,14 +545,12 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 @synthesize loupeFrameImage = _loupeFrameImage;
 @synthesize loupeFrameBackgroundImage = _loupeFrameBackgroundImage;
 @synthesize loupeFrameMaskImage = _loupeFrameMaskImage;
-
 @synthesize touchPoint = _touchPoint;
 @synthesize touchPointOffset = _touchPointOffset;
 @synthesize style = _style;
 @synthesize magnification = _magnification;
 @synthesize targetView = _targetView;
 @synthesize magnifiedImageOffset = _magnifiedImageOffset;
-
 @synthesize seeThroughMode = _seeThroughMode;
 
 @end
