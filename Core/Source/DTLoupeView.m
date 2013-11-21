@@ -131,7 +131,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		_loupeContentsMaskLayer = [CALayer layer];
 		_loupeContentsMaskLayer.transform = CATransform3DMakeScale(1.0f, -1.0f, 1.0f);
         _loupeContentsMaskLayer.contentsScale = scale;
-
+		
 		// layer with contents of the loupe
 		_loupeContentsLayer = [CALayer layer];
 		_loupeContentsLayer.delegate = self;
@@ -360,46 +360,46 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	self.transform = CGAffineTransformAndScaleMake(0.25, 0.25, offset.x, offset.y);
 	
 	[UIView animateWithDuration:DTLoupeAnimationDuration
-								 delay:0
-							  options:UIViewAnimationCurveEaseOut
-						  animations:^{
-							  self.alpha = 1.0;
-							  self.transform = CGAffineTransformIdentity;					 }
-						  completion:^(BOOL finished) {
-						  }];
+						  delay:0
+						options:UIViewAnimationCurveEaseOut
+					 animations:^{
+						 self.alpha = 1.0;
+						 self.transform = CGAffineTransformIdentity;					 }
+					 completion:^(BOOL finished) {
+					 }];
 }
 
 - (void)dismissLoupeTowardsLocation:(CGPoint)location
 {
 	[UIView animateWithDuration:DTLoupeAnimationDuration
-								 delay:0
-							  options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationCurveEaseOut
-						  animations:^{
-							  // circular loupe does not fade
-							  self.alpha = (_style == DTLoupeStyleCircle)?1.0:0.0;
-							  
-							  // calculate transform
-							  CGPoint convertedLocation = [_targetView convertPoint:location toView:self.superview];
-							  CGPoint offset = CGPointMake(convertedLocation.x - self.center.x, convertedLocation.y - self.center.y);
-							  self.transform = CGAffineTransformAndScaleMake(0.05, 0.05, offset.x, offset.y);
-						  }
-						  completion:^(BOOL finished) {
-							  // hide it completely
-							  self.alpha = 0;
-							  
-							  // reset transform to get correct offset on next present
-							  self.transform = CGAffineTransformIdentity;
-							  
-							  // reset images so that we don't get old contents flashing in next present.
-							  _loupeFrameBackgroundImageLayer.contents = nil;
-							  _loupeContentsMaskLayer.contents = nil;
-							  _loupeContentsLayer.contents = nil;
-							  _loupeFrameImageLayer.contents = nil;
-							  
-							  // keep it in view hierarchy
-							  
-							  [[NSNotificationCenter defaultCenter] postNotificationName:DTLoupeDidHide object:self];
-						  }];
+						  delay:0
+						options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationCurveEaseOut
+					 animations:^{
+						 // circular loupe does not fade
+						 self.alpha = (_style == DTLoupeStyleCircle)?1.0:0.0;
+						 
+						 // calculate transform
+						 CGPoint convertedLocation = [_targetView convertPoint:location toView:self.superview];
+						 CGPoint offset = CGPointMake(convertedLocation.x - self.center.x, convertedLocation.y - self.center.y);
+						 self.transform = CGAffineTransformAndScaleMake(0.05, 0.05, offset.x, offset.y);
+					 }
+					 completion:^(BOOL finished) {
+						 // hide it completely
+						 self.alpha = 0;
+						 
+						 // reset transform to get correct offset on next present
+						 self.transform = CGAffineTransformIdentity;
+						 
+						 // reset images so that we don't get old contents flashing in next present.
+						 _loupeFrameBackgroundImageLayer.contents = nil;
+						 _loupeContentsMaskLayer.contents = nil;
+						 _loupeContentsLayer.contents = nil;
+						 _loupeFrameImageLayer.contents = nil;
+						 
+						 // keep it in view hierarchy
+						 
+						 [[NSNotificationCenter defaultCenter] postNotificationName:DTLoupeDidHide object:self];
+					 }];
 }
 
 - (BOOL)isShowing
