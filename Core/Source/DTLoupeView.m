@@ -38,24 +38,35 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 	CALayer *_loupeContentsMaskLayer;
 	CALayer *_loupeFrameImageLayer;
 	
-	DTLoupeStyle _style;                     // Type of Loupe; None, Circle, Rectangle, Rectangle With Arrow
+	// Type of Loupe; None, Circle, Rectangle, Rectangle With Arrow
+	DTLoupeStyle _style;
 	
-	CGPoint _touchPoint;                // The point at which to display (in our target view's bounds coordinates)
+	// The point at which to display (in our target view's bounds coordinates)
+	CGPoint _touchPoint;
 	CGSize _touchPointOffset;
-	CGFloat         _magnification;             // How much to magnify the view
-	CGPoint         _magnifiedImageOffset;          // Offset of vertical position of magnified image from centre of Loupe NB Touchpoint is normally centered in Loupe
 	
-	__WEAK UIView *_targetView;               // View to Magnify
-	__WEAK UIView  *_targetRootView;					// the actually used view, because this has orientation changes applied
+	// How much to magnify the view
+	CGFloat _magnification;
+	
+	// Offset of vertical position of magnified image from centre of Loupe NB Touchpoint is normally centered in Loupe
+	CGPoint _magnifiedImageOffset;
+	
+	// View to Magnify
+	__WEAK UIView *_targetView;
+	
+	// the actually used view, because this has orientation changes applied
+	__WEAK UIView  *_targetRootView;
 	
 	// A Loupe/Magnifier is based on 3 images. Background, Mask & Main
-	UIImage         *_loupeFrameImage;
-	UIImage         *_loupeFrameBackgroundImage;
-	UIImage         *_loupeFrameMaskImage;
+	UIImage *_loupeFrameImage;
+	UIImage *_loupeFrameBackgroundImage;
+	UIImage *_loupeFrameMaskImage;
 	
-	BOOL _seeThroughMode; // look-through-mode, used while scrolling
+	 // look-through-mode, used while scrolling
+	BOOL _seeThroughMode;
 	
-	BOOL _drawDebugCrossHairs;       // Draws cross hairs for debugging
+	// Draws cross hairs for debugging
+	BOOL _drawDebugCrossHairs;
 }
 
 
@@ -76,6 +87,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 	static UIWindow *_loupeWindow = nil;
 	
 	dispatch_once(&onceToken, ^{
+		
 		// find application main Window and attach it there
 		UIWindow *mainWindow = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
 		[mainWindow addSubview:_loupeWindow];
@@ -533,14 +545,12 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 @synthesize loupeFrameImage = _loupeFrameImage;
 @synthesize loupeFrameBackgroundImage = _loupeFrameBackgroundImage;
 @synthesize loupeFrameMaskImage = _loupeFrameMaskImage;
-
 @synthesize touchPoint = _touchPoint;
 @synthesize touchPointOffset = _touchPointOffset;
 @synthesize style = _style;
 @synthesize magnification = _magnification;
 @synthesize targetView = _targetView;
 @synthesize magnifiedImageOffset = _magnifiedImageOffset;
-
 @synthesize seeThroughMode = _seeThroughMode;
 
 @end
