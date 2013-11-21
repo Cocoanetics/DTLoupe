@@ -96,6 +96,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 - (id)init
 {
 	self = [super initWithFrame:CGRectZero];
+	
 	if (self)
 	{
 		// make sure that resource bundle is present
@@ -321,8 +322,13 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	// captured in drawRect doesn't need to be adjusted
 	
 	CGRect frame = self.frame;
-	frame.origin.x = roundf(newCenter.x - frame.size.width/2.0f);
-	frame.origin.y = roundf(newCenter.y - frame.size.height/2.0f);
+	frame.origin.x = (newCenter.x - frame.size.width/2.0f);
+	frame.origin.y = (newCenter.y - frame.size.height/2.0f);
+	
+	// make the frame align with pixels
+	CGFloat scale = [UIScreen mainScreen].scale;
+	frame.origin.x = roundf(frame.origin.x * scale)/scale;
+	frame.origin.y = roundf(frame.origin.y * scale)/scale;
 	
 	if (!CGRectEqualToRect(self.frame, frame))
 	{
@@ -410,17 +416,11 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
         return;
     }
 	
-	CGSize size = layer.bounds.size;
-	size.width *= layer.contentsScale;
-	size.height *= layer.contentsScale;
-	
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGContextRef ctx = CGBitmapContextCreate(NULL, size.width, size.height, 8, 0, colorSpace, kCGImageAlphaNoneSkipLast);
-	
-	CGAffineTransform transform = CGAffineTransformMake(layer.contentsScale, 0, 0, -layer.contentsScale, 0, layer.bounds.size.height * layer.contentsScale);
-	CGContextConcatCTM(ctx, transform);
+	UIGraphicsBeginImageContextWithOptions(layer.bounds.size, YES, 0);
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	
     // **** Draw our Target View Magnified and correctly positioned ****
+	
     // move touchpoint by offset
     CGPoint offsetTouchPoint = _touchPoint;
     offsetTouchPoint.x += _touchPointOffset.width;
@@ -437,11 +437,10 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     // the loupe is not part of the rendered tree, so we don't need to hide it
     [_targetRootView.layer renderInContext:ctx];
 	
-	CGImageRef image = CGBitmapContextCreateImage(ctx);
-	layer.contents = CFBridgingRelease(image);
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	layer.contents = (__bridge id)(image.CGImage);
 	
-	CGColorSpaceRelease(colorSpace);
-	CGContextRelease(ctx);
+	UIGraphicsEndImageContext();
 }
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
