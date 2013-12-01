@@ -7,6 +7,7 @@
 //
 
 #import "DTLoupeView.h"
+#import "DTLoupeLayerDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 #include <tgmath.h>
 
@@ -28,6 +29,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 @property (nonatomic, retain) UIImage *loupeFrameImage;
 @property (nonatomic, retain) UIImage *loupeFrameBackgroundImage;
 @property (nonatomic, retain) UIImage *loupeFrameMaskImage;
+@property (nonatomic, strong) DTLoupeLayerDelegate *layerDelegate;
 
 @end
 
@@ -146,7 +148,8 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		
 		// layer with contents of the loupe
 		_loupeContentsLayer = [CALayer layer];
-		_loupeContentsLayer.delegate = self;
+		_layerDelegate = [[DTLoupeLayerDelegate alloc] initWithView:self];
+    	_loupeContentsLayer.delegate = _layerDelegate;
 		_loupeContentsLayer.mask = _loupeContentsMaskLayer;
         _loupeContentsLayer.contentsScale = scale;
 		[self.layer addSublayer:_loupeContentsLayer];
@@ -422,15 +425,14 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 #pragma mark - CALayerDelegate
 
 // only used for the content layer, draws the view hierarchy of the target root view
-- (void)displayLayer:(CALayer *)layer
+- (void)drawBackgroundLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
     if (_seeThroughMode || layer != _loupeContentsLayer)
     {
         return;
     }
 	
-	UIGraphicsBeginImageContextWithOptions(layer.bounds.size, YES, 0);
-	CGContextRef ctx = UIGraphicsGetCurrentContext();
+	UIGraphicsBeginImageContextWithOptions(layer.bounds.size, YES, 0); 
 	
     // **** Draw our Target View Magnified and correctly positioned ****
 	
@@ -552,5 +554,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 @synthesize targetView = _targetView;
 @synthesize magnifiedImageOffset = _magnifiedImageOffset;
 @synthesize seeThroughMode = _seeThroughMode;
+@synthesize layerDelegate =_layerDelegate;
 
 @end
