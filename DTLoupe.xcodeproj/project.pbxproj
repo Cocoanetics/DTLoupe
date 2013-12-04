@@ -25,6 +25,7 @@
 		0F01D89313B248CB00419BD7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D89213B248CB00419BD7 /* Foundation.framework */; };
 		0F01D89513B248CB00419BD7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D89413B248CB00419BD7 /* CoreGraphics.framework */; };
 		0F01D8C613B24BC300419BD7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D8C513B24BC300419BD7 /* QuartzCore.framework */; };
+		87C3121F184AE83E00442A2F /* DTLoupeLayerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3121E184AE83E00442A2F /* DTLoupeLayerDelegate.m */; };
 		A7084DF5183E144400C22622 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A7084DF4183E144400C22622 /* Default-568h@2x.png */; };
 		A7D8FEDE14E1690600BF8CCD /* AppleLoupeController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8FEDB14E1690600BF8CCD /* AppleLoupeController.m */; };
 		A7D8FEDF14E1690600BF8CCD /* LoupeDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8FEDD14E1690600BF8CCD /* LoupeDemoAppDelegate.m */; };
@@ -79,6 +80,8 @@
 		0F01D89213B248CB00419BD7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0F01D89413B248CB00419BD7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		0F01D8C513B24BC300419BD7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		87C3121D184AE83E00442A2F /* DTLoupeLayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTLoupeLayerDelegate.h; sourceTree = "<group>"; };
+		87C3121E184AE83E00442A2F /* DTLoupeLayerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTLoupeLayerDelegate.m; sourceTree = "<group>"; };
 		A70752471803F8E30045F3F1 /* Change Log-template.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Change Log-template.markdown"; sourceTree = "<group>"; };
 		A70752481803FAD60045F3F1 /* AppledocSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppledocSettings.plist; sourceTree = SOURCE_ROOT; };
 		A70752491803FAD60045F3F1 /* DTLoupe.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DTLoupe.podspec; sourceTree = SOURCE_ROOT; };
@@ -230,6 +233,8 @@
 		A7D8FED614E1690600BF8CCD /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				87C3121D184AE83E00442A2F /* DTLoupeLayerDelegate.h */,
+				87C3121E184AE83E00442A2F /* DTLoupeLayerDelegate.m */,
 				A7D8FF0E14E169E500BF8CCD /* DTLoupeView.h */,
 				A7D8FF0F14E169E500BF8CCD /* DTLoupeView.m */,
 			);
@@ -460,6 +465,7 @@
 			files = (
 				A7D8FEDE14E1690600BF8CCD /* AppleLoupeController.m in Sources */,
 				A7D8FEDF14E1690600BF8CCD /* LoupeDemoAppDelegate.m in Sources */,
+				87C3121F184AE83E00442A2F /* DTLoupeLayerDelegate.m in Sources */,
 				A7D8FF1814E16A2400BF8CCD /* LoupeViewController.m in Sources */,
 				A7D8FF1B14E16A6000BF8CCD /* SnappySlider.m in Sources */,
 				A7D8FF2814E16AB600BF8CCD /* main.m in Sources */,
