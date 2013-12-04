@@ -1,9 +1,9 @@
 //
 //  DTLoupeLayerDelegate.h
-//  Pods
+//  DTLoupe
 //
 //  Created by Joshua Grenon on 11/11/13.
-//
+//  Copyright 2013 Drobnik KG. All rights reserved.
 //
 
 @class DTLoupeView;

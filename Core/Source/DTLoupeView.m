@@ -3,7 +3,7 @@
 //  DTLoupe
 //
 //  Created by Michael Kaye on 21/06/2011.
-//  Copyright 2011 sendmetospace.co.uk. All rights reserved.
+//  Copyright 2013 Drobnik KG. All rights reserved.
 //
 
 #import "DTLoupeView.h"
