@@ -99,10 +99,6 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		_loupeWindow.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 		_loupeWindow.hidden = NO;
 		_loupeWindow.userInteractionEnabled = NO;
-		
-		
-		// keep the main rootViewController responsible for the status bar content mode
-		_loupeWindow.rootViewController = mainWindow.rootViewController;
 	});
 	
 	return _loupeWindow;
