@@ -148,7 +148,7 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		
 		// layer with contents of the loupe
 		_loupeContentsLayer = [CALayer layer];
-		_layerDelegate = [[DTLoupeLayerDelegate alloc] initWithView:self];
+		_layerDelegate = [[DTLoupeLayerDelegate alloc] initWithLoupeView:self];
     	_loupeContentsLayer.delegate = _layerDelegate;
 		_loupeContentsLayer.mask = _loupeContentsMaskLayer;
         _loupeContentsLayer.contentsScale = scale;
@@ -425,14 +425,16 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 #pragma mark - CALayerDelegate
 
 // only used for the content layer, draws the view hierarchy of the target root view
-- (void)drawBackgroundLayer:(CALayer *)layer inContext:(CGContextRef)ctx
+- (void)refreshLoupeContent
 {
-    if (_seeThroughMode || layer != _loupeContentsLayer)
+    if (_seeThroughMode)
     {
         return;
     }
 	
-	UIGraphicsBeginImageContextWithOptions(layer.bounds.size, YES, 0); 
+	UIGraphicsBeginImageContextWithOptions(_loupeContentsLayer.bounds.size, YES, 0);
+	
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	
     // **** Draw our Target View Magnified and correctly positioned ****
 	
@@ -453,7 +455,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     [_targetRootView.layer renderInContext:ctx];
 	
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-	layer.contents = (__bridge id)(image.CGImage);
+	_loupeContentsLayer.contents = (__bridge id)(image.CGImage);
 	
 	UIGraphicsEndImageContext();
 }

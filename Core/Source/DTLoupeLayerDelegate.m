@@ -7,29 +7,42 @@
 //
 
 #import "DTLoupeLayerDelegate.h"
+#import "DTLoupeView.h"
 
-@interface DTLoupeLayerDelegate ()
+// private interface for updating the loupe contents
+@interface DTLoupeView (private)
 
-@property (nonatomic, strong) UIView *view;
+- (void)refreshLoupeContent;
 
 @end
 
-@implementation DTLoupeLayerDelegate
 
-- (id)initWithView:(UIView *)view {
+@implementation DTLoupeLayerDelegate
+{
+	 DTLoupeView *_loupeView;
+}
+
+- (instancetype)initWithLoupeView:(DTLoupeView *)loupeView
+{
     self = [super init];
-    if (self != nil) {
-        _view = view;
+	
+    if (self)
+	{
+        _loupeView = loupeView;
     }
+	
     return self;
 }
 
-- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)context {
-    
-    SEL selector = NSSelectorFromString(@"drawBackgroundLayer:inContext:");
-    if ([self.view respondsToSelector:selector] == NO)
-        selector = @selector(drawLayer:inContext:);
-    [self.view performSelector:selector withObject:layer withObject:(__bridge id)context];
+- (void)displayLayer:(CALayer *)layer
+{
+	[_loupeView refreshLoupeContent];
+}
+
+- (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event
+{
+	// disable all animations
+	return (id)[NSNull null];
 }
 
 @end

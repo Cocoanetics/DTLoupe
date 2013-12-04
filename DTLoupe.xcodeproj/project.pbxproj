@@ -25,8 +25,8 @@
 		0F01D89313B248CB00419BD7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D89213B248CB00419BD7 /* Foundation.framework */; };
 		0F01D89513B248CB00419BD7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D89413B248CB00419BD7 /* CoreGraphics.framework */; };
 		0F01D8C613B24BC300419BD7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D8C513B24BC300419BD7 /* QuartzCore.framework */; };
-		87C3121F184AE83E00442A2F /* DTLoupeLayerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3121E184AE83E00442A2F /* DTLoupeLayerDelegate.m */; };
 		A7084DF5183E144400C22622 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A7084DF4183E144400C22622 /* Default-568h@2x.png */; };
+		A7D3C869184F1E0F00D8CA62 /* DTLoupeLayerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3121E184AE83E00442A2F /* DTLoupeLayerDelegate.m */; };
 		A7D8FEDE14E1690600BF8CCD /* AppleLoupeController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8FEDB14E1690600BF8CCD /* AppleLoupeController.m */; };
 		A7D8FEDF14E1690600BF8CCD /* LoupeDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8FEDD14E1690600BF8CCD /* LoupeDemoAppDelegate.m */; };
 		A7D8FEE514E1693300BF8CCD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F01D89213B248CB00419BD7 /* Foundation.framework */; };
@@ -465,7 +465,6 @@
 			files = (
 				A7D8FEDE14E1690600BF8CCD /* AppleLoupeController.m in Sources */,
 				A7D8FEDF14E1690600BF8CCD /* LoupeDemoAppDelegate.m in Sources */,
-				87C3121F184AE83E00442A2F /* DTLoupeLayerDelegate.m in Sources */,
 				A7D8FF1814E16A2400BF8CCD /* LoupeViewController.m in Sources */,
 				A7D8FF1B14E16A6000BF8CCD /* SnappySlider.m in Sources */,
 				A7D8FF2814E16AB600BF8CCD /* main.m in Sources */,
@@ -476,6 +475,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7D3C869184F1E0F00D8CA62 /* DTLoupeLayerDelegate.m in Sources */,
 				A7D8FF1314E169E500BF8CCD /* DTLoupeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,10 +6,18 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+@class DTLoupeView;
+
+/**
+ Extra delegate for the DTLoupe's content layer. Forwards the display action to the loupe view. Disables all animation actions.
+ */
 
 @interface DTLoupeLayerDelegate : NSObject
 
-- (id)initWithView:(UIView *)view;
+/**
+ Designated Initializer
+ @property loupeView The DTLoupeView to forward the -displayLayer: method to.
+ */
+- (instancetype)initWithLoupeView:(DTLoupeView *)loupeView;
 
 @end
