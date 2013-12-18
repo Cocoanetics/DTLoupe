@@ -16,7 +16,7 @@
 
 /**
  Designated Initializer
- @property loupeView The DTLoupeView to forward the -displayLayer: method to.
+ @param loupeView The DTLoupeView to forward the -displayLayer: method to.
  */
 - (instancetype)initWithLoupeView:(DTLoupeView *)loupeView;
 
