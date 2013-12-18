@@ -3,6 +3,12 @@ Change Log
 
 This is the history of version updates.
 
+Version 1.5.4
+
+- FIXED: iOS 6 compatibility issue workaround by moving loupe content delegate into separate class
+- CHANGED: Improved loupe content update by using layer display method as opposed to drawing the layer
+- CHANGED: Reverted fix for status bar content mode from 1.5.2
+
 Version 1.5.3
 
 - FIXED: Potential crash when presenting the editor in a modal view controller
