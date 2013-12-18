@@ -372,10 +372,11 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	
 	[UIView animateWithDuration:DTLoupeAnimationDuration
 						  delay:0
-						options:UIViewAnimationCurveEaseOut
+						options:UIViewAnimationOptionCurveEaseOut
 					 animations:^{
 						 self.alpha = 1.0;
-						 self.transform = CGAffineTransformIdentity;					 }
+						 self.transform = CGAffineTransformIdentity;
+                }
 					 completion:^(BOOL finished) {
 					 }];
 }
@@ -384,7 +385,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 {
 	[UIView animateWithDuration:DTLoupeAnimationDuration
 						  delay:0
-						options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationCurveEaseOut
+						options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut
 					 animations:^{
 						 // circular loupe does not fade
 						 self.alpha = (_style == DTLoupeStyleCircle)?1.0:0.0;
