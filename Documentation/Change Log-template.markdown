@@ -6,6 +6,7 @@ This is the history of version updates.
 Version 1.5.4
 
 - FIXED: iOS 6 compatibility issue workaround by moving loupe content delegate into separate class
+- FIXED: Warning about incorrect animation option
 - CHANGED: Improved loupe content update by using layer display method as opposed to drawing the layer
 - CHANGED: Reverted fix for status bar content mode from 1.5.2
 
