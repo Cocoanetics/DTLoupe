@@ -92,13 +92,13 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 		
 		// find application main Window and attach it there
 		UIWindow *mainWindow = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
-		[mainWindow addSubview:_loupeWindow];
 		
 		// we always adjust the loupeWindow to be identical in frame/transform to target root view
 		_loupeWindow = [[UIWindow alloc] initWithFrame:mainWindow.bounds];
 		_loupeWindow.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 		_loupeWindow.hidden = NO;
 		_loupeWindow.userInteractionEnabled = NO;
+		_loupeWindow.windowLevel = UIWindowLevelAlert;
 	});
 	
 	return _loupeWindow;
@@ -248,24 +248,117 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	return view;
 }
 
+- (UIInterfaceOrientation)_inferredInterfaceOrientation
+{
+	// try status bar orientation first, should work
+	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+	
+	if (orientation != UIInterfaceOrientationUnknown)
+	{
+		return orientation;
+	}
+	
+	// try interface orientation of root view controller next
+	// note: going to be removed in iOS 9
+	if ([_targetView.window.rootViewController respondsToSelector:@selector(interfaceOrientation)])
+	{
+		orientation = _targetView.window.rootViewController.interfaceOrientation;
+		
+		if (orientation != UIInterfaceOrientationUnknown)
+		{
+			return orientation;
+		}
+	}
+
+	// last resort, get it from device, might fail for face up and face down
+	UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
+	
+	if (_targetView.window.frame.size.width > _targetView.window.frame.size.height)
+	{
+		// landscape
+		
+		if (deviceOrientation == UIDeviceOrientationLandscapeLeft)
+		{
+			return UIInterfaceOrientationLandscapeRight;
+		}
+		else
+		{
+			return UIInterfaceOrientationLandscapeLeft;
+		}
+	}
+	else
+	{
+		// portrait
+		
+		if (deviceOrientation == UIDeviceOrientationPortraitUpsideDown)
+		{
+			return UIInterfaceOrientationPortraitUpsideDown;
+		}
+	}
+	
+	// all other cases assume portrait
+	return UIInterfaceOrientationPortrait;
+}
+
+- (CGAffineTransform)_loupeWindowTransform
+{
+	// beginning with iOS 8 we need to determine the rotation ourselves
+	if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1)
+	{
+		return _targetRootView.transform;
+	}
+	
+	UIInterfaceOrientation orientation = [self _inferredInterfaceOrientation];
+	
+	// the CGAffineTransformMakeRotation would return weird values from rotating, so we return exact values
+	switch (orientation)
+	{
+		case UIInterfaceOrientationLandscapeLeft:
+		{
+			return CGAffineTransformMake(0, -1, 1, 0, 0, 0); // CGAffineTransformMakeRotation(-M_PI_2);
+		}
+			
+		case UIInterfaceOrientationLandscapeRight:
+		{
+			return CGAffineTransformMake(0, 1, -1, 0, 0, 0); // CGAffineTransformMakeRotation(M_PI_2);
+		}
+			
+		case UIInterfaceOrientationPortraitUpsideDown:
+		{
+			return CGAffineTransformMake(-1, 0, 0, -1, 0, 0); // CGAffineTransformMakeRotation(M_PI);
+		}
+			
+		default:
+		case UIInterfaceOrientationPortrait:
+		{
+			return CGAffineTransformIdentity;
+		}
+	}
+}
+
+
 // keep rotation and transform of base view in sync with target root view
 - (void)adjustBaseViewIfNecessary
 {
 	UIWindow *loupeWindow = [DTLoupeView loupeWindow];
-	
+
 	NSAssert(self.superview, @"Sombody removed DTLoupeView from superview!!");
+
+	CGAffineTransform transform = [self _loupeWindowTransform];
 	
 	BOOL sameFrame = (CGRectEqualToRect(loupeWindow.frame, _targetRootView.frame));
-	BOOL sameTransform = (CGAffineTransformEqualToTransform(loupeWindow.transform, _targetRootView.transform));
+	BOOL sameTransform = (CGAffineTransformEqualToTransform(loupeWindow.transform, transform));
 	
 	if (!(sameFrame && sameTransform))
 	{
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
 		// looks like the device was rotated
-		loupeWindow.transform = _targetRootView.transform;
+		[CATransaction begin];
+		[CATransaction setDisableActions:YES];
+		
+		loupeWindow.transform = transform;
 		loupeWindow.frame = _targetRootView.frame;
-        [CATransaction commit];
+		
+		[CATransaction commit];
 	}
 }
 
