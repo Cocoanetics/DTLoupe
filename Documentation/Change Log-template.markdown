@@ -3,6 +3,10 @@ Change Log
 
 This is the history of version updates.
 
+Version 1.5.5
+
+- FIXED: Rotation problem on iOS 8 
+
 Version 1.5.4
 
 - FIXED: iOS 6 compatibility issue workaround by moving loupe content delegate into separate class
