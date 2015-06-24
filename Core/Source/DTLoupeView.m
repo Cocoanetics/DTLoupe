@@ -542,7 +542,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     CGContextTranslateCTM(ctx,-convertedLocation.x, -convertedLocation.y);
     
     // the loupe is not part of the rendered tree, so we don't need to hide it
-    [_targetRootView.layer renderInContext:ctx];
+    [_targetRootView drawViewHierarchyInRect:_targetRootView.bounds afterScreenUpdates:YES];
 	
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	_loupeContentsLayer.contents = (__bridge id)(image.CGImage);
