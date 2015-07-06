@@ -541,6 +541,10 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
     
     CGContextTranslateCTM(ctx,-convertedLocation.x, -convertedLocation.y);
     
+    // On iOS 8, layers with invalid (x/y) or a frame equal to CGRectZero cause renderInContext: to fail.
+    // Hide those layers here to prevent that.
+    [self hideInvalidLayersInView:_targetRootView];
+    
     // the loupe is not part of the rendered tree, so we don't need to hide it
     [_targetRootView.layer renderInContext:ctx];
 	
@@ -548,6 +552,37 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	_loupeContentsLayer.contents = (__bridge id)(image.CGImage);
 	
 	UIGraphicsEndImageContext();
+}
+
+- (void)hideInvalidLayersInView:(UIView *)rootView
+{
+    if ([self layerHasInvalidFrame:rootView.layer])
+    {
+        rootView.layer.hidden = YES;
+    }
+    
+    for (UIView *view in rootView.subviews)
+    {
+        if ([self layerHasInvalidFrame:view.layer])
+        {
+            view.layer.hidden = YES;
+        }
+        
+        for (CALayer *layer in view.layer.sublayers)
+        {
+            if ([self layerHasInvalidFrame:layer])
+            {
+                layer.hidden = YES;
+            }
+        }
+
+        [self hideInvalidLayersInView:view];
+    }
+}
+
+- (BOOL)layerHasInvalidFrame:(CALayer *)layer
+{
+    return CGRectIsEmpty(layer.bounds) || isnan((CGRectGetMinX(layer.frame))) || isnan((CGRectGetMinY(layer.frame)));
 }
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
