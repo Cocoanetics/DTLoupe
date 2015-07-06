@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = 'DTLoupe'
-  spec.version      = '1.5.5'
+  spec.version      = '1.5.6'
   spec.platform     = :ios, '4.3'
   spec.license      = 'BSD'
   spec.source       = { :git => 'https://github.com/Cocoanetics/DTLoupe.git', :tag => spec.version.to_s }
