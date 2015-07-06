@@ -19,19 +19,19 @@
 
 @implementation DTLoupeLayerDelegate
 {
-	 DTLoupeView *_loupeView;
+	DTLoupeView *_loupeView;
 }
 
 - (instancetype)initWithLoupeView:(DTLoupeView *)loupeView
 {
-    self = [super init];
+	self = [super init];
 	
-    if (self)
+	if (self)
 	{
-        _loupeView = loupeView;
-    }
+		_loupeView = loupeView;
+	}
 	
-    return self;
+	return self;
 }
 
 - (void)displayLayer:(CALayer *)layer
