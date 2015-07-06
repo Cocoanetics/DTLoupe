@@ -34,7 +34,7 @@
 		A7D8FEFB14E1699F00BF8CCD /* AppleLoupeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FEF814E1699F00BF8CCD /* AppleLoupeView.xib */; };
 		A7D8FEFC14E1699F00BF8CCD /* LoupeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FEF914E1699F00BF8CCD /* LoupeView.xib */; };
 		A7D8FEFD14E1699F00BF8CCD /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FEFA14E1699F00BF8CCD /* MainWindow.xib */; };
-		A7D8FF1214E169E500BF8CCD /* DTLoupeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8FF0E14E169E500BF8CCD /* DTLoupeView.h */; };
+		A7D8FF1214E169E500BF8CCD /* DTLoupeView.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D8FF0E14E169E500BF8CCD /* DTLoupeView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A7D8FF1314E169E500BF8CCD /* DTLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8FF0F14E169E500BF8CCD /* DTLoupeView.m */; };
 		A7D8FF1814E16A2400BF8CCD /* LoupeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8FF1714E16A2400BF8CCD /* LoupeViewController.m */; };
 		A7D8FF1B14E16A6000BF8CCD /* SnappySlider.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D8FF1A14E16A6000BF8CCD /* SnappySlider.m */; };
@@ -582,6 +582,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = DTLoupe;
+				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupeView;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -604,6 +605,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = DTLoupe;
+				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupeView;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};
