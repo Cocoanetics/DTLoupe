@@ -14,17 +14,17 @@ typedef NS_ENUM(NSUInteger, DTLoupeStyle)
 	/**
 	 Loupe is a circle
 	 */
-    DTLoupeStyleCircle = 0,
+	DTLoupeStyleCircle = 0,
 	
 	/**
 	 Loupe is a ranged rectangle without arrow
 	 */
-    DTLoupeStyleRectangle,
+	DTLoupeStyleRectangle,
 	
 	/**
 	 Loupe is a ranged rectangle with arrow
 	 */
-    DTLoupeStyleRectangleWithArrow,
+	DTLoupeStyleRectangleWithArrow,
 };
 
 extern NSString * const DTLoupeDidHide;
@@ -89,7 +89,7 @@ extern NSString * const DTLoupeDidHide;
 @property(nonatomic,assign) BOOL seeThroughMode;
 
 /**
- The loupe style. 
+ The loupe style.
  
  Available loupe styles are:
  
