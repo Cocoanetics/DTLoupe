@@ -6,6 +6,7 @@ This is the history of version updates.
 Version 1.5.6
 
 - FIXED: Invalid layer geometry might cause crash
+- FIXED: iOS 8 deprecation warning about using interfaceOrientation 
 
 Version 1.5.5
 
