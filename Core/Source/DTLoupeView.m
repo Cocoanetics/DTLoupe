@@ -260,6 +260,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	
 	// try interface orientation of root view controller next
 	// note: going to be removed in iOS 9
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_8_0
 	if ([_targetView.window.rootViewController respondsToSelector:@selector(interfaceOrientation)])
 	{
 		orientation = _targetView.window.rootViewController.interfaceOrientation;
@@ -269,6 +270,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 			return orientation;
 		}
 	}
+#endif
 	
 	// last resort, get it from device, might fail for face up and face down
 	UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
