@@ -582,7 +582,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = DTLoupe;
-				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupeView;
+				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupe;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -605,7 +605,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = DTLoupe;
-				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupeView;
+				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupe;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};
