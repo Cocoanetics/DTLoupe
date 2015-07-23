@@ -511,6 +511,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = DTLoupe;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -525,6 +526,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PUBLIC_HEADERS_FOLDER_PATH = DTLoupe;
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -574,6 +576,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = DTLoupe;
 				SDKROOT = iphoneos;
 			};
 			name = Coverage;
@@ -612,7 +615,6 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = DTLoupe;
-				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupe;
 				SKIP_INSTALL = YES;
 			};
 			name = Coverage;
@@ -666,7 +668,6 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = DTLoupe;
-				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupe;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -689,7 +690,6 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = DTLoupe;
-				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupe;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};
