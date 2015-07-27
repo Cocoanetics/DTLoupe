@@ -504,13 +504,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = DTLoupe;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -525,6 +526,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PUBLIC_HEADERS_FOLDER_PATH = DTLoupe;
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -559,6 +561,94 @@
 			};
 			name = Release;
 		};
+		A79C2FE41B60DC7700E5491A /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "COVERAGE=1";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PUBLIC_HEADERS_FOLDER_PATH = DTLoupe;
+				SDKROOT = iphoneos;
+			};
+			name = Coverage;
+		};
+		A79C2FE51B60DC7700E5491A /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Demo/Demo-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "Demo/Demo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Coverage;
+		};
+		A79C2FE61B60DC7700E5491A /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+				);
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/Static_Library.dst;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Core/DTLoupe-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = DTLoupe;
+				SKIP_INSTALL = YES;
+			};
+			name = Coverage;
+		};
+		A79C2FE71B60DC7700E5491A /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Resource Bundle/Resource Bundle-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Core/Resources/ResourceBundle-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = DTLoupe;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Coverage;
+		};
+		A79C2FE81B60DC7700E5491A /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Coverage;
+		};
 		A7D8FEED14E1693300BF8CCD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -573,16 +663,11 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Core/DTLoupe-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = DTLoupe;
-				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupeView;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -605,7 +690,6 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = DTLoupe;
-				PUBLIC_HEADERS_FOLDER_PATH = ../../DTLoupeView;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -621,10 +705,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Resource Bundle/Resource Bundle-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "Core/Resources/ResourceBundle-Info.plist";
@@ -681,6 +761,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0F01D8B113B248CB00419BD7 /* Debug */,
+				A79C2FE41B60DC7700E5491A /* Coverage */,
 				0F01D8B213B248CB00419BD7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -690,6 +771,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0F01D8B413B248CB00419BD7 /* Debug */,
+				A79C2FE51B60DC7700E5491A /* Coverage */,
 				0F01D8B513B248CB00419BD7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -699,6 +781,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A7D8FEED14E1693300BF8CCD /* Debug */,
+				A79C2FE61B60DC7700E5491A /* Coverage */,
 				A7D8FEEE14E1693300BF8CCD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -708,6 +791,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A7D8FF6514E17A6600BF8CCD /* Debug */,
+				A79C2FE71B60DC7700E5491A /* Coverage */,
 				A7D8FF6614E17A6600BF8CCD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -717,6 +801,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A7DF6EF0173A9646004F623B /* Debug */,
+				A79C2FE81B60DC7700E5491A /* Coverage */,
 				A7DF6EF1173A9646004F623B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
