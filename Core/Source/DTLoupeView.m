@@ -384,9 +384,15 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 - (UIImage *)_imageNamedFromResourceBundle:(NSString *)name
 {
 	NSBundle *resourceBundle = [self _resourceBundle];
-	
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
+	// this method works >= iOS 8 and is the preferred way to get images from bundles
+	UIImage *image = [UIImage imageNamed:name inBundle:resourceBundle compatibleWithTraitCollection:nil];
+#else
+	// classic method to get images from bundles
 	NSString *imagePath = [resourceBundle pathForResource:name ofType:@"png"];
 	UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+#endif
 	
 	return image;
 }
