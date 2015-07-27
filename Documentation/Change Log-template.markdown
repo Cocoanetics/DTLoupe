@@ -3,6 +3,10 @@ Change Log
 
 This is the history of version updates.
 
+Version 1.5.7
+
+- ADDED: DTLoupe resource bundle can now also be in framework resources
+
 Version 1.5.6
 
 - FIXED: Invalid layer geometry might cause crash
