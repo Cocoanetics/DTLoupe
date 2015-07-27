@@ -69,6 +69,9 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 	
 	// Draws cross hairs for debugging
 	BOOL _drawDebugCrossHairs;
+	
+	// the resource bundle
+	NSBundle *_resourceBundle;
 }
 
 
@@ -110,14 +113,6 @@ NSString * const DTLoupeDidHide = @"DTLoupeDidHide";
 	
 	if (self)
 	{
-		// make sure that resource bundle is present
-		NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"DTLoupe" ofType:@"bundle"];
-		
-		if (!resourceBundlePath)
-		{
-			NSLog(@"DTLoupe.bundle is missing from app bundle. Please make sure that you include it in your app's resources");
-		};
-		
 		self.contentMode = UIViewContentModeCenter;
 		self.backgroundColor = [UIColor clearColor];
 		self.opaque = NO;
@@ -364,32 +359,64 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	}
 }
 
+- (NSBundle *)_resourceBundle
+{
+	if (!_resourceBundle)
+	{
+		NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+		NSString *resourceBundlePath = [bundle pathForResource:@"DTLoupe" ofType:@"bundle"];
+		
+		if (!resourceBundlePath)
+		{
+			// try to find it in main bundle instead
+			bundle = [NSBundle mainBundle];
+			resourceBundlePath = [bundle pathForResource:@"DTLoupe" ofType:@"bundle"];
+		}
+		
+		NSAssert(resourceBundlePath, @"DTLoupe.bundle is missing from app bundle. Please make sure that you include it in your app's resources or embed the DTRichTextEditor.framework");
+		
+		_resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
+	}
+	
+	return _resourceBundle;
+}
+
+- (UIImage *)_imageNamedFromResourceBundle:(NSString *)name
+{
+	NSBundle *resourceBundle = [self _resourceBundle];
+	
+	NSString *imagePath = [resourceBundle pathForResource:name ofType:@"png"];
+	UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+	
+	return image;
+}
+
 - (void)setImagesForStyle:(DTLoupeStyle)style
 {
 	switch (style)
 	{
 		case DTLoupeStyleCircle:
 		{
-			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-loupe-lo.png"];
-			self.loupeFrameMaskImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-loupe-mask.png"];
-			self.loupeFrameImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-loupe-hi.png"];
+			self.loupeFrameBackgroundImage = [self _imageNamedFromResourceBundle:@"kb-loupe-lo"];
+			self.loupeFrameMaskImage = [self _imageNamedFromResourceBundle:@"kb-loupe-mask"];
+			self.loupeFrameImage = [self _imageNamedFromResourceBundle:@"kb-loupe-hi"];
 			
 			break;
 		}
 		case DTLoupeStyleRectangle:
 		{
-			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-lo-stemless.png"];
-			self.loupeFrameMaskImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-mask.png"];
-			self.loupeFrameImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-hi.png"];
+			self.loupeFrameBackgroundImage = [self _imageNamedFromResourceBundle:@"kb-magnifier-ranged-lo-stemless"];
+			self.loupeFrameMaskImage = [self _imageNamedFromResourceBundle:@"kb-magnifier-ranged-mask"];
+			self.loupeFrameImage = [self _imageNamedFromResourceBundle:@"kb-magnifier-ranged-hi"];
 			
 			break;
 		}
 			
 		case DTLoupeStyleRectangleWithArrow:
 		{
-			self.loupeFrameBackgroundImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-lo.png"];
-			self.loupeFrameMaskImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-mask.png"];
-			self.loupeFrameImage = [UIImage imageNamed:@"DTLoupe.bundle/kb-magnifier-ranged-hi.png"];
+			self.loupeFrameBackgroundImage = [self _imageNamedFromResourceBundle:@"kb-magnifier-ranged-lo"];
+			self.loupeFrameMaskImage = [self _imageNamedFromResourceBundle:@"kb-magnifier-ranged-mask"];
+			self.loupeFrameImage = [self _imageNamedFromResourceBundle:@"kb-magnifier-ranged-hi"];
 			
 			break;
 		}
