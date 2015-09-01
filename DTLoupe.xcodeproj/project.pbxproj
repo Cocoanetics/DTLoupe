@@ -62,6 +62,9 @@
 		A7D8FF7514E17A8600BF8CCD /* kb-magnifier-ranged-mask.png in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FF0C14E169C100BF8CCD /* kb-magnifier-ranged-mask.png */; };
 		A7D8FF7614E17A8600BF8CCD /* kb-magnifier-ranged-mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FF0D14E169C100BF8CCD /* kb-magnifier-ranged-mask@2x.png */; };
 		A7D8FF7A14E17B2100BF8CCD /* DTLoupe.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A7D8FF5B14E17A6600BF8CCD /* DTLoupe.bundle */; };
+		B9ADB6F51B953ADD00777347 /* kb-drag-dot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9ADB6F21B953ADD00777347 /* kb-drag-dot@3x.png */; settings = {ASSET_TAGS = (); }; };
+		B9ADB6F61B953ADD00777347 /* kb-loupe-hi@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9ADB6F31B953ADD00777347 /* kb-loupe-hi@3x.png */; settings = {ASSET_TAGS = (); }; };
+		B9ADB6F71B953ADD00777347 /* kb-magnifier-ranged-mask@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9ADB6F41B953ADD00777347 /* kb-magnifier-ranged-mask@3x.png */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +132,9 @@
 		A7D8FF3214E16DD100BF8CCD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		A7D8FF5B14E17A6600BF8CCD /* DTLoupe.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTLoupe.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7D8FF7714E17AA000BF8CCD /* ResourceBundle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ResourceBundle-Info.plist"; sourceTree = "<group>"; };
+		B9ADB6F21B953ADD00777347 /* kb-drag-dot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "kb-drag-dot@3x.png"; path = "../../../../../DTLoupe/DTLoupe/Core/Resources/kb-drag-dot@3x.png"; sourceTree = "<group>"; };
+		B9ADB6F31B953ADD00777347 /* kb-loupe-hi@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "kb-loupe-hi@3x.png"; path = "../../../../../DTLoupe/DTLoupe/Core/Resources/kb-loupe-hi@3x.png"; sourceTree = "<group>"; };
+		B9ADB6F41B953ADD00777347 /* kb-magnifier-ranged-mask@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "kb-magnifier-ranged-mask@3x.png"; path = "../../../../../DTLoupe/DTLoupe/Core/Resources/kb-magnifier-ranged-mask@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,8 +218,10 @@
 				A7D8FF7714E17AA000BF8CCD /* ResourceBundle-Info.plist */,
 				A7D8FEFE14E169C100BF8CCD /* kb-drag-dot.png */,
 				A7D8FEFF14E169C100BF8CCD /* kb-drag-dot@2x.png */,
+				B9ADB6F21B953ADD00777347 /* kb-drag-dot@3x.png */,
 				A7D8FF0014E169C100BF8CCD /* kb-loupe-hi.png */,
 				A7D8FF0114E169C100BF8CCD /* kb-loupe-hi@2x.png */,
+				B9ADB6F31B953ADD00777347 /* kb-loupe-hi@3x.png */,
 				A7D8FF0214E169C100BF8CCD /* kb-loupe-lo.png */,
 				A7D8FF0314E169C100BF8CCD /* kb-loupe-lo@2x.png */,
 				A7D8FF0414E169C100BF8CCD /* kb-loupe-mask.png */,
@@ -226,6 +234,7 @@
 				A7D8FF0B14E169C100BF8CCD /* kb-magnifier-ranged-lo@2x.png */,
 				A7D8FF0C14E169C100BF8CCD /* kb-magnifier-ranged-mask.png */,
 				A7D8FF0D14E169C100BF8CCD /* kb-magnifier-ranged-mask@2x.png */,
+				B9ADB6F41B953ADD00777347 /* kb-magnifier-ranged-mask@3x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -429,13 +438,16 @@
 				A7D8FF6D14E17A8600BF8CCD /* kb-loupe-mask.png in Resources */,
 				A7D8FF6E14E17A8600BF8CCD /* kb-loupe-mask@2x.png in Resources */,
 				A7D8FF6F14E17A8600BF8CCD /* kb-magnifier-ranged-hi.png in Resources */,
+				B9ADB6F51B953ADD00777347 /* kb-drag-dot@3x.png in Resources */,
 				A7D8FF7014E17A8600BF8CCD /* kb-magnifier-ranged-hi@2x.png in Resources */,
+				B9ADB6F61B953ADD00777347 /* kb-loupe-hi@3x.png in Resources */,
 				A7D8FF7114E17A8600BF8CCD /* kb-magnifier-ranged-lo-stemless.png in Resources */,
 				A7D8FF7214E17A8600BF8CCD /* kb-magnifier-ranged-lo-stemless@2x.png in Resources */,
 				A7D8FF7314E17A8600BF8CCD /* kb-magnifier-ranged-lo.png in Resources */,
 				A7D8FF7414E17A8600BF8CCD /* kb-magnifier-ranged-lo@2x.png in Resources */,
 				A7D8FF7514E17A8600BF8CCD /* kb-magnifier-ranged-mask.png in Resources */,
 				A7D8FF7614E17A8600BF8CCD /* kb-magnifier-ranged-mask@2x.png in Resources */,
+				B9ADB6F71B953ADD00777347 /* kb-magnifier-ranged-mask@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
