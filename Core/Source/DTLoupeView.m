@@ -576,11 +576,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	
 	CGContextTranslateCTM(ctx,-convertedLocation.x, -convertedLocation.y);
 	
-	// On iOS 8 and 9, layers with invalid (x/y) or a frame equal to CGRectZero cause renderInContext: to fail.
-	// On iOS 9, views with invalid dimentions cause a crash as well. Hide those layers and remove those views here
-    // to work around the crash.
-	[self fixInvalidViewsAndLayersForView:_targetRootView];
-	
 	// the loupe is not part of the rendered tree, so we don't need to hide it
 	[_targetRootView.layer renderInContext:ctx];
 	
@@ -588,59 +583,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	_loupeContentsLayer.contents = (__bridge id)(image.CGImage);
 	
 	UIGraphicsEndImageContext();
-}
-
-- (void)fixInvalidViewsAndLayersForView:(UIView *)rootView
-{
-    if (![self isValidRect:rootView.frame])
-    {
-        [rootView removeFromSuperview];
-    } else
-    {
-        if (![self isValidRect:rootView.layer.frame])
-        {
-            rootView.layer.hidden = YES;
-        }
-        
-        for (UIView *view in rootView.subviews)
-        {
-            if (![self isValidRect:view.frame])
-            {
-                [view removeFromSuperview];
-            } else
-            {
-                if (![self isValidRect:view.layer.frame])
-                {
-                    view.layer.hidden = YES;
-                }
-                
-                for (CALayer *layer in view.layer.sublayers)
-                {
-                    if (![self isValidRect:layer.frame])
-                    {
-                        layer.hidden = YES;
-                    }
-                }
-                
-                [self fixInvalidViewsAndLayersForView:view];
-            }
-        }
-    }
-}
-
-- (BOOL)isValidRect:(CGRect)rect
-{
-    if (CGRectIsEmpty(rect))
-    {
-        return NO;
-    }
-    
-    if (isnan(CGRectGetMinX(rect)) || isnan(CGRectGetMinY(rect)))
-    {
-        return NO;
-    }
-    
-    return YES;
 }
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
