@@ -576,9 +576,10 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	
 	CGContextTranslateCTM(ctx,-convertedLocation.x, -convertedLocation.y);
 	
-	// On iOS 8, layers with invalid (x/y) or a frame equal to CGRectZero cause renderInContext: to fail.
-	// Hide those layers here to prevent that.
-	[self hideInvalidLayersInView:_targetRootView];
+	// On iOS 8 and 9, layers with invalid (x/y) or a frame equal to CGRectZero cause renderInContext: to fail.
+	// On iOS 9, views with invalid dimentions cause a crash as well. Hide those layers and remove those views here
+    // to work around the crash.
+	[self fixInvalidViewsAndLayersForView:_targetRootView];
 	
 	// the loupe is not part of the rendered tree, so we don't need to hide it
 	[_targetRootView.layer renderInContext:ctx];
@@ -589,35 +590,57 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	UIGraphicsEndImageContext();
 }
 
-- (void)hideInvalidLayersInView:(UIView *)rootView
+- (void)fixInvalidViewsAndLayersForView:(UIView *)rootView
 {
-	if ([self layerHasInvalidFrame:rootView.layer])
-	{
-		rootView.layer.hidden = YES;
-	}
-	
-	for (UIView *view in rootView.subviews)
-	{
-		if ([self layerHasInvalidFrame:view.layer])
-		{
-			view.layer.hidden = YES;
-		}
-		
-		for (CALayer *layer in view.layer.sublayers)
-		{
-			if ([self layerHasInvalidFrame:layer])
-			{
-				layer.hidden = YES;
-			}
-		}
-		
-		[self hideInvalidLayersInView:view];
-	}
+    if (![self isValidRect:rootView.frame])
+    {
+        [rootView removeFromSuperview];
+    } else
+    {
+        if (![self isValidRect:rootView.layer.frame])
+        {
+            rootView.layer.hidden = YES;
+        }
+        
+        for (UIView *view in rootView.subviews)
+        {
+            if (![self isValidRect:view.frame])
+            {
+                [view removeFromSuperview];
+            } else
+            {
+                if (![self isValidRect:view.layer.frame])
+                {
+                    view.layer.hidden = YES;
+                }
+                
+                for (CALayer *layer in view.layer.sublayers)
+                {
+                    if (![self isValidRect:layer.frame])
+                    {
+                        layer.hidden = YES;
+                    }
+                }
+                
+                [self fixInvalidViewsAndLayersForView:view];
+            }
+        }
+    }
 }
 
-- (BOOL)layerHasInvalidFrame:(CALayer *)layer
+- (BOOL)isValidRect:(CGRect)rect
 {
-	return CGRectIsEmpty(layer.bounds) || isnan((CGRectGetMinX(layer.frame))) || isnan((CGRectGetMinY(layer.frame)));
+    if (CGRectIsEmpty(rect))
+    {
+        return NO;
+    }
+    
+    if (isnan(CGRectGetMinX(rect)) || isnan(CGRectGetMinY(rect)))
+    {
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
