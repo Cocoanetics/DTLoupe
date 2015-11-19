@@ -299,12 +299,14 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 
 - (CGAffineTransform)_loupeWindowTransform
 {
-	// beginning with iOS 8 we need to determine the rotation ourselves
-	if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1)
+	// Only on iOS 8, we need to determine the rotation ourselves
+    NSString* systemVersion = [[UIDevice currentDevice] systemVersion];
+	if ([systemVersion length] > 0 &&
+        ![[systemVersion substringToIndex:1] isEqualToString:@"8"])
 	{
 		return _targetRootView.transform;
 	}
-	
+    
 	UIInterfaceOrientation orientation = [self _inferredInterfaceOrientation];
 	
 	// the CGAffineTransformMakeRotation would return weird values from rotating, so we return exact values
@@ -576,10 +578,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	
 	CGContextTranslateCTM(ctx,-convertedLocation.x, -convertedLocation.y);
 	
-	// On iOS 8, layers with invalid (x/y) or a frame equal to CGRectZero cause renderInContext: to fail.
-	// Hide those layers here to prevent that.
-	[self hideInvalidLayersInView:_targetRootView];
-	
 	// the loupe is not part of the rendered tree, so we don't need to hide it
 	[_targetRootView.layer renderInContext:ctx];
 	
@@ -587,37 +585,6 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	_loupeContentsLayer.contents = (__bridge id)(image.CGImage);
 	
 	UIGraphicsEndImageContext();
-}
-
-- (void)hideInvalidLayersInView:(UIView *)rootView
-{
-	if ([self layerHasInvalidFrame:rootView.layer])
-	{
-		rootView.layer.hidden = YES;
-	}
-	
-	for (UIView *view in rootView.subviews)
-	{
-		if ([self layerHasInvalidFrame:view.layer])
-		{
-			view.layer.hidden = YES;
-		}
-		
-		for (CALayer *layer in view.layer.sublayers)
-		{
-			if ([self layerHasInvalidFrame:layer])
-			{
-				layer.hidden = YES;
-			}
-		}
-		
-		[self hideInvalidLayersInView:view];
-	}
-}
-
-- (BOOL)layerHasInvalidFrame:(CALayer *)layer
-{
-	return CGRectIsEmpty(layer.bounds) || isnan((CGRectGetMinX(layer.frame))) || isnan((CGRectGetMinY(layer.frame)));
 }
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
