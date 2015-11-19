@@ -3,6 +3,11 @@ Change Log
 
 This is the history of version updates.
 
+Version 1.5.8
+
+- FIXED: Invalid Geometry Crash fix
+- FIXED: Orientation problems under iOS 9
+
 Version 1.5.7
 
 - ADDED: DTLoupe resource bundle can now also be in framework resources
