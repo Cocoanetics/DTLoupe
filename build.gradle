@@ -13,17 +13,10 @@ apply plugin: "org.openbakery.xcode-plugin"
 
 
 xcodebuild {
-	scheme = 'Static Library'
-  target = 'Static Library'
-	configuration = 'Debug'
-
-	xcodebuild {
-		scheme = 'Demo App'
-	  target = 'Demo App'
+	scheme = 'Demo App'
+  target = 'Demo App'
 	
-		destination = [ 'iPad 2', 'iPhone 6' ] // used when running unit tests
-	
-	}
+	destination = [ 'iPad 2', 'iPhone 6' ] // used when running unit tests
 }
 
 task DemoApp {
