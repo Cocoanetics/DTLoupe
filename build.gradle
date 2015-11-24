@@ -1,16 +1,12 @@
-buildscript {
-    repositories {
-				maven {
-					url('http://repository.openbakery.org/')
-				}
-				mavenCentral()
-    }
-    dependencies {
-        classpath "org.openbakery:xcode-plugin:0.12.+"
-    }
+plugins {
+  id "org.openbakery.xcode-plugin" version "0.12.3"
 }
-apply plugin: "org.openbakery.xcode-plugin"
 
+apply from: 'https://raw.githubusercontent.com/Cocoanetics/GradleHelpers/master/source/documentationUpload.gradle'
+
+project.ext {
+	uploadDirectory = 'DTLoupeView'
+}
 
 xcodebuild {
 	scheme = 'Demo App'
@@ -22,74 +18,3 @@ xcodebuild {
 task DemoApp {
 	dependsOn.add('xcodebuild')
 }
-
-// ---------- FTP PUBLISH ----------
-
-repositories {
-  mavenCentral()
-}
-
-configurations {
-  ftpAntTask
-}
-
-dependencies {
-  ftpAntTask("org.apache.ant:ant-commons-net:1.9.+");
-}
-
-
-ant.taskdef(
-  name: 'ftp',
-  classname: 'org.apache.tools.ant.taskdefs.optional.net.FTP',
-  classpath: configurations.ftpAntTask.asPath
-)
-
-task documentationUpload << {
-  def uploadHost = 'docs.cocoanetics.com'
-  if (project.ext.properties.containsKey("uploadHost")) {
-    uploadHost = project.ext.uploadHost
-  }
-
-  def uploadUser = null
-  if (project.ext.properties.containsKey("uploadUser")) {
-    uploadUser = project.ext.uploadUser
-  } else {
-    uploadUser = System.console().readLine("\nPlease enter the upload user: ")
-  }
-
-  def uploadPassword = null
-  if (project.ext.properties.containsKey("uploadPassword")) {
-    uploadPassword = project.ext.uploadPassword
-  } else {
-    uploadPassword = "" + System.console().readPassword("\nPlease enter the upload server password: ")
-  }
-
-
-  // -------------- UPLOAD DIRECTORY -------------
-
-  def uploadDirectory = 'DTLoupeView'
-  if (project.ext.properties.containsKey("uploadDirectory")) {
-    uploadDirectory = project.ext.uploadDirectory
-  }
-
-
-  ant.ftp(
-    server: uploadHost,
-    remotedir: uploadDirectory,
-    userid: uploadUser,
-    password: uploadPassword,
-    depends: true,
-    verbose: true,
-    passive: true) {
-
-      fileset(dir: 'build/documentation/html') {
-        include(name: '**/**')
-      }
-      fileset(dir: 'build/documentation/publish') {
-        include(name: '**/**')
-      }
-  }
-}
-
-appledoc.onlyIf { project.hasProperty('buildBranch-master') }
-documentationUpload.onlyIf { project.hasProperty('buildBranch-master') }	
