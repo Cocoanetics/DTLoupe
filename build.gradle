@@ -98,3 +98,5 @@ task documentationUpload << {
   }
 }
 
+appledoc.onlyIf { project.hasProperty('buildBranch-master') }
+documentationUpload.onlyIf { project.hasProperty('buildBranch-master') }	
