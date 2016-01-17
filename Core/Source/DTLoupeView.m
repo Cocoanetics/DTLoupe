@@ -302,7 +302,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 	// Only on iOS 8, we need to determine the rotation ourselves
     NSString* systemVersion = [[UIDevice currentDevice] systemVersion];
 	if ([systemVersion length] > 0 &&
-        ![[systemVersion substringToIndex:1] isEqualToString:@"8"])
+        [[systemVersion substringToIndex:1] isEqualToString:@"8"])
 	{
 		return _targetRootView.transform;
 	}
