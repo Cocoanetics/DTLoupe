@@ -299,12 +299,11 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
 
 - (CGAffineTransform)_loupeWindowTransform
 {
-	// Only on iOS 8, we need to determine the rotation ourselves
-    NSString* systemVersion = [[UIDevice currentDevice] systemVersion];
-	if ([systemVersion length] > 0 &&
-        ![[systemVersion substringToIndex:1] isEqualToString:@"8"])
+	// On iOS 8 and newer, we need to determine the rotation ourselves
+	double systemVersion = [[[UIDevice currentDevice] systemVersion] doubleValue];
+	if (systemVersion > 0 && systemVersion < 8)
 	{
-		return _targetRootView.transform;
+	  return _targetRootView.transform;
 	}
     
 	UIInterfaceOrientation orientation = [self _inferredInterfaceOrientation];
