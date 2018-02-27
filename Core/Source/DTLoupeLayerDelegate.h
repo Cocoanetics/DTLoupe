@@ -12,7 +12,7 @@
  Extra delegate for the DTLoupe's content layer. Forwards the display action to the loupe view. Disables all animation actions.
  */
 
-@interface DTLoupeLayerDelegate : NSObject
+@interface DTLoupeLayerDelegate : NSObject <CALayerDelegate>
 
 /**
  Designated Initializer

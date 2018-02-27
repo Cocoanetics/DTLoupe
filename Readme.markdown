@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Cocoanetics/DTLoupe.png?branch=develop)](https://travis-ci.org/Cocoanetics/DTLoupe)
+
 DTLoupeView
 ===========
 

@@ -1,0 +1,17 @@
+---
+#osx_image: xcode6.4
+language: objective-c
+
+
+before_install:
+  - git submodule update --init --recursive
+
+env:
+  - TERM=dumb
+
+script:
+  - ./gradlew DemoApp
+  - ./gradlew appledoc -PbuildBranch-$TRAVIS_BRANCH
+
+after_success:	
+  - ./gradlew documentationUpload -PuploadUser=$FTP_USER -PuploadPassword=$FTP_PASSWORD -PbuildBranch-$TRAVIS_BRANCH
